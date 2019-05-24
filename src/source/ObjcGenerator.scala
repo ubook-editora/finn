@@ -172,6 +172,10 @@ class ObjcGenerator(spec: Spec) extends BaseObjcGenerator(spec) {
     // Generate the header file for record
     writeObjcFile(marshal.headerName(objcName), origin, refs.header, w => {
       writeDoc(w, doc)
+      if (spec.objcSupportSwiftName) {
+        val swiftName = self.replace(spec.objcTypePrefix, "")
+        w.wl(s"NS_SWIFT_NAME(${swiftName})")
+      }
       w.wl(s"@interface $self : NSObject")
 
       def writeInitializer(sign: String, prefix: String) {
