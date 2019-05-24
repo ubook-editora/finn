@@ -60,7 +60,14 @@ class ObjcGenerator(spec: Spec) extends BaseObjcGenerator(spec) {
           s"typedef NS_ENUM(NSInteger, $self)"
         }
       })
-      w.bracedSemi {
+
+      var enumEnd = ";"
+      if (spec.objcSupportSwiftName) {
+        val swiftName = self.replace(spec.objcTypePrefix, "")
+        enumEnd = s" NS_SWIFT_NAME(${swiftName});"
+      }
+
+      w.bracedEnd(s"${enumEnd}") {
         writeEnumOptionNone(w, e, self + idObjc.enum(_))
         writeEnumOptions(w, e, self + idObjc.enum(_))
         writeEnumOptionAll(w, e, self + idObjc.enum(_))
@@ -112,6 +119,12 @@ class ObjcGenerator(spec: Spec) extends BaseObjcGenerator(spec) {
       }
       w.wl
       writeDoc(w, doc)
+
+      if (spec.objcSupportSwiftName) {
+        val swiftName = self.replace(spec.objcTypePrefix, "")
+        w.wl(s"NS_SWIFT_NAME(${swiftName})")
+      }
+      
       if (i.ext.objc) w.wl(s"@protocol $self") else w.wl(s"@interface $self : NSObject")
       for (m <- i.methods) {
         w.wl
