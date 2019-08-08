@@ -73,6 +73,7 @@ object Main {
     var objcSwiftBridgingHeaderName: Option[String] = None
     var objcClosedEnums: Boolean = false
     var objcSupportSwiftName: Boolean = true
+    var objcSupportFramework: Boolean = true
     var objcppIncludePrefix: String = ""
     var objcppIncludeCppPrefix: String = ""
     var objcppIncludeObjcPrefixOptional: Option[String] = None
@@ -181,6 +182,9 @@ object Main {
       opt[String]("objc-type-prefix").valueName("<pre>").foreach(objcTypePrefix = _)
         .text("The prefix for Objective-C data types (usually two or three letters)")
       
+      opt[Boolean]("objc-support-framework").valueName("<support-framework>").foreach(x => objcSupportFramework = x)
+        .text("Support Djinni as framework")
+
       opt[Boolean]("objc-support-swift-name").valueName("<support-swift-name>").foreach(x => objcSupportSwiftName = x)
         .text("Support swift name convention")
 
@@ -382,6 +386,7 @@ object Main {
       objcSwiftBridgingHeaderWriter,
       objcSwiftBridgingHeaderName,
       objcClosedEnums,
+      objcSupportFramework,
       objcSupportSwiftName,
       objcTypePrefix,
       outFileListWriter,
