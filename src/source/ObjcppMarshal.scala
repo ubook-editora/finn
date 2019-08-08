@@ -32,7 +32,11 @@ class ObjcppMarshal(spec: Spec) extends Marshal(spec) {
 
   def references(m: Meta): Seq[SymbolReference] = m match {
     case o: MOpaque =>
-      List(ImportRef(q(spec.objcBaseLibIncludePrefix + "DJIMarshal+Private.h")))
+      if (spec.objcSupportFramework) {
+        List(ImportRef("<Djinni/DJIMarshal+Private.h>"))
+      } else {
+        List(ImportRef(q(spec.objcBaseLibIncludePrefix + "DJIMarshal+Private.h")))
+      }
     case d: MDef => d.defType match {
       case DEnum | DInterface =>
         List(ImportRef(include(m)))
