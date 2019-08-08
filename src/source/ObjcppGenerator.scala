@@ -125,9 +125,15 @@ class ObjcppGenerator(spec: Spec) extends BaseObjcGenerator(spec) {
     })
 
     if (i.ext.cpp) {
-      refs.body.add("#import " + q(spec.objcBaseLibIncludePrefix + "DJICppWrapperCache+Private.h"))
+      if (spec.objcSupportFramework) {
+        refs.body.add("#import <Djinni/DJIMarshal+Private.h>")
+        refs.body.add("#import <Djinni/DJIError.h>")
+      } else {
+        refs.body.add("#import " + q(spec.objcBaseLibIncludePrefix + "DJICppWrapperCache+Private.h"))
+        refs.body.add("#import " + q(spec.objcBaseLibIncludePrefix + "DJIError.h"))
+      }
+      
       refs.body.add("#include <utility>")
-      refs.body.add("#import " + q(spec.objcBaseLibIncludePrefix + "DJIError.h"))
       refs.body.add("#include <exception>")
     }
     if (!spec.cppNnType.isEmpty || !spec.cppNnCheckExpression.nonEmpty) {
@@ -139,7 +145,11 @@ class ObjcppGenerator(spec: Spec) extends BaseObjcGenerator(spec) {
     }
 
     if (!i.ext.cpp && !i.ext.objc) {
-      refs.body.add("#import " + q(spec.objcBaseLibIncludePrefix + "DJIError.h"))
+      if (spec.objcSupportFramework) {
+        refs.body.add("#import <Djinni/DJIError.h>")
+      } else {
+        refs.body.add("#import " + q(spec.objcBaseLibIncludePrefix + "DJIError.h"))
+      }
     }
 
     writeObjcFile(privateBodyName(ident.name), origin, refs.body, w => {

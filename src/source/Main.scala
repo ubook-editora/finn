@@ -72,6 +72,8 @@ object Main {
     var objcExtendedRecordIncludePrefix: String = ""
     var objcSwiftBridgingHeaderName: Option[String] = None
     var objcClosedEnums: Boolean = false
+    var objcSupportSwiftName: Boolean = true
+    var objcSupportFramework: Boolean = true
     var objcppIncludePrefix: String = ""
     var objcppIncludeCppPrefix: String = ""
     var objcppIncludeObjcPrefixOptional: Option[String] = None
@@ -176,8 +178,16 @@ object Main {
         .text("The output folder for Objective-C files (Generator disabled if unspecified).")
       opt[String]("objc-h-ext").valueName("<ext>").foreach(objcHeaderExt = _)
         .text("The filename extension for Objective-C[++] header files (default: \"h\")")
+      
       opt[String]("objc-type-prefix").valueName("<pre>").foreach(objcTypePrefix = _)
         .text("The prefix for Objective-C data types (usually two or three letters)")
+      
+      opt[Boolean]("objc-support-framework").valueName("<support-framework>").foreach(x => objcSupportFramework = x)
+        .text("Support Djinni as framework")
+
+      opt[Boolean]("objc-support-swift-name").valueName("<support-swift-name>").foreach(x => objcSupportSwiftName = x)
+        .text("Support swift name convention")
+
       opt[String]("objc-include-prefix").valueName("<prefix>").foreach(objcIncludePrefix = _)
         .text("The prefix for #import of header files from Objective-C files.")
       opt[String]("objc-swift-bridging-header").valueName("<name>").foreach(x => objcSwiftBridgingHeaderName = Some(x))
@@ -376,6 +386,9 @@ object Main {
       objcSwiftBridgingHeaderWriter,
       objcSwiftBridgingHeaderName,
       objcClosedEnums,
+      objcSupportFramework,
+      objcSupportSwiftName,
+      objcTypePrefix,
       outFileListWriter,
       skipGeneration,
       yamlOutFolder,
