@@ -50,7 +50,11 @@ class ObjcppGenerator(spec: Spec) extends BaseObjcGenerator(spec) {
 
   override def generateEnum(origin: String, ident: Ident, doc: Doc, e: Enum) {
     var imports = mutable.TreeSet[String]()
-    imports.add("#import " + q(spec.objcBaseLibIncludePrefix + "DJIMarshal+Private.h"))
+    if (spec.objcSupportFramework) {
+      imports.add("#import <Djinni/DJIMarshal+Private.h>")
+    } else {
+      imports.add("#import " + q(spec.objcBaseLibIncludePrefix + "DJIMarshal+Private.h"))
+    }
     imports.add("!#include " + q(spec.objcppIncludeCppPrefix + spec.cppFileIdentStyle(ident) + "." + spec.cppHeaderExt))
 
     writeObjcFile(objcppMarshal.privateHeaderName(ident.name), origin, imports, w => {} )
@@ -126,7 +130,7 @@ class ObjcppGenerator(spec: Spec) extends BaseObjcGenerator(spec) {
 
     if (i.ext.cpp) {
       if (spec.objcSupportFramework) {
-        refs.body.add("#import <Djinni/DJIMarshal+Private.h>")
+        refs.body.add("#import <Djinni/DJICppWrapperCache+Private.h>")
         refs.body.add("#import <Djinni/DJIError.h>")
       } else {
         refs.body.add("#import " + q(spec.objcBaseLibIncludePrefix + "DJICppWrapperCache+Private.h"))
@@ -141,7 +145,11 @@ class ObjcppGenerator(spec: Spec) extends BaseObjcGenerator(spec) {
     }
 
     if (i.ext.objc) {
-      refs.body.add("#import " + q(spec.objcBaseLibIncludePrefix + "DJIObjcWrapperCache+Private.h"))
+      if (spec.objcSupportFramework) {
+        refs.body.add("#import <Djinni/DJIObjcWrapperCache+Private.h>")
+      } else {
+        refs.body.add("#import " + q(spec.objcBaseLibIncludePrefix + "DJIObjcWrapperCache+Private.h"))
+      }
     }
 
     if (!i.ext.cpp && !i.ext.objc) {

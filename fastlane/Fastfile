@@ -1,0 +1,10 @@
+fastlane_version "2.70.1"
+default_platform :ios
+
+lane :submit_podspecs do
+    pod_push(path: "Djinni.podspec",
+        repo: "misfit-podspecs",
+        allow_warnings: true,
+        verbose: true)
+end
+

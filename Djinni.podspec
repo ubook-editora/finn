@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
     s.name             = 'Djinni'
-    s.version          = '4.0.0'
+    s.version          = '4.1.0'
     s.summary          = 'A short description of Djinni-iOS.'
   
   # This description is used to generate tags and improve search results.
@@ -20,26 +20,23 @@ Pod::Spec.new do |s|
     s.pod_target_xcconfig = {
       'DEFINES_MODULE' => 'YES',
       'GCC_WARN_INHIBIT_ALL_WARNINGS' => 'YES',
-      'CLANG_CXX_LANGUAGE_STANDARD' => 'c++17',
-      'USER_HEADER_SEARCH_PATHS' => '${PODS_TARGET_SRCROOT}/support-lib/**',
+      'CLANG_CXX_LANGUAGE_STANDARD' => 'c++17'    
     }
   
     s.module_name = 'Djinni'
-    
     s.ios.deployment_target = '9.0'
     s.osx.deployment_target = '10.13'
-  
     s.requires_arc = true
     s.libraries = 'stdc++'
-
     s.source_files         = [
         'support-lib/proxy_cache_impl.hpp', 
         'support-lib/proxy_cache_interface.hpp',
         'support-lib/objc/*.{h,mm}'
-      ]
+    ]
     s.private_header_files = [
         'support-lib/proxy_cache_impl.hpp', 
         'support-lib/proxy_cache_interface.hpp',
-        'support-lib/objc/*.h']
+        'support-lib/objc/*.h'
+    ]
   end
   
