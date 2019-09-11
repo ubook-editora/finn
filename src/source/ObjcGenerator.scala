@@ -125,7 +125,13 @@ class ObjcGenerator(spec: Spec) extends BaseObjcGenerator(spec) {
         w.wl(s"NS_SWIFT_NAME(${swiftName})")
       }
       
-      if (i.ext.objc) w.wl(s"@protocol $self") else w.wl(s"@interface $self : NSObject")
+      if (i.ext.objc) {
+        w.wl(s"@protocol $self")
+      } else {
+        w.wl(s"@interface $self : NSObject")
+        w.wl
+        w.wl(s"- (nonnull instancetype)init NS_UNAVAILABLE;")
+      }
       for (m <- i.methods) {
         w.wl
         writeMethodDoc(w, m, idObjc.local)
