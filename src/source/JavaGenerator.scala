@@ -322,7 +322,8 @@ class JavaGenerator(spec: Spec) extends Generator(spec) {
         // Field definitions.
         for (f <- r.fields) {
           w.wl
-          w.wl(s"/*package*/ final ${marshal.fieldType(f.ty)} ${idJava.field(f.ident)};")
+          val readonly = if (f.modifiable) "" else "final"
+          w.wl(s"/*package*/ ${readonly} ${marshal.fieldType(f.ty)} ${idJava.field(f.ident)};")
         }
 
         // Constructor.
@@ -351,7 +352,13 @@ class JavaGenerator(spec: Spec) extends Generator(spec) {
           w.w("public " + marshal.returnType(Some(f.ty)) + " " + idJava.method("get_" + f.ident.name) + "()").braced {
             w.wl("return " + idJava.field(f.ident) + ";")
           }
+          if (f.modifiable) {
+            w.w("public void " + idJava.method("set_" + f.ident.name) + "(" + marshal.returnType(Some(f.ty)) + " "+ f.ident.name + ")").braced {
+              w.wl("this." + idJava.field(f.ident) +" = " + f.ident.name + ";")
+            }
+          }
         }
+
 
         if (r.derivingTypes.contains(DerivingType.Eq)) {
           w.wl

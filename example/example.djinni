@@ -1,10 +1,10 @@
-item_list = record {
-    items: list<string>;
+item_list = record{
+    items: list<string> +m;
 }
 
 sort_order = enum {
-    ascending;
-    descending;
+    ascending=1;
+    descending=3;
     random;
 }
 
