@@ -115,11 +115,28 @@ class JavaGenerator(spec: Spec) extends Generator(spec) {
       writeDoc(w, doc)
       javaAnnotationHeader.foreach(w.wl)
       w.w(s"${javaClassAccessModifierString}enum ${marshal.typename(ident, e)}").braced {
+        var shift = -1;
         for (o <- normalEnumOptions(e)) {
           writeDoc(w, o.doc)
-          w.wl(idJava.enum(o.ident) + ",")
+          if (o.value != None) {
+            var constValue = o.value match {
+              case Some(i) =>  i 
+            }
+            shift = (constValue.toString.toInt);
+          } else {
+            shift = shift + 1;
+          }
+          w.wl(idJava.enum(o.ident) +s"($shift)" + ",")
         }
         w.wl(";")
+
+        w.wl("private final int value;")
+        w.w(s"private ${marshal.typename(ident, e)}(int value)").braced {
+          w.wl("this.value = value;")
+        }
+        w.w(s"public int getValue()").braced {
+          w.wl("return this.value;")
+        }
       }
     })
   }
