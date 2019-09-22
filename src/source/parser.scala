@@ -145,13 +145,14 @@ private object IdlParser extends RegexParsers {
     case items => Enum(items, true)
   }
 
-  def enumOption: Parser[Enum.Option] = doc ~ ident ^^ {
-    case doc~ident => Enum.Option(ident, doc, None)
+  def enumOption: Parser[Enum.Option] = doc ~ ident ~ opt("=" ~> (value)) ^^ {
+    case doc~ident~None => Enum.Option(ident, doc, None, None)
+    case doc~ident~value => Enum.Option(ident, doc, None, value)
   }
   def flagsOption: Parser[Enum.Option] = doc ~ ident ~ opt("=" ~> (flagsAll | flagsNone)) ^^ {
-    case doc~ident~None => Enum.Option(ident, doc, None)
-    case doc~ident~Some("all") => Enum.Option(ident, doc, Some(Enum.SpecialFlag.AllFlags))
-    case doc~ident~Some("none") => Enum.Option(ident, doc, Some(Enum.SpecialFlag.NoFlags))
+    case doc~ident~None => Enum.Option(ident, doc, None, None)
+    case doc~ident~Some("all") => Enum.Option(ident, doc, Some(Enum.SpecialFlag.AllFlags), None)
+    case doc~ident~Some("none") => Enum.Option(ident, doc, Some(Enum.SpecialFlag.NoFlags), None)
   }
 
   def interfaceHeader = "interface" ~> extInterface

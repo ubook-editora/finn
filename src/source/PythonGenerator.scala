@@ -1082,11 +1082,18 @@ class PythonGenerator(spec: Spec) extends Generator(spec) {
         if (writeDocString(w, doc)) { w.wl }
 
         // Generate enum fields, and set their values to 0..# of fields -1
-        var i = 0
+        var shift = -1;
         for (o <- e.options) {
           writeDocString(w, o.doc) // Enum supports docstrings, unlike plain constant variables.
-          w.wl(s"${idPython.enum(o.ident.name)} = $i")
-          i += 1
+          if (o.value != None) {
+            var constValue = o.value match {
+              case Some(i) =>  i 
+            }
+            shift = (constValue.toString.toInt);
+          } else {
+            shift = shift + 1;
+          }
+          w.wl(s"${idPython.enum(o.ident.name)} = $shift")
         }
       }
     })

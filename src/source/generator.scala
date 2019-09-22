@@ -490,8 +490,15 @@ abstract class Generator(spec: Spec)
     var shift = 0
     for (o <- normalEnumOptions(e)) {
       writeDoc(w, o.doc)
-      w.wl(ident(o.ident.name) + (if(e.flags) s" = 1 << $shift" else "") + ",")
-      shift += 1
+      if (o.value != None) {
+        var constValue = o.value match {
+          case Some(i) => " = " + i + ","
+        }
+        w.wl(ident(o.ident.name) + (s"$constValue"))
+      } else {
+        w.wl(ident(o.ident.name) + (if(e.flags) s" = 1 << $shift" else "") + ",")
+        shift += 1
+      }
     }
   }
 
