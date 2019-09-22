@@ -8,8 +8,8 @@
 namespace textsort {
 
 enum class sort_order : int {
-    ASCENDING,
-    DESCENDING,
+    ASCENDING = 1,
+    DESCENDING = 3,
     RANDOM,
 };
 

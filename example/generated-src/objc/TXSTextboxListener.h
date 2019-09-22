@@ -5,6 +5,7 @@
 #import <Foundation/Foundation.h>
 
 
+NS_SWIFT_NAME(TextboxListener)
 @protocol TXSTextboxListener
 
 - (void)update:(nonnull TXSItemList *)items;

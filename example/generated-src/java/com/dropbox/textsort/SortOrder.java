@@ -7,8 +7,15 @@ import javax.annotation.CheckForNull;
 import javax.annotation.Nonnull;
 
 /*package*/ enum SortOrder {
-    ASCENDING,
-    DESCENDING,
-    RANDOM,
+    ASCENDING(1),
+    DESCENDING(3),
+    RANDOM(4),
     ;
+    private final int value;
+    private SortOrder(int value) {
+        this.value = value;
+    }
+    public int getValue() {
+        return this.value;
+    }
 }

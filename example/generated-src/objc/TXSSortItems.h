@@ -8,7 +8,10 @@
 @protocol TXSTextboxListener;
 
 
+NS_SWIFT_NAME(SortItems)
 @interface TXSSortItems : NSObject
+
+- (nonnull instancetype)init NS_UNAVAILABLE;
 
 /** For the iOS / Android demo */
 - (void)sort:(TXSSortOrder)order

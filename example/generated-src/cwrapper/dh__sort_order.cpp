@@ -18,7 +18,7 @@ int32_t int32_from_enum_sort_order(::textsort::sort_order e) {
 }
 std::experimental::optional<::textsort::sort_order> get_boxed_enum_sort_order_from_int32(int32_t e) {
     if (e == -1) { // to signal null enum
-        return std::experimental::nullopt;
+        return std::nullopt;
     }
     return std::experimental::optional<::textsort::sort_order>(static_cast<::textsort::sort_order>(e));
 }

@@ -3,10 +3,11 @@
 
 #import <Foundation/Foundation.h>
 
+NS_SWIFT_NAME(ItemList)
 @interface TXSItemList : NSObject
 - (nonnull instancetype)initWithItems:(nonnull NSArray<NSString *> *)items;
 + (nonnull instancetype)itemListWithItems:(nonnull NSArray<NSString *> *)items;
 
-@property (nonatomic, readonly, nonnull) NSArray<NSString *> * items;
+@property (nonatomic, nonnull) NSArray<NSString *> * items;
 
 @end

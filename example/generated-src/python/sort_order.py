@@ -10,6 +10,6 @@ from enum import IntEnum, unique
 
 @unique
 class SortOrder(IntEnum):
-    Ascending = 0
-    Descending = 1
-    Random = 2
+    Ascending = 1
+    Descending = 3
+    Random = 4
