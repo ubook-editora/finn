@@ -734,7 +734,10 @@ class PythonGenerator(spec: Spec) extends Generator(spec) {
     case d: Double => w.w(d.toString)
     case b: Boolean => w.w(if (b) "True" else "False")
     case s: String => w.w(s)
-    case e: EnumValue => throw new NotImplementedError()
+    case e: EnumValue => {
+      val enum = ty.resolved.base.asInstanceOf[MDef]
+      w.w(s"${idPython.className(enum.name)}.${idJava.enum(e)}")
+    }
     case v: ConstRef => w.w(selfName + "." + idPython.const(v))
   }
 
