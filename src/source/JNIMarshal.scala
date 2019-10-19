@@ -34,7 +34,10 @@ class JNIMarshal(spec: Spec) extends Marshal(spec) {
   private def helperClass(tm: MExpr): String = helperName(tm) + helperTemplates(tm)
 
   def references(m: Meta, exclude: String = ""): Seq[SymbolReference] = m match {
-    case o: MOpaque => List(ImportRef(q(spec.jniBaseLibIncludePrefix + "Marshal.hpp")))
+    case o: MOpaque => List(
+      ImportRef(q(spec.jniBaseLibIncludePrefix + "Marshal.hpp")),
+      ImportRef(q(spec.jniBaseLibIncludePrefix + "JNIMarshal+Json.hpp"))
+      )
     case d: MDef => List(ImportRef(include(d.name)))
     case e: MExtern => List(ImportRef(e.jni.header))
     case _ => List()
@@ -73,6 +76,7 @@ class JNIMarshal(spec: Spec) extends Marshal(spec) {
       case MList => "Ljava/util/ArrayList;"
       case MSet => "Ljava/util/HashSet;"
       case MMap => "Ljava/util/HashMap;"
+      case MJson => "Lorg/json/JSONObject;"
     }
     case e: MExtern => e.jni.typeSignature
     case MParam(_) => "Ljava/lang/Object;"
@@ -106,6 +110,7 @@ class JNIMarshal(spec: Spec) extends Marshal(spec) {
       case MList => "List"
       case MSet => "Set"
       case MMap => "Map"
+      case MJson => "Json"
       case d: MDef => throw new AssertionError("unreachable")
       case e: MExtern => throw new AssertionError("unreachable")
       case p: MParam => throw new AssertionError("not applicable")
