@@ -106,6 +106,7 @@ class JavaMarshal(spec: Spec) extends Marshal(spec) {
             case MList => "ArrayList"
             case MSet => "HashSet"
             case MMap => "HashMap"
+            case MJson => "org.json.JSONObject"
             case d: MDef => withPackage(packageName, idJava.ty(d.name))
             case e: MExtern => throw new AssertionError("unreachable")
             case p: MParam => idJava.typeParam(p.name)

@@ -120,6 +120,7 @@ class CWrapperMarshal(spec: Spec) extends Marshal(spec) { // modeled(pretty much
       m match {
         case p: MPrimitive => p.cName
         case MDate => "uint64_t"
+        case MJson => "Json"
         case MString | MBinary =>
           val idlName = idCpp.ty(m.asInstanceOf[MOpaque].idlName)
           structPrefix + "Djinni" + idlName + " *"

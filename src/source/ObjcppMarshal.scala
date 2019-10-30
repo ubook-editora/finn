@@ -33,9 +33,12 @@ class ObjcppMarshal(spec: Spec) extends Marshal(spec) {
   def references(m: Meta): Seq[SymbolReference] = m match {
     case o: MOpaque =>
       if (spec.objcSupportFramework) {
-        List(ImportRef("<DJIMarshal+Private.h>"))
+        List(ImportRef("<DJIMarshal+Private.h>"), ImportRef("<DJIMarshal+Json.h>"))
       } else {
-        List(ImportRef(q(spec.objcBaseLibIncludePrefix + "DJIMarshal+Private.h")))
+        List(
+          ImportRef(q(spec.objcBaseLibIncludePrefix + "DJIMarshal+Private.h")),
+          ImportRef(q(spec.objcBaseLibIncludePrefix + "DJIMarshal+Json.h"))
+        )
       }
     case d: MDef => d.defType match {
       case DEnum | DInterface =>
@@ -84,6 +87,7 @@ class ObjcppMarshal(spec: Spec) extends Marshal(spec) {
       case MList => "List"
       case MSet => "Set"
       case MMap => "Map"
+      case MJson => "Json"
       case d: MDef => throw new AssertionError("unreachable")
       case e: MExtern => throw new AssertionError("unreachable")
       case p: MParam => throw new AssertionError("not applicable")
