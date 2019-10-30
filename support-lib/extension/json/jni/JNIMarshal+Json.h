@@ -8,6 +8,7 @@ namespace djinni {
         using json = nlohmann::json;
         using CppType =  json;
         using JniType = jobject;
+        using Boxed = Json;
 
         static CppType toCpp(JNIEnv* env, JniType json_object) {
             jclass jsonObjectClass = env->FindClass("org/json/JSONObject");
@@ -24,7 +25,7 @@ namespace djinni {
             return js;
         }
 
-        static JniType fromCpp(JNIEnv *env, CppType src) {
+        static LocalRef<JniType> fromCpp(JNIEnv *env, CppType src) {
 
             const char * jsonString = src.dump().c_str();
 
@@ -35,7 +36,7 @@ namespace djinni {
 
             jobject obj = (env)->NewObject(jsonObjectClass, constructorID, jsonJString);
 
-            return obj;
+            return {env, obj};
         }
     };
 }

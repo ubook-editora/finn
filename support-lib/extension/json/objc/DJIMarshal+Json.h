@@ -10,6 +10,8 @@ namespace djinni {
         using CppType = json;
         using ObjcType = NSDictionary *;
 
+        using Boxed = Json;
+        
         static CppType toCpp(ObjcType dict) {
             NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dict options:0 error:nil];
             NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
