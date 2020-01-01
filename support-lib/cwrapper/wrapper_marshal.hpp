@@ -9,6 +9,7 @@
 #include <thread>
 #include <assert.h>
 #include <optional>
+#include <nlohmann/json.hpp>
 
 #ifdef __cplusplus
 extern "C" {
@@ -216,4 +217,14 @@ struct DjinniOptionalString {
 struct DjinniOptionalBinary {
     static std::optional<std::vector<uint8_t>>  toCpp(std::unique_ptr<DjinniBinary> dopt);
     static std::unique_ptr<DjinniBinary> fromCpp(std::optional<std::vector<uint8_t>> ds);
+};
+
+struct DjinniJson {
+
+    // explicit DjinniJson(std::string s);
+
+    static nlohmann::json toCpp(DjinniString * ds);
+    static DjinniString * fromCpp(nlohmann::json json);
+
+    // nlohmann::json cppjson;
 };

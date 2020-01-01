@@ -120,7 +120,7 @@ class CWrapperMarshal(spec: Spec) extends Marshal(spec) { // modeled(pretty much
       m match {
         case p: MPrimitive => p.cName
         case MDate => "uint64_t"
-        case MJson => "Json"
+        case MJson => structPrefix + "DjinniString" + " *"
         case MString | MBinary =>
           val idlName = idCpp.ty(m.asInstanceOf[MOpaque].idlName)
           structPrefix + "Djinni" + idlName + " *"
@@ -221,6 +221,7 @@ class CWrapperMarshal(spec: Spec) extends Marshal(spec) { // modeled(pretty much
     def toType(expr: MExpr): String = expr.base match {
       case p: MPrimitive => valueType
       case MString => valueType // DjinniString
+      case MJson => valueType // DjinniString
       case MBinary => valueType // DjinniBinary
       case MDate => valueType // uint64_t
       case MList => valueType
@@ -274,6 +275,7 @@ class CWrapperMarshal(spec: Spec) extends Marshal(spec) { // modeled(pretty much
         }
       }
       case MDate => "DjinniDate::toCpp" + p(cppExpr)
+      case MJson => "Djinni" + idCpp.ty(toCIdlType(ty)) + "::toCpp" + p(exprArg)
       case MString| MBinary| MList | MMap | MSet => "Djinni" + idCpp.ty(toCIdlType(ty)) + "::toCpp" + p(exprArg)
       case d: MDef => d.defType match {
         case DInterface => djinniWrapper + idCpp.ty(d.name) + "::get" + p(exprArg)
@@ -301,7 +303,7 @@ class CWrapperMarshal(spec: Spec) extends Marshal(spec) { // modeled(pretty much
             case _ => convertFrom(cppExpr, ty.args(0), tempExpr)
           }
         }
-        case MString | MBinary | MDate | MList | MSet | MMap =>
+        case MString | MBinary | MDate | MList | MSet | MMap | MJson =>
           val idlName = idCpp.ty(toCIdlType(ty))
           "Djinni" + idlName + "::fromCpp" + p(cppExpr)
         case d: MDef => d.defType match {

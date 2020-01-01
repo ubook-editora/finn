@@ -51,3 +51,4 @@ intellij-plugin/djinni.jar
 callgrind.out.*
 
 .vscode
+.metals
