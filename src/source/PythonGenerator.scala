@@ -31,8 +31,8 @@ class PythonGenerator(spec: Spec) extends Generator(spec) {
   val cMarshal = new CWrapperMarshal(spec)
 
   def getRecordArguments(r: Record, self: String) = {
-    if (self != "") Seq(self) ++ r.fields.map( f => idPython.local(f.ident.name))
-    else r.fields.map( f => idPython.local(f.ident.name))
+    if (self != "") Seq(self) ++ r.fields.map( f => idPython.field(f.ident.name))
+    else r.fields.map( f => idPython.field(f.ident.name))
   }
 
   def getRecordTypes(r: Record) = {
@@ -883,7 +883,7 @@ class PythonGenerator(spec: Spec) extends Generator(spec) {
 
       w.wl("@ffi.callback" + "(\"" + ret + cArgs + "\")")
       w.wl("def " + methodName + defArgs + ":").nested {
-        val libCall = "CPyRecord.toPy" + p("None" + ", cself") + "." + idPython.local(f.ident.name)
+        val libCall = "CPyRecord.toPy" + p("None" + ", cself") + "." + idPython.field(f.ident.name)
         writeReturnFromCallback("CPyRecord.toPy" + p("None" + ", cself"), f.ty, libCall, w)
       }
       w.wl
@@ -914,7 +914,7 @@ class PythonGenerator(spec: Spec) extends Generator(spec) {
       for (f <- r.fields) {
         skipFirst {w.wl(",")}
 
-        w.w(marshal.convertTo(f.ident.name, f.ty ))
+        w.w(marshal.convertTo(idPython.field(f.ident.name), f.ty ))
       }
     }
     w.wl(")")
@@ -938,7 +938,7 @@ class PythonGenerator(spec: Spec) extends Generator(spec) {
         for (f <- r.fields) {
           skipFirst{w.wl(" and \\")}
           val isPrimitive = marshal.isPrimitive(f.ty)
-          w.w(cmpRecordFields(f.ident.name, if (isPrimitive) "==" else ".__eq__", !isPrimitive))
+          w.w(cmpRecordFields(idPython.field(f.ident.name), if (isPrimitive) "==" else ".__eq__", !isPrimitive))
         }
       }
       w.wl
@@ -949,10 +949,10 @@ class PythonGenerator(spec: Spec) extends Generator(spec) {
       w.wl("def " + "__lt__" + "(self, other):").nested {
         for (f <- r.fields) {
           val isPrimitive = marshal.isPrimitive(f.ty)
-          w.wl("if " + cmpRecordFields(f.ident.name, if (isPrimitive) "<" else ".__lt__", !isPrimitive) + ":").nested {
+          w.wl("if " + cmpRecordFields(idPython.field(f.ident.name), if (isPrimitive) "<" else ".__lt__", !isPrimitive) + ":").nested {
             w.wl("return True")
           }
-          w.wl("if "+ cmpRecordFields(f.ident.name, if (isPrimitive) ">" else ".__gt__", !isPrimitive) +":").nested {
+          w.wl("if "+ cmpRecordFields(idPython.field(f.ident.name), if (isPrimitive) ">" else ".__gt__", !isPrimitive) +":").nested {
             w.wl("return False")
           }
         }
@@ -977,7 +977,7 @@ class PythonGenerator(spec: Spec) extends Generator(spec) {
       w.wl("# Pick an arbitrary non-zero starting value")
       w.wl("hash_code = 17")
       for (f <- r.fields) { // TODO: should we check that if f is a record it has derivings? we don't in Java
-        w.wl("hash_code = hash_code * 31 + self." + f.ident.name + ".__hash__()")
+        w.wl("hash_code = hash_code * 31 + self." + idPython.field(f.ident.name) + ".__hash__()")
       }
       w.wl("return hash_code")
     }
@@ -1025,7 +1025,7 @@ class PythonGenerator(spec: Spec) extends Generator(spec) {
         w.wl
         // Constructor
         w.wl("def __init__" + getRecordArguments(r, "self").mkString("(", ", ", ")") + ":" ).nested {
-          r.fields.foreach( f => w.wl("self." + idPython.local(f.ident.name) + " = " + idPython.local(f.ident.name)))
+          r.fields.foreach( f => w.wl("self." + idPython.field(f.ident.name) + " = " + idPython.field(f.ident.name)))
           if (r.fields.isEmpty) { w.wl("pass") }
         }
       }
