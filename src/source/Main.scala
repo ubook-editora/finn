@@ -254,6 +254,7 @@ object Main {
       identStyle("ident-cpp-file",       c => { cppFileIdentStyle = c })
       identStyle("ident-jni-class",      c => { jniClassIdentStyleOptional = Some(c)})
       identStyle("ident-jni-file",       c => { jniFileIdentStyleOptional = Some(c)})
+
       identStyle("ident-objc-enum",       c => { objcIdentStyle = objcIdentStyle.copy(enum = c) })
       identStyle("ident-objc-field",      c => { objcIdentStyle = objcIdentStyle.copy(field = c) })
       identStyle("ident-objc-method",     c => { objcIdentStyle = objcIdentStyle.copy(method = c) })
@@ -262,9 +263,12 @@ object Main {
       identStyle("ident-objc-local",      c => { objcIdentStyle = objcIdentStyle.copy(local = c) })
       identStyle("ident-objc-file",       c => { objcFileIdentStyleOptional = Some(c) })
 
-      identStyle("ident-python-enum",      c => { pyIdentStyle = pyIdentStyle.copy(enum = c) })
-      identStyle("ident-python-field",     c => { pyIdentStyle = pyIdentStyle.copy(field = c) })
-      identStyle("ident-python-type",      c => { pyIdentStyle = pyIdentStyle.copy(ty = c) })
+      identStyle("ident-python-enum",       c => { pyIdentStyle = pyIdentStyle.copy(enum = c) })
+      identStyle("ident-python-field",      c => { pyIdentStyle = pyIdentStyle.copy(field = c) })
+      identStyle("ident-python-method",     c => { pyIdentStyle = pyIdentStyle.copy(method = c) })
+      identStyle("ident-python-type",       c => { pyIdentStyle = pyIdentStyle.copy(ty = c) })
+      identStyle("ident-python-type-param", c => { pyIdentStyle = pyIdentStyle.copy(typeParam = c) })
+      identStyle("ident-python-local",      c => { pyIdentStyle = pyIdentStyle.copy(local = c) })
     }
 
     if (!argParser.parse(args)) {
