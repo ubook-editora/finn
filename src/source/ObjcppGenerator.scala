@@ -52,8 +52,10 @@ class ObjcppGenerator(spec: Spec) extends BaseObjcGenerator(spec) {
     var imports = mutable.TreeSet[String]()
     if (spec.objcSupportFramework) {
       imports.add("#import <DJIMarshal+Private.h>")
+      imports.add("#import <DJIMarshal+Json.h>")
     } else {
       imports.add("#import " + q(spec.objcBaseLibIncludePrefix + "DJIMarshal+Private.h"))
+      imports.add("#import " + q(spec.objcBaseLibIncludePrefix + "DJIMarshal+Json.h"))
     }
     imports.add("!#include " + q(spec.objcppIncludeCppPrefix + spec.cppFileIdentStyle(ident) + "." + spec.cppHeaderExt))
 

@@ -70,6 +70,7 @@ class PythonMarshal(spec: Spec) extends Marshal(spec) {
     case MString => List(ImportRef("from djinni.pycffi_marshal import CPyString"))
     case MBinary => List(ImportRef("from djinni.pycffi_marshal import CPyBinary"))
     case MDate => List(ImportRef("from djinni.pycffi_marshal import CPyDate"))
+    case MJson => List(ImportRef("from djinni.pycffi_marshal import CPyJson"))
     case MList => List(ImportRef("from djinni.pycffi_marshal import CPyObject"))
     case MSet | MMap => List(ImportRef("from djinni.pycffi_marshal import CPyObject, CPyObjectProxy"))
     case e: MExtern => List() // TODO: implement e: MExtern
@@ -139,6 +140,7 @@ class PythonMarshal(spec: Spec) extends Marshal(spec) {
       case MList => "list"
       case MSet => "set"
       case MMap => "map"
+      case MJson => "json"
       case MOptional => tm.args(0).base match {
         case MPrimitive(_,_,_,_,_,_,_,_) | MDate => "boxed"
         case _ => "optional"
@@ -192,7 +194,7 @@ class PythonMarshal(spec: Spec) extends Marshal(spec) {
     case MOptional =>
       ty.resolved.args(0).base match {
         case MPrimitive(_,_,_,_,_,_,_,_) | MDate => true
-        case MString | MBinary => true
+        case MString | MBinary | MJson => true
         case _ => false
       }
     case e: MExtern => false // TODO: implement e: MExtern
@@ -280,7 +282,7 @@ class PythonMarshal(spec: Spec) extends Marshal(spec) {
 
     ty.base match {
       case mp: MPrimitive => "CPyPrimitive.toPy" + p(local)
-      case MString | MBinary | MDate => "CPy" + idlName + ".toPy" + opt_s + p(local)
+      case MString | MBinary | MDate | MJson => "CPy" + idlName + ".toPy" + opt_s + p(local)
       case MList => "CPyObject.toPy" + opt_s + p(idlName + "Helper" + ".c_data_set" + ", " + local)
       case MMap | MSet => "CPyObjectProxy.toPyObj" + opt_s + p(idlName + "Helper" + ".c_data_set" + ", " + local)
       case d: MDef => d.defType match {
@@ -328,7 +330,7 @@ class PythonMarshal(spec: Spec) extends Marshal(spec) {
 
     ty.base match {
       case mp: MPrimitive => "CPyPrimitive.fromPy" + p(local)
-      case MString | MBinary | MDate => "CPy" + idlName + ".fromPy" + opt_s + p(local)
+      case MString | MBinary | MDate | MJson => "CPy" + idlName + ".fromPy" + opt_s + p(local)
       case MList => "CPyObject.fromPy" + opt_s + p(idlName + "Helper" + ".c_data_set, " + local)
       case MMap | MSet => "CPyObjectProxy.fromPy" + opt_s + p(idlName + "Helper" + ".c_data_set, " + idlName + "Proxy" + p(local))
       case d: MDef => d.defType match {

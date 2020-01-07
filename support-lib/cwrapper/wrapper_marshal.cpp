@@ -329,3 +329,12 @@ void delete_djinni_boxed_date(DjinniBoxedDate * dopt) {
 uint64_t get_djinni_boxed_date_data(DjinniBoxedDate * dopt) {
     return dopt->m_data;
 }
+
+nlohmann::json DjinniJson::toCpp(DjinniString * ds) {
+    std::string _json_string = ds->cppstr;
+    return nlohmann::json::parse(_json_string.begin(), _json_string.end());
+}
+
+DjinniString * DjinniJson::fromCpp(nlohmann::json json) {
+    return new DjinniString(json.dump());
+}

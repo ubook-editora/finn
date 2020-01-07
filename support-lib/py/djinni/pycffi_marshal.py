@@ -5,6 +5,7 @@ from PyCFFIlib_cffi import ffi, lib
 from djinni.support import encoded_utf_8
 import datetime
 import math
+import json
 
 class CPyPrimitive:
     @staticmethod
@@ -441,3 +442,14 @@ class CPyEnum:
         if e == -1:
             return None
         return enum_class(e)
+
+class CPyJson:
+    @staticmethod
+    def fromPy(e):
+        assert e is not None
+        return CPyString.fromPy(json.dumps(e)).get_djinni_string()
+
+    @staticmethod
+    def toPy(e):
+        assert e is not None
+        return json.loads(CPyString.toPy(e))

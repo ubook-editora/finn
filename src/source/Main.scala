@@ -262,6 +262,9 @@ object Main {
       identStyle("ident-objc-local",      c => { objcIdentStyle = objcIdentStyle.copy(local = c) })
       identStyle("ident-objc-file",       c => { objcFileIdentStyleOptional = Some(c) })
 
+      identStyle("ident-python-enum",      c => { pyIdentStyle = pyIdentStyle.copy(enum = c) })
+      identStyle("ident-python-field",     c => { pyIdentStyle = pyIdentStyle.copy(field = c) })
+      identStyle("ident-python-type",      c => { pyIdentStyle = pyIdentStyle.copy(ty = c) })
     }
 
     if (!argParser.parse(args)) {
