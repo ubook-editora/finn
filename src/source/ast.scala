@@ -37,6 +37,8 @@ case class TypeParam(ident: Ident)
 
 case class Doc(lines: Seq[String])
 
+case class Deprecated(messages: String)
+
 sealed abstract class TypeDecl {
   val ident: Ident
   val params: Seq[TypeParam]
@@ -81,7 +83,7 @@ object Record {
 
 case class Interface(ext: Ext, methods: Seq[Interface.Method], consts: Seq[Const]) extends TypeDef
 object Interface {
-  case class Method(ident: Ident, params: Seq[Field], ret: Option[TypeRef], doc: Doc, static: Boolean, const: Boolean)
+  case class Method(ident: Ident, params: Seq[Field], ret: Option[TypeRef], doc: Doc, static: Boolean, const: Boolean, deprecated: Option[Deprecated])
 }
 
 case class Field(ident: Ident, ty: TypeRef, doc: Doc, modifiable: Boolean)
