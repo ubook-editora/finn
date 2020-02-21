@@ -183,8 +183,8 @@ private object IdlParser extends RegexParsers {
     case "const " => true
     case "" => false
   }
-  def method: Parser[Interface.Method] = doc ~ staticLabel ~ constLabel ~ ident ~ parens(repsepend(field, ",")) ~ opt(ret) ^^ {
-    case doc~staticLabel~constLabel~ ident~params~ret => Interface.Method(ident, params, ret, doc, staticLabel, constLabel)
+  def method: Parser[Interface.Method] = doc ~ opt(deprecated) ~ staticLabel ~ constLabel ~ ident ~ parens(repsepend(field, ",")) ~ opt(ret) ^^ {
+    case doc~deprecated~staticLabel~constLabel~ ident~params~ret => Interface.Method(ident, params, ret, doc, staticLabel, constLabel, deprecated)
   }
   def ret: Parser[TypeRef] = ":" ~> typeRef
 
@@ -217,6 +217,8 @@ private object IdlParser extends RegexParsers {
   }
 
   def doc: Parser[Doc] = rep(regex("""#[^\n\r]*""".r) ^^ (_.substring(1))) ^^ Doc
+
+  def deprecated: Parser[Deprecated] = (regex("""@deprecated([^\n\r]*)""".r) ^^ ({s: String => s.substring(12, s.length()-1)})) ^^ Deprecated
 
   def parens[T](inner: Parser[T]): Parser[T] = surround("(", ")", inner)
   def typeList[T](inner: Parser[T]): Parser[Seq[T]] = surround("<", ">", rep1sepend(inner, ",")) | success(Seq.empty)

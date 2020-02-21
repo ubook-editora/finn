@@ -136,6 +136,12 @@ class ObjcGenerator(spec: Spec) extends BaseObjcGenerator(spec) {
         w.wl
         writeMethodDoc(w, m, idObjc.local)
         writeObjcFuncDecl(m, w)
+        m.deprecated match {
+          case Some(value) => {
+            w.wl(s" __attribute((deprecated((${value.messages}))))")
+          }
+          case None => {}
+        }
         w.wl(";")
       }
       for (c <- i.consts if !marshal.canBeConstVariable(c)) {

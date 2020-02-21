@@ -338,6 +338,14 @@ class CppGenerator(spec: Spec) extends Generator(spec) {
         for (m <- i.methods) {
           w.wl
           writeMethodDoc(w, m, idCpp.local)
+
+          m.deprecated match {
+            case Some(value) => {
+              w.wl(s"[[deprecated(${value.messages})]]")
+            }
+            case None => {}
+          }
+          
           val ret = marshal.returnType(m.ret, methodNamesInScope)
           val params = m.params.map(p => marshal.paramType(p.ty, methodNamesInScope) + " " + idCpp.local(p.ident))
           if (m.static) {
