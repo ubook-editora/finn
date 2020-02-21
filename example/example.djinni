@@ -16,6 +16,9 @@ sort_items = interface +c {
     # For the localhost / command-line demo
     @deprecated("Please")
     static run_sort(items: item_list): item_list;
+
+    @deprecated("Please use the other method")
+    hello();
 }
 
 textbox_listener = interface +j +o +p {

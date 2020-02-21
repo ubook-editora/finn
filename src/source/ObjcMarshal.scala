@@ -165,4 +165,11 @@ class ObjcMarshal(spec: Spec) extends Marshal(spec) {
       }
     case _ => false
   }
+
+  def deprecatedAnnotation(deprecated: Option[Deprecated]): Option[String] = {
+    deprecated match {
+      case Some(value) => Some(s" __attribute((deprecated((${value.messages}))))")
+      case None => None
+    }
+  }
 }

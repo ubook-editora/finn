@@ -182,12 +182,14 @@ class JavaGenerator(spec: Spec) extends Generator(spec) {
             nullityAnnotation + marshal.paramType(p.ty) + " " + idJava.local(p.ident)
           })
           marshal.nullityAnnotation(m.ret).foreach(w.wl)
+          marshal.deprecatedAnnotation(m.deprecated).foreach(w.wl)
           w.wl(s"public $methodPrefix" + ret + " " + idJava.method(m.ident) + params.mkString("(", ", ", ")") + throwException + ";")
         }
 
         // Implement the interface's static methods as calls to CppProxy's corresponding methods.
         for (m <- i.methods if m.static) {
           skipFirst { w.wl }
+          
           writeMethodDoc(w, m, idJava.local)
           val ret = marshal.returnType(m.ret)
           val returnPrefix = if (ret == "void") "" else "return "
@@ -198,6 +200,7 @@ class JavaGenerator(spec: Spec) extends Generator(spec) {
 
           val meth = idJava.method(m.ident)
           marshal.nullityAnnotation(m.ret).foreach(w.wl)
+          marshal.deprecatedAnnotation(m.deprecated).foreach(w.wl)
           w.wl("public static "+ ret + " " + idJava.method(m.ident) + params.mkString("(", ", ", ")")).braced {
             writeAlignedCall(w, s"${returnPrefix}CppProxy.${meth}(", m.params, ");", p => idJava.local(p.ident))
             w.wl
@@ -235,6 +238,7 @@ class JavaGenerator(spec: Spec) extends Generator(spec) {
               val meth = idJava.method(m.ident)
               w.wl
               w.wl(s"@Override")
+              marshal.deprecatedAnnotation(m.deprecated).foreach(w.wl)
               w.wl(s"public $ret $meth($params)$throwException").braced {
                 w.wl("assert !this.destroyed.get() : \"trying to use a destroyed object\";")
                 w.wl(s"${returnStmt}native_$meth(this.nativeRef${preComma(args)});")

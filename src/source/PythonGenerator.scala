@@ -816,6 +816,7 @@ class PythonGenerator(spec: Spec) extends Generator(spec) {
           w.wl("@abstractmethod")
           w.wl("def " + idPython.method(m.ident.name) + getDefArgs(m, "self") + ":").nested {
             writeDocString(w, m.doc)
+            marshal.deprecatedAnnotation(m.deprecated).foreach(w.wl)
             w.wl("raise NotImplementedError")
           }
           w.wl
@@ -827,6 +828,7 @@ class PythonGenerator(spec: Spec) extends Generator(spec) {
             w.wl("@staticmethod")
             w.wl("def " + idPython.method(m.ident.name) + defArgs + ":").nested {
               writeDocString(w, m.doc)
+              marshal.deprecatedAnnotation(m.deprecated).foreach(w.wl)
               if (m.ret.isDefined) {
                 w.wl("return " + proxyClass + "." + idPython.method(m.ident.name) + defArgs)
               } else {
