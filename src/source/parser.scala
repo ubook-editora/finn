@@ -150,14 +150,14 @@ private object IdlParser extends RegexParsers {
     case items => Enum(items, true)
   }
 
-  def enumOption: Parser[Enum.Option] = doc ~ ident ~ opt("=" ~> (value)) ^^ {
-    case doc~ident~None => Enum.Option(ident, doc, None, None)
-    case doc~ident~value => Enum.Option(ident, doc, None, value)
+  def enumOption: Parser[Enum.Option] = doc ~ opt(deprecated) ~ ident ~ opt("=" ~> (value)) ^^ {
+    case doc~deprecated~ident~None => Enum.Option(ident, doc, None, None, deprecated)
+    case doc~deprecated~ident~value => Enum.Option(ident, doc, None, value, deprecated)
   }
-  def flagsOption: Parser[Enum.Option] = doc ~ ident ~ opt("=" ~> (flagsAll | flagsNone)) ^^ {
-    case doc~ident~None => Enum.Option(ident, doc, None, None)
-    case doc~ident~Some("all") => Enum.Option(ident, doc, Some(Enum.SpecialFlag.AllFlags), None)
-    case doc~ident~Some("none") => Enum.Option(ident, doc, Some(Enum.SpecialFlag.NoFlags), None)
+  def flagsOption: Parser[Enum.Option] = doc ~ opt(deprecated) ~ ident ~ opt("=" ~> (flagsAll | flagsNone)) ^^ {
+    case doc~deprecated~ident~None => Enum.Option(ident, doc, None, None, deprecated)
+    case doc~deprecated~ident~Some("all") => Enum.Option(ident, doc, Some(Enum.SpecialFlag.AllFlags), None, deprecated)
+    case doc~deprecated~ident~Some("none") => Enum.Option(ident, doc, Some(Enum.SpecialFlag.NoFlags), None, deprecated)
   }
 
   def interfaceHeader = "interface" ~> extInterface

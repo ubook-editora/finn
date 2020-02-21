@@ -70,7 +70,7 @@ object Enum {
     val NoFlags, AllFlags = Value
   }
   import SpecialFlag._
-  case class Option(ident: Ident, doc: Doc, specialFlag: scala.Option[SpecialFlag], value: Any)
+  case class Option(ident: Ident, doc: Doc, specialFlag: scala.Option[SpecialFlag], value: Any, deprecated: scala.Option[Deprecated])
 }
 
 case class Record(ext: Ext, fields: Seq[Field], consts: Seq[Const], derivingTypes: Set[DerivingType]) extends TypeDef
