@@ -52,3 +52,5 @@ callgrind.out.*
 
 .vscode
 .metals
+.project
+.settings
