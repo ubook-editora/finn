@@ -42,7 +42,7 @@ class JavaMarshal(spec: Spec) extends Marshal(spec) {
   
   val interfaceNullityAnnotation = if (spec.cppNnType.nonEmpty) javaNonnullAnnotation else javaNullableAnnotation
   
-  def deprecatedAnnotation(deprecated: Option[Deprecated]): Option[String] = {
+  override def deprecatedAnnotation(deprecated: Option[Deprecated]): Option[String] = {
     deprecated match {
       case Some(value) => Some("@Deprecated")
       case None => None

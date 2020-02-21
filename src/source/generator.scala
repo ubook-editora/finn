@@ -432,15 +432,17 @@ abstract class Generator(spec: Spec)
     for (td <- idl.collect { case itd: InternTypeDecl => itd }) td.body match {
       case e: Enum =>
         assert(td.params.isEmpty)
-        generateEnum(td.origin, td.ident, td.doc, e)
-      case r: Record => generateRecord(td.origin, td.ident, td.doc, td.params, r)
-      case i: Interface => generateInterface(td.origin, td.ident, td.doc, td.params, i)
+        generateEnum(td.origin, td.ident, td.doc, e, td.deprecated)
+      case r: Record => generateRecord(td.origin, td.ident, td.doc, td.params, r, td.deprecated)
+      case i: Interface => {
+        generateInterface(td.origin, td.ident, td.doc, td.params, i, td.deprecated)
+      }
     }
   }
 
-  def generateEnum(origin: String, ident: Ident, doc: Doc, e: Enum)
-  def generateRecord(origin: String, ident: Ident, doc: Doc, params: Seq[TypeParam], r: Record)
-  def generateInterface(origin: String, ident: Ident, doc: Doc, typeParams: Seq[TypeParam], i: Interface)
+  def generateEnum(origin: String, ident: Ident, doc: Doc, e: Enum, deprecated: scala.Option[Deprecated])
+  def generateRecord(origin: String, ident: Ident, doc: Doc, params: Seq[TypeParam], r: Record, deprecated: scala.Option[Deprecated])
+  def generateInterface(origin: String, ident: Ident, doc: Doc, typeParams: Seq[TypeParam], i: Interface, deprecated: scala.Option[Deprecated])
 
   // --------------------------------------------------------------------------
   // Render type expression
@@ -479,14 +481,15 @@ abstract class Generator(spec: Spec)
 
   def normalEnumOptions(e: Enum) = e.options.filter(_.specialFlag == None)
 
-  def writeEnumOptionNone(w: IndentWriter, e: Enum, ident: IdentConverter) {
+  def writeEnumOptionNone(w: IndentWriter, e: Enum, ident: IdentConverter, marshal: Marshal) {
     for (o <- e.options.find(_.specialFlag == Some(Enum.SpecialFlag.NoFlags))) {
       writeDoc(w, o.doc)
+      marshal.deprecatedAnnotation(o.deprecated).foreach(w.wl)
       w.wl(ident(o.ident.name) + " = 0,")
     }
   }
 
-  def writeEnumOptions(w: IndentWriter, e: Enum, ident: IdentConverter) {
+  def writeEnumOptions(w: IndentWriter, e: Enum, ident: IdentConverter, marshal: Marshal) {
     var shift = 0
     for (o <- normalEnumOptions(e)) {
       writeDoc(w, o.doc)
@@ -494,18 +497,25 @@ abstract class Generator(spec: Spec)
         var constValue = o.value match {
           case Some(i) => " = " + i + ","
         }
-        w.wl(ident(o.ident.name) + (s"$constValue"))
+        w.w(ident(o.ident.name) + " ")
+        marshal.deprecatedAnnotation(o.deprecated).foreach(w.w)
+        w.wl((s"$constValue"))
       } else {
-        w.wl(ident(o.ident.name) + (if(e.flags) s" = 1 << $shift" else "") + ",")
+        w.w(ident(o.ident.name) + " ")
+        marshal.deprecatedAnnotation(o.deprecated).foreach(w.w)
+        // w.wl((s"$constValue"))
+        w.wl((if(e.flags) s" = 1 << $shift" else "") + ",")
         shift += 1
       }
     }
   }
 
-  def writeEnumOptionAll(w: IndentWriter, e: Enum, ident: IdentConverter) {
+  def writeEnumOptionAll(w: IndentWriter, e: Enum, ident: IdentConverter, marshal: Marshal) {
     for (o <- e.options.find(_.specialFlag == Some(Enum.SpecialFlag.AllFlags))) {
       writeDoc(w, o.doc)
-      w.w(ident(o.ident.name) + " = ")
+      w.w(ident(o.ident.name))
+      marshal.deprecatedAnnotation(o.deprecated).foreach(w.w)
+      w.w(" = ")
       w.w(normalEnumOptions(e).map(o => ident(o.ident.name)).fold("0")((acc, o) => acc + " | " + o))
       w.wl(",")
     }

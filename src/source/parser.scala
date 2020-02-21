@@ -73,8 +73,10 @@ private object IdlParser extends RegexParsers {
   def importDirective = "import".r
   def externDirective = "extern".r
 
-  def typeDecl(origin: String): Parser[TypeDecl] = doc ~ ident ~ typeList(ident ^^ TypeParam) ~ "=" ~ typeDef ^^ {
-    case doc~ident~typeParams~_~body => InternTypeDecl(ident, typeParams, body, doc, origin)
+  def typeDecl(origin: String): Parser[TypeDecl] = doc~ opt(deprecated) ~ ident ~ typeList(ident ^^ TypeParam) ~ "=" ~ typeDef ^^ {
+    case doc~deprecated~ident~typeParams~_~body => {
+      InternTypeDecl(ident, typeParams, body, doc, origin, deprecated)
+    }
   }
 
   def ext(default: Ext) = (rep1("+" ~> ident) >> checkExts) | success(default)
@@ -121,11 +123,11 @@ private object IdlParser extends RegexParsers {
       Record(ext, fields, consts, derivingTypes)
     }
   }
-  def field: Parser[Field] = doc ~ ident ~ ":" ~ typeRef ~ opt("+" ~> (value)) ^^ {
-    case doc~ident~_~typeRef~None => {
+  def field: Parser[Field] = doc ~ opt(deprecated) ~ ident ~ ":" ~ typeRef ~ opt("+" ~> (value)) ^^ {
+    case doc~deprecated~ident~_~typeRef~None => {
       Field(ident, typeRef, doc, false)
     }
-    case doc~ident~_~typeRef~value => {
+    case doc~deprecated~ident~_~typeRef~value => {
       Field(ident, typeRef, doc, true)
     }
   }
@@ -171,8 +173,13 @@ private object IdlParser extends RegexParsers {
 
   def externTypeDecl: Parser[TypeDef] = externEnum | externFlags | externInterface | externRecord
   def externEnum: Parser[Enum] = enumHeader ^^ { case _ => Enum(List(), false) }
+
   def externFlags: Parser[Enum] = flagsHeader ^^ { case _ => Enum(List(), true) }
-  def externRecord: Parser[Record] = recordHeader ~ opt(deriving) ^^ { case ext~deriving => Record(ext, List(), List(), deriving.getOrElse(Set[DerivingType]())) }
+
+  def externRecord: Parser[Record] = recordHeader ~ opt(deriving) ^^ { 
+    case ext~deriving => Record(ext, List(), List(), deriving.getOrElse(Set[DerivingType]())) 
+  }
+  
   def externInterface: Parser[Interface] = interfaceHeader ^^ { case ext => Interface(ext, List(), List()) }
 
   def staticLabel: Parser[Boolean] = ("static ".r | "".r) ^^ {

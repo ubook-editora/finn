@@ -1110,7 +1110,7 @@ class CWrapperGenerator(spec: Spec) extends Generator(spec) {
     })
   }
 
-  def generateInterface(origin: String, ident: Ident, doc: Doc, typeParams: Seq[TypeParam], i: Interface): Unit ={
+  def generateInterface(origin: String, ident: Ident, doc: Doc, typeParams: Seq[TypeParam], i: Interface, deprecated: scala.Option[Deprecated]): Unit ={
     val cppClass = idCpp.ty(ident.name)
 
     System.out.println("Generting C interface...", origin)
@@ -1147,7 +1147,7 @@ class CWrapperGenerator(spec: Spec) extends Generator(spec) {
     }
   }
 
-  def generateEnum(origin: String, ident: Ident, doc: Doc, e: Enum): Unit ={
+  def generateEnum(origin: String, ident: Ident, doc: Doc, e: Enum, deprecated: scala.Option[Deprecated]): Unit ={
     val refs = new CRefs(ident, origin)
     writeCHeader(marshal.dh + ident.name, origin, "", refs.h, true, w => {
 
@@ -1190,7 +1190,7 @@ class CWrapperGenerator(spec: Spec) extends Generator(spec) {
     })
   }
 
-  def generateRecord(origin: String, ident: Ident, doc: Doc, params: Seq[TypeParam], r: Record): Unit = {
+  def generateRecord(origin: String, ident: Ident, doc: Doc, params: Seq[TypeParam], r: Record, deprecated: scala.Option[Deprecated]): Unit = {
     val refs = new CRefs(ident, origin)
     r.fields.map(f => refs.collect(f.ty, true))
     refs.hpp.add("#include " + q(marshal.dh + ident.name + ".hpp") + marshal.pythonCdefIgnore)

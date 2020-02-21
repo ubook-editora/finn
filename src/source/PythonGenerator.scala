@@ -781,7 +781,7 @@ class PythonGenerator(spec: Spec) extends Generator(spec) {
     }
   }
 
-  override def generateInterface(origin: String, ident: Ident, doc: Doc, typeParams: Seq[TypeParam], i: Interface): Unit = {
+  override def generateInterface(origin: String, ident: Ident, doc: Doc, typeParams: Seq[TypeParam], i: Interface, deprecated: scala.Option[Deprecated]): Unit = {
     System.out.println("Generting python interface...", origin, ident)
     val pythonClass = idPython.className(ident.name)
     val cMethodWrapper = idPython.method(ident.name)
@@ -985,7 +985,7 @@ class PythonGenerator(spec: Spec) extends Generator(spec) {
     }
   }
 
-  override def generateRecord(origin: String, ident: Ident, doc: Doc, params: Seq[TypeParam], r: Record): Unit = {
+  override def generateRecord(origin: String, ident: Ident, doc: Doc, params: Seq[TypeParam], r: Record, deprecated: scala.Option[Deprecated]): Unit = {
     val recordClassName = idPython.className(ident.name)
     val recordAsMethod = idPython.method(ident.name)
     val refs = new PythonRefs(ident, origin)
@@ -1075,7 +1075,7 @@ class PythonGenerator(spec: Spec) extends Generator(spec) {
 
   }
 
-  override def generateEnum(origin: String, ident: Ident, doc: Doc, e: Enum): Unit = {
+  override def generateEnum(origin: String, ident: Ident, doc: Doc, e: Enum, deprecated: scala.Option[Deprecated]): Unit = {
     val enumClassName = idPython.className(ident.name)
     val refs = new PythonRefs(ident, origin)
     writePythonFile(ident, origin, refs.python, false, w => {

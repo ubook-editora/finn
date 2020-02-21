@@ -43,7 +43,7 @@ class ObjcGenerator(spec: Spec) extends BaseObjcGenerator(spec) {
     }
   }
 
-  override def generateEnum(origin: String, ident: Ident, doc: Doc, e: Enum) {
+  override def generateEnum(origin: String, ident: Ident, doc: Doc, e: Enum, deprecated: scala.Option[Deprecated]) {
     val refs = new ObjcRefs()
 
     refs.header.add("#import <Foundation/Foundation.h>")
@@ -51,6 +51,7 @@ class ObjcGenerator(spec: Spec) extends BaseObjcGenerator(spec) {
     val self = marshal.typename(ident, e)
     writeObjcFile(marshal.headerName(ident), origin, refs.header, w => {
       writeDoc(w, doc)
+      marshal.deprecatedAnnotation(deprecated).foreach(w.wl)
       w.wl(if(e.flags) {
         s"typedef NS_OPTIONS(NSUInteger, $self)"
       } else {
@@ -68,9 +69,9 @@ class ObjcGenerator(spec: Spec) extends BaseObjcGenerator(spec) {
       }
 
       w.bracedEnd(s"${enumEnd}") {
-        writeEnumOptionNone(w, e, self + idObjc.enum(_))
-        writeEnumOptions(w, e, self + idObjc.enum(_))
-        writeEnumOptionAll(w, e, self + idObjc.enum(_))
+        writeEnumOptionNone(w, e, self + idObjc.enum(_), marshal)
+        writeEnumOptions(w, e, self + idObjc.enum(_), marshal)
+        writeEnumOptionAll(w, e, self + idObjc.enum(_), marshal)
       }
     })
   }
@@ -88,7 +89,7 @@ class ObjcGenerator(spec: Spec) extends BaseObjcGenerator(spec) {
   /**
     * Generate Interface
     */
-  override def generateInterface(origin: String, ident: Ident, doc: Doc, typeParams: Seq[TypeParam], i: Interface) {
+  override def generateInterface(origin: String, ident: Ident, doc: Doc, typeParams: Seq[TypeParam], i: Interface, deprecated: scala.Option[Deprecated]) {
     val refs = new ObjcRefs()
     i.methods.map(m => {
       m.params.map(p => refs.find(p.ty))
@@ -119,7 +120,7 @@ class ObjcGenerator(spec: Spec) extends BaseObjcGenerator(spec) {
       }
       w.wl
       writeDoc(w, doc)
-
+      marshal.deprecatedAnnotation(deprecated).foreach(w.wl)
       if (spec.objcSupportSwiftName) {
         val swiftName = self.replace(spec.objcTypePrefix, "")
         w.wl(s"NS_SWIFT_NAME(${swiftName})")
@@ -159,7 +160,7 @@ class ObjcGenerator(spec: Spec) extends BaseObjcGenerator(spec) {
     }
   }
 
-  override def generateRecord(origin: String, ident: Ident, doc: Doc, params: Seq[TypeParam], r: Record) {
+  override def generateRecord(origin: String, ident: Ident, doc: Doc, params: Seq[TypeParam], r: Record, deprecated: scala.Option[Deprecated]) {
     val refs = new ObjcRefs()
     for (c <- r.consts)
       refs.find(c.ty)
@@ -192,6 +193,7 @@ class ObjcGenerator(spec: Spec) extends BaseObjcGenerator(spec) {
     // Generate the header file for record
     writeObjcFile(marshal.headerName(objcName), origin, refs.header, w => {
       writeDoc(w, doc)
+      marshal.deprecatedAnnotation(deprecated).foreach(w.wl)
       if (spec.objcSupportSwiftName) {
         val swiftName = self.replace(spec.objcTypePrefix, "")
         w.wl(s"NS_SWIFT_NAME(${swiftName})")

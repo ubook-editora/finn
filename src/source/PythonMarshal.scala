@@ -353,7 +353,7 @@ class PythonMarshal(spec: Spec) extends Marshal(spec) {
 
   def privateClassMember(s: String) = "_" + s // private class member
 
-    def deprecatedAnnotation(deprecated: Option[Deprecated]): Option[String] = {
+  override def deprecatedAnnotation(deprecated: Option[Deprecated]): Option[String] = {
     deprecated match {
       case Some(value) => Some(s"""warnings.warn(${value.messages}, category=DeprecationWarning, stacklevel=2)""")
       case None => None

@@ -33,7 +33,7 @@ class CffiGenerator(spec: Spec) extends Generator(spec) {
     })
   }
 
-  override def generateInterface(origin: String, ident: Ident, doc: Doc, typeParams: Seq[TypeParam], i: Interface): Unit = {
+  override def generateInterface(origin: String, ident: Ident, doc: Doc, typeParams: Seq[TypeParam], i: Interface, deprecated: scala.Option[Deprecated]): Unit = {
     System.out.println("Generting cffi interface...", origin, ident)
     writeCffiFile("pycffi_lib_build.py", origin, w => {
       w.wl("import sys")
@@ -71,11 +71,11 @@ class CffiGenerator(spec: Spec) extends Generator(spec) {
 
   }
 
-  override def generateRecord(origin: String, ident: Ident, doc: Doc, params: Seq[TypeParam], r: Record): Unit = {
+  override def generateRecord(origin: String, ident: Ident, doc: Doc, params: Seq[TypeParam], r: Record, deprecated: scala.Option[Deprecated]): Unit = {
       // Not needed
   }
 
-  override def generateEnum(origin: String, ident: Ident, doc: Doc, e: Enum): Unit = {
+  override def generateEnum(origin: String, ident: Ident, doc: Doc, e: Enum, deprecated: scala.Option[Deprecated]): Unit = {
       // Not needed
   }
 }

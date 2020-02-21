@@ -236,7 +236,7 @@ class CppMarshal(spec: Spec) extends Marshal(spec) {
     if(byValue(tm)) valueType else refType
   }
 
-  def deprecatedAnnotation(deprecated: Option[Deprecated]): Option[String] = {
+  override def deprecatedAnnotation(deprecated: Option[Deprecated]): Option[String] = {
     deprecated match {
       case Some(value) => Some(s"[[deprecated(${value.messages})]]")
       case None => None
