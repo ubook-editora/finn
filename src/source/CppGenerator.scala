@@ -203,19 +203,19 @@ class CppGenerator(spec: Spec) extends Generator(spec) {
     
     val superRecord = getSuperRecord(idl, r)
     
+    superRecord match {
+      case None => {}
+      case Some(value) => {
+        refs.hpp.add("#include "+q(spec.cppExtendedRecordIncludePrefix + spec.cppFileIdentStyle(value.ident + "." + spec.cppHeaderExt)))
+      }
+    }
+    
     // C++ Header
     def writeCppPrototype(w: IndentWriter) {
       if (r.ext.cpp) {
         w.w(s"struct $self; // Requiring extended class")
         w.wl
         w.wl
-      }
-      
-      superRecord match {
-        case None => {}
-        case Some(value) => {
-          w.wl("#include "+q(spec.cppExtendedRecordIncludePrefix + spec.cppFileIdentStyle(value.ident + "." + spec.cppHeaderExt)))
-        }
       }
       
       writeDoc(w, doc)
@@ -249,7 +249,7 @@ class CppGenerator(spec: Spec) extends Generator(spec) {
         
         // Constructor.
         if(r.fields.nonEmpty) {
-
+          
           val superFields: Seq[Field] = superRecord match {
             case None => Seq.empty
             case Some(value) => value.fields
@@ -259,7 +259,7 @@ class CppGenerator(spec: Spec) extends Generator(spec) {
           writeAlignedCall(w, actualSelf + "(", superFields ++ r.fields, ")", f => marshal.fieldType(f.ty) + " " + idCpp.local(f.ident) + "_")
           w.wl
           val init = (f: Field) => idCpp.field(f.ident) + "(std::move(" + idCpp.local(f.ident) + "_))"
-
+          
           superRecord match {
             case None => w.wl(": " + init(r.fields.head))
             case Some(value) => {
