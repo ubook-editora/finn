@@ -108,7 +108,7 @@ class JavaGenerator(spec: Spec) extends Generator(spec) {
     }
   }
 
-  override def generateEnum(origin: String, ident: Ident, doc: Doc, e: Enum) {
+  override def generateEnum(origin: String, ident: Ident, doc: Doc, e: Enum, deprecated: scala.Option[Deprecated]) {
     val refs = new JavaRefs()
 
     writeJavaFile(ident, origin, refs.java, w => {
@@ -118,6 +118,7 @@ class JavaGenerator(spec: Spec) extends Generator(spec) {
         var shift = -1;
         for (o <- normalEnumOptions(e)) {
           writeDoc(w, o.doc)
+          marshal.deprecatedAnnotation(o.deprecated).foreach(w.wl)
           if (o.value != None) {
             var constValue = o.value match {
               case Some(i) =>  i 
@@ -141,7 +142,7 @@ class JavaGenerator(spec: Spec) extends Generator(spec) {
     })
   }
 
-  override def generateInterface(origin: String, ident: Ident, doc: Doc, typeParams: Seq[TypeParam], i: Interface) {
+  override def generateInterface(origin: String, ident: Ident, doc: Doc, typeParams: Seq[TypeParam], i: Interface, deprecated: scala.Option[Deprecated]) {
     val refs = new JavaRefs()
 
     i.methods.map(m => {
@@ -159,7 +160,7 @@ class JavaGenerator(spec: Spec) extends Generator(spec) {
       val javaClass = marshal.typename(ident, i)
       val typeParamList = javaTypeParams(typeParams)
       writeDoc(w, doc)
-
+      marshal.deprecatedAnnotation(deprecated).foreach(w.wl)
       javaAnnotationHeader.foreach(w.wl)
 
       // Generate an interface or an abstract class depending on whether the use
@@ -182,12 +183,14 @@ class JavaGenerator(spec: Spec) extends Generator(spec) {
             nullityAnnotation + marshal.paramType(p.ty) + " " + idJava.local(p.ident)
           })
           marshal.nullityAnnotation(m.ret).foreach(w.wl)
+          marshal.deprecatedAnnotation(m.deprecated).foreach(w.wl)
           w.wl(s"public $methodPrefix" + ret + " " + idJava.method(m.ident) + params.mkString("(", ", ", ")") + throwException + ";")
         }
 
         // Implement the interface's static methods as calls to CppProxy's corresponding methods.
         for (m <- i.methods if m.static) {
           skipFirst { w.wl }
+          
           writeMethodDoc(w, m, idJava.local)
           val ret = marshal.returnType(m.ret)
           val returnPrefix = if (ret == "void") "" else "return "
@@ -198,6 +201,7 @@ class JavaGenerator(spec: Spec) extends Generator(spec) {
 
           val meth = idJava.method(m.ident)
           marshal.nullityAnnotation(m.ret).foreach(w.wl)
+          marshal.deprecatedAnnotation(m.deprecated).foreach(w.wl)
           w.wl("public static "+ ret + " " + idJava.method(m.ident) + params.mkString("(", ", ", ")")).braced {
             writeAlignedCall(w, s"${returnPrefix}CppProxy.${meth}(", m.params, ");", p => idJava.local(p.ident))
             w.wl
@@ -235,6 +239,7 @@ class JavaGenerator(spec: Spec) extends Generator(spec) {
               val meth = idJava.method(m.ident)
               w.wl
               w.wl(s"@Override")
+              marshal.deprecatedAnnotation(m.deprecated).foreach(w.wl)
               w.wl(s"public $ret $meth($params)$throwException").braced {
                 w.wl("assert !this.destroyed.get() : \"trying to use a destroyed object\";")
                 w.wl(s"${returnStmt}native_$meth(this.nativeRef${preComma(args)});")
@@ -259,7 +264,7 @@ class JavaGenerator(spec: Spec) extends Generator(spec) {
     })
   }
 
-  override def generateRecord(origin: String, ident: Ident, doc: Doc, params: Seq[TypeParam], r: Record) {
+  override def generateRecord(origin: String, ident: Ident, doc: Doc, params: Seq[TypeParam], r: Record, deprecated: scala.Option[Deprecated]) {
     val refs = new JavaRefs()
     r.fields.foreach(f => refs.find(f.ty))
 
@@ -307,6 +312,7 @@ class JavaGenerator(spec: Spec) extends Generator(spec) {
 
     writeJavaFile(javaName, origin, refs.java, w => {
       writeDoc(w, doc)
+      marshal.deprecatedAnnotation(deprecated).foreach(w.wl)
       javaAnnotationHeader.foreach(w.wl)
       val self = marshal.typename(javaName, r)
 

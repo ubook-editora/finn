@@ -21,6 +21,7 @@ public:
     static std::shared_ptr<SortItems> create_with_listener(const std::shared_ptr<TextboxListener> & listener);
 
     /** For the localhost / command-line demo */
+    [[deprecated("Please")]]
     static ItemList run_sort(const ItemList & items);
 };
 

@@ -73,8 +73,10 @@ private object IdlParser extends RegexParsers {
   def importDirective = "import".r
   def externDirective = "extern".r
 
-  def typeDecl(origin: String): Parser[TypeDecl] = doc ~ ident ~ typeList(ident ^^ TypeParam) ~ "=" ~ typeDef ^^ {
-    case doc~ident~typeParams~_~body => InternTypeDecl(ident, typeParams, body, doc, origin)
+  def typeDecl(origin: String): Parser[TypeDecl] = doc~ opt(deprecated) ~ ident ~ typeList(ident ^^ TypeParam) ~ "=" ~ typeDef ^^ {
+    case doc~deprecated~ident~typeParams~_~body => {
+      InternTypeDecl(ident, typeParams, body, doc, origin, deprecated)
+    }
   }
 
   def ext(default: Ext) = (rep1("+" ~> ident) >> checkExts) | success(default)
@@ -121,11 +123,11 @@ private object IdlParser extends RegexParsers {
       Record(ext, fields, consts, derivingTypes)
     }
   }
-  def field: Parser[Field] = doc ~ ident ~ ":" ~ typeRef ~ opt("+" ~> (value)) ^^ {
-    case doc~ident~_~typeRef~None => {
+  def field: Parser[Field] = doc ~ opt(deprecated) ~ ident ~ ":" ~ typeRef ~ opt("+" ~> (value)) ^^ {
+    case doc~deprecated~ident~_~typeRef~None => {
       Field(ident, typeRef, doc, false)
     }
-    case doc~ident~_~typeRef~value => {
+    case doc~deprecated~ident~_~typeRef~value => {
       Field(ident, typeRef, doc, true)
     }
   }
@@ -150,14 +152,14 @@ private object IdlParser extends RegexParsers {
     case items => Enum(items, true)
   }
 
-  def enumOption: Parser[Enum.Option] = doc ~ ident ~ opt("=" ~> (value)) ^^ {
-    case doc~ident~None => Enum.Option(ident, doc, None, None)
-    case doc~ident~value => Enum.Option(ident, doc, None, value)
+  def enumOption: Parser[Enum.Option] = doc ~ opt(deprecated) ~ ident ~ opt("=" ~> (value)) ^^ {
+    case doc~deprecated~ident~None => Enum.Option(ident, doc, None, None, deprecated)
+    case doc~deprecated~ident~value => Enum.Option(ident, doc, None, value, deprecated)
   }
-  def flagsOption: Parser[Enum.Option] = doc ~ ident ~ opt("=" ~> (flagsAll | flagsNone)) ^^ {
-    case doc~ident~None => Enum.Option(ident, doc, None, None)
-    case doc~ident~Some("all") => Enum.Option(ident, doc, Some(Enum.SpecialFlag.AllFlags), None)
-    case doc~ident~Some("none") => Enum.Option(ident, doc, Some(Enum.SpecialFlag.NoFlags), None)
+  def flagsOption: Parser[Enum.Option] = doc ~ opt(deprecated) ~ ident ~ opt("=" ~> (flagsAll | flagsNone)) ^^ {
+    case doc~deprecated~ident~None => Enum.Option(ident, doc, None, None, deprecated)
+    case doc~deprecated~ident~Some("all") => Enum.Option(ident, doc, Some(Enum.SpecialFlag.AllFlags), None, deprecated)
+    case doc~deprecated~ident~Some("none") => Enum.Option(ident, doc, Some(Enum.SpecialFlag.NoFlags), None, deprecated)
   }
 
   def interfaceHeader = "interface" ~> extInterface
@@ -171,8 +173,13 @@ private object IdlParser extends RegexParsers {
 
   def externTypeDecl: Parser[TypeDef] = externEnum | externFlags | externInterface | externRecord
   def externEnum: Parser[Enum] = enumHeader ^^ { case _ => Enum(List(), false) }
+
   def externFlags: Parser[Enum] = flagsHeader ^^ { case _ => Enum(List(), true) }
-  def externRecord: Parser[Record] = recordHeader ~ opt(deriving) ^^ { case ext~deriving => Record(ext, List(), List(), deriving.getOrElse(Set[DerivingType]())) }
+
+  def externRecord: Parser[Record] = recordHeader ~ opt(deriving) ^^ { 
+    case ext~deriving => Record(ext, List(), List(), deriving.getOrElse(Set[DerivingType]())) 
+  }
+  
   def externInterface: Parser[Interface] = interfaceHeader ^^ { case ext => Interface(ext, List(), List()) }
 
   def staticLabel: Parser[Boolean] = ("static ".r | "".r) ^^ {
@@ -183,8 +190,8 @@ private object IdlParser extends RegexParsers {
     case "const " => true
     case "" => false
   }
-  def method: Parser[Interface.Method] = doc ~ staticLabel ~ constLabel ~ ident ~ parens(repsepend(field, ",")) ~ opt(ret) ^^ {
-    case doc~staticLabel~constLabel~ ident~params~ret => Interface.Method(ident, params, ret, doc, staticLabel, constLabel)
+  def method: Parser[Interface.Method] = doc ~ opt(deprecated) ~ staticLabel ~ constLabel ~ ident ~ parens(repsepend(field, ",")) ~ opt(ret) ^^ {
+    case doc~deprecated~staticLabel~constLabel~ ident~params~ret => Interface.Method(ident, params, ret, doc, staticLabel, constLabel, deprecated)
   }
   def ret: Parser[TypeRef] = ":" ~> typeRef
 
@@ -217,6 +224,8 @@ private object IdlParser extends RegexParsers {
   }
 
   def doc: Parser[Doc] = rep(regex("""#[^\n\r]*""".r) ^^ (_.substring(1))) ^^ Doc
+
+  def deprecated: Parser[Deprecated] = (regex("""@deprecated([^\n\r]*)""".r) ^^ ({s: String => s.substring(12, s.length()-1)})) ^^ Deprecated
 
   def parens[T](inner: Parser[T]): Parser[T] = surround("(", ")", inner)
   def typeList[T](inner: Parser[T]): Parser[Seq[T]] = surround("<", ">", rep1sepend(inner, ",")) | success(Seq.empty)

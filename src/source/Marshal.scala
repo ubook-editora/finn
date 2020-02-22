@@ -24,7 +24,7 @@ abstract class Marshal(spec: Spec) {
 
   def returnType(ret: Option[TypeRef]): String
   def fqReturnType(ret: Option[TypeRef]): String
-
+  def deprecatedAnnotation(deprecated: Option[Deprecated]): Option[String] = None
   def fieldType(tm: MExpr): String
   def fieldType(ty: TypeRef): String = fieldType(ty.resolved)
   def fqFieldType(tm: MExpr): String

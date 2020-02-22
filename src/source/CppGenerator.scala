@@ -55,7 +55,7 @@ class CppGenerator(spec: Spec) extends Generator(spec) {
     }
   }
 
-  override def generateEnum(origin: String, ident: Ident, doc: Doc, e: Enum) {
+  override def generateEnum(origin: String, ident: Ident, doc: Doc, e: Enum, deprecated: scala.Option[Deprecated]) {
     val refs = new CppRefs(ident.name)
     val self = marshal.typename(ident, e)
 
@@ -68,10 +68,12 @@ class CppGenerator(spec: Spec) extends Generator(spec) {
     val underlyingType = if(e.flags) flagsType else enumType
 
     writeHppFile(ident, origin, refs.hpp, refs.hppFwds, w => {
-      w.w(s"enum class $self : $underlyingType").bracedSemi {
-        writeEnumOptionNone(w, e, idCpp.enum)
-        writeEnumOptions(w, e, idCpp.enum)
-        writeEnumOptionAll(w, e, idCpp.enum)
+      w.w("enum class ")
+      marshal.deprecatedAnnotation(deprecated).foreach(w.w)
+      w.w(s" $self : $underlyingType").bracedSemi {
+        writeEnumOptionNone(w, e, idCpp.enum, marshal)
+        writeEnumOptions(w, e, idCpp.enum, marshal)
+        writeEnumOptionAll(w, e, idCpp.enum, marshal)
       }
 
       if(e.flags) {
@@ -184,7 +186,7 @@ class CppGenerator(spec: Spec) extends Generator(spec) {
     }
   }
 
-  override def generateRecord(origin: String, ident: Ident, doc: Doc, params: Seq[TypeParam], r: Record) {
+  override def generateRecord(origin: String, ident: Ident, doc: Doc, params: Seq[TypeParam], r: Record, deprecated: scala.Option[Deprecated]) {
     val refs = new CppRefs(ident.name)
     r.fields.foreach(f => refs.find(f.ty, false))
     r.consts.foreach(c => refs.find(c.ty, false))
@@ -208,7 +210,9 @@ class CppGenerator(spec: Spec) extends Generator(spec) {
       }
       writeDoc(w, doc)
       writeCppTypeParams(w, params)
-      w.w("struct " + actualSelf + cppFinal).bracedSemi {
+      w.w("struct ")
+      marshal.deprecatedAnnotation(deprecated).foreach(w.w)
+      w.w(" "+ actualSelf + cppFinal).bracedSemi {
         generateHppConstants(w, r.consts)
         // Field definitions.
         for (f <- r.fields) {
@@ -312,7 +316,7 @@ class CppGenerator(spec: Spec) extends Generator(spec) {
 
   }
 
-  override def generateInterface(origin: String, ident: Ident, doc: Doc, typeParams: Seq[TypeParam], i: Interface) {
+  override def generateInterface(origin: String, ident: Ident, doc: Doc, typeParams: Seq[TypeParam], i: Interface, deprecated: scala.Option[Deprecated]) {
     val refs = new CppRefs(ident.name)
     i.methods.map(m => {
       m.params.map(p => refs.find(p.ty, true))
@@ -328,6 +332,7 @@ class CppGenerator(spec: Spec) extends Generator(spec) {
     writeHppFile(ident, origin, refs.hpp, refs.hppFwds, w => {
       writeDoc(w, doc)
       writeCppTypeParams(w, typeParams)
+      marshal.deprecatedAnnotation(deprecated).foreach(w.wl)
       w.w(s"class $self").bracedSemi {
         w.wlOutdent("public:")
         // Destructor
@@ -338,6 +343,8 @@ class CppGenerator(spec: Spec) extends Generator(spec) {
         for (m <- i.methods) {
           w.wl
           writeMethodDoc(w, m, idCpp.local)
+          marshal.deprecatedAnnotation(m.deprecated).foreach(w.wl)
+          
           val ret = marshal.returnType(m.ret, methodNamesInScope)
           val params = m.params.map(p => marshal.paramType(p.ty, methodNamesInScope) + " " + idCpp.local(p.ident))
           if (m.static) {
