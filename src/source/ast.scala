@@ -73,7 +73,7 @@ object Enum {
   case class Option(ident: Ident, doc: Doc, specialFlag: scala.Option[SpecialFlag], value: Any, deprecated: scala.Option[Deprecated])
 }
 
-case class Record(ext: Ext, fields: Seq[Field], consts: Seq[Const], derivingTypes: Set[DerivingType]) extends TypeDef
+case class Record(ext: Ext, fields: Seq[Field], consts: Seq[Const], derivingTypes: Set[DerivingType], baseRecord: scala.Option[String]) extends TypeDef
 object Record {
   object DerivingType extends Enumeration {
     type DerivingType = Value
@@ -87,3 +87,5 @@ object Interface {
 }
 
 case class Field(ident: Ident, ty: TypeRef, doc: Doc, modifiable: Boolean)
+
+case class SuperRecord(ident: Ident, record: Record, fields: Seq[Field])

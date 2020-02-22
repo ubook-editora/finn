@@ -10,6 +10,7 @@ import scala.language.implicitConversions
 // This means the C++ Marshal generates only C++ types and includes, but not JNI or ObjC++.
 // As a consequence a typical code generator needs two Marshals: one for C++ and one for the destination, e.g. JNI.
 abstract class Marshal(spec: Spec) {
+  def typename(name: String, ty: TypeDef): String
   // Typename string to be used to declare a type or template parameter, without namespace or package, except for extern types which are always fully qualified.
   def typename(tm: MExpr): String
   def typename(ty: TypeRef): String = typename(ty.resolved)
@@ -21,7 +22,7 @@ abstract class Marshal(spec: Spec) {
   def paramType(ty: TypeRef): String = paramType(ty.resolved)
   def fqParamType(tm: MExpr): String
   def fqParamType(ty: TypeRef): String = fqParamType(ty.resolved)
-
+  
   def returnType(ret: Option[TypeRef]): String
   def fqReturnType(ret: Option[TypeRef]): String
   def deprecatedAnnotation(deprecated: Option[Deprecated]): Option[String] = None
@@ -35,18 +36,38 @@ abstract class Marshal(spec: Spec) {
   // Generate code for an expression that transforms an expression `expr` of the C++ type `tm` to its non-C++ counterpart
   def fromCpp(tm: MExpr, expr: String): String = ""
   def fromCpp(ty: TypeRef, expr: String): String = fromCpp(ty.resolved, expr)
-
+  
   implicit def identToString(ident: Ident): String = ident.name
   protected val idCpp = spec.cppIdentStyle
   protected val idJava = spec.javaIdentStyle
   protected val idObjc = spec.objcIdentStyle
   protected val idPython = spec.pyIdentStyle
-
+  
   protected def withNs(namespace: Option[String], t: String) = namespace match {
-      case None => t
-      case Some("") => "::" + t
-      case Some(s) => "::" + s + "::" + t
-    }
-
+    case None => t
+    case Some("") => "::" + t
+    case Some(s) => "::" + s + "::" + t
+  }
+  
   protected def withCppNs(t: String) = withNs(Some(spec.cppNamespace), t)
+  
+  protected def extendsRecordFormat(name: String): String = ""
+
+  def extendsRecord(idl: Seq[TypeDecl], record: Record): String = {
+    record.baseRecord match {
+      case None => ""
+      case Some(value) => {
+        idl.find(td => td.ident.name == value) match {
+          case Some(superDec) => superDec.body match {
+            case br: Record => {
+              val name = typename(superDec.ident, br)
+              return extendsRecordFormat(name)
+            }
+            case _ => throw new AssertionError("Unreachable. The parser throws an exception when extending a non-interface type.")
+          }
+          case _ => throw new AssertionError("Unreachable. The parser throws an exception when extending an interface that doesn't exist.")
+        }
+      }
+    }
+  }
 }

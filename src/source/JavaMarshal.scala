@@ -10,7 +10,7 @@ class JavaMarshal(spec: Spec) extends Marshal(spec) {
   val javaNonnullAnnotation = spec.javaNonnullAnnotation.map(pkg => '@' + pkg.split("\\.").last)
   
   override def typename(tm: MExpr): String = toJavaType(tm, None)
-  def typename(name: String, ty: TypeDef): String = idJava.ty(name)
+  override def typename(name: String, ty: TypeDef): String = idJava.ty(name)
   
   override def fqTypename(tm: MExpr): String = toJavaType(tm, spec.javaPackage)
   def fqTypename(name: String, ty: TypeDef): String = withPackage(spec.javaPackage, idJava.ty(name))

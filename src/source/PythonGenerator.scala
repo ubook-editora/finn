@@ -985,7 +985,7 @@ class PythonGenerator(spec: Spec) extends Generator(spec) {
     }
   }
 
-  override def generateRecord(origin: String, ident: Ident, doc: Doc, params: Seq[TypeParam], r: Record, deprecated: scala.Option[Deprecated]): Unit = {
+  override def generateRecord(origin: String, ident: Ident, doc: Doc, params: Seq[TypeParam], r: Record, deprecated: scala.Option[Deprecated], idl: Seq[TypeDecl]): Unit = {
     val recordClassName = idPython.className(ident.name)
     val recordAsMethod = idPython.method(ident.name)
     val refs = new PythonRefs(ident, origin)

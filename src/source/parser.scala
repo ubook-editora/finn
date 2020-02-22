@@ -83,6 +83,8 @@ private object IdlParser extends RegexParsers {
   def extRecord = ext(Ext(false, false, false, false))
   def extInterface = ext(Ext(true, true, true, true))
 
+  def baseRecord(name: String) = name
+
   def checkExts(parts: List[Ident]): Parser[Ext] = {
     var foundCpp = false
     var foundJava = false
@@ -114,13 +116,16 @@ private object IdlParser extends RegexParsers {
 
   def typeDef: Parser[TypeDef] = record | enum | flags | interface
 
+  def baseRecord: Parser[String] = (regex("""extends [^\n\r]*(?= )""".r) ^^ ({s: String => s.substring(8, s.length())}))
+
   def recordHeader = "record" ~> extRecord
-  def record: Parser[Record] = recordHeader ~ bracesList(field | const) ~ opt(deriving) ^^ {
-    case ext~items~deriving => {
+  
+  def record: Parser[Record] = "record" ~> opt(baseRecord) ~ extRecord~ bracesList(field | const) ~ opt(deriving) ^^ {
+    case baseRecord~ext~items~deriving => {
       val fields = items collect {case f: Field => f}
       val consts = items collect {case c: Const => c}
       val derivingTypes = deriving.getOrElse(Set[DerivingType]())
-      Record(ext, fields, consts, derivingTypes)
+      Record(ext, fields, consts, derivingTypes, baseRecord)
     }
   }
   def field: Parser[Field] = doc ~ opt(deprecated) ~ ident ~ ":" ~ typeRef ~ opt("+" ~> (value)) ^^ {
@@ -170,14 +175,14 @@ private object IdlParser extends RegexParsers {
       Interface(ext, methods, consts)
     }
   }
-
+  
   def externTypeDecl: Parser[TypeDef] = externEnum | externFlags | externInterface | externRecord
   def externEnum: Parser[Enum] = enumHeader ^^ { case _ => Enum(List(), false) }
 
   def externFlags: Parser[Enum] = flagsHeader ^^ { case _ => Enum(List(), true) }
 
   def externRecord: Parser[Record] = recordHeader ~ opt(deriving) ^^ { 
-    case ext~deriving => Record(ext, List(), List(), deriving.getOrElse(Set[DerivingType]())) 
+    case ext~deriving => Record(ext, List(), List(), deriving.getOrElse(Set[DerivingType]()), None) 
   }
   
   def externInterface: Parser[Interface] = interfaceHeader ^^ { case ext => Interface(ext, List(), List()) }

@@ -28,7 +28,7 @@ class PythonMarshal(spec: Spec) extends Marshal(spec) {
   val dh = "dh__" // prefix for py files containing helpers for structured typesw
 
   override def typename(tm: MExpr): String = toPythonType(tm)
-  def typename(name: String, ty: TypeDef): String = throw new NotImplementedError() //idPython.ty(name)
+  override def typename(name: String, ty: TypeDef): String = throw new NotImplementedError() //idPython.ty(name)
 
   override def fqTypename(tm: MExpr): String = throw new NotImplementedError()
   def fqTypename(name: String, ty: TypeDef): String = throw new NotImplementedError()

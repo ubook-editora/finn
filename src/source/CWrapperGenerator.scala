@@ -1190,7 +1190,7 @@ class CWrapperGenerator(spec: Spec) extends Generator(spec) {
     })
   }
 
-  def generateRecord(origin: String, ident: Ident, doc: Doc, params: Seq[TypeParam], r: Record, deprecated: scala.Option[Deprecated]): Unit = {
+  def generateRecord(origin: String, ident: Ident, doc: Doc, params: Seq[TypeParam], r: Record, deprecated: scala.Option[Deprecated], idl: Seq[TypeDecl]): Unit = {
     val refs = new CRefs(ident, origin)
     r.fields.map(f => refs.collect(f.ty, true))
     refs.hpp.add("#include " + q(marshal.dh + ident.name + ".hpp") + marshal.pythonCdefIgnore)
