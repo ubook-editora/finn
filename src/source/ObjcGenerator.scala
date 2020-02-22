@@ -320,7 +320,7 @@ class ObjcGenerator(spec: Spec) extends BaseObjcGenerator(spec) {
           w.wl(s"$self *typedOther = ($self *)other;")
           val skipFirst = SkipFirst()
           w.w(s"return ").nestedN(2) {
-            for (f <- r.fields) {
+            for (f <- superFields ++ r.fields) {
               skipFirst { w.wl(" &&") }
               f.ty.resolved.base match {
                 case MBinary => w.w(s"[self.${idObjc.field(f.ident)} isEqualToData:typedOther.${idObjc.field(f.ident)}]")
@@ -364,7 +364,7 @@ class ObjcGenerator(spec: Spec) extends BaseObjcGenerator(spec) {
         w.braced {
           w.w(s"return ").nestedN(2) {
             w.w(s"NSStringFromClass([self class]).hash")
-            for (f <- r.fields) {
+            for (f <- superFields ++ r.fields) {
               w.wl(" ^")
               f.ty.resolved.base match {
                 case MOptional =>
@@ -408,7 +408,7 @@ class ObjcGenerator(spec: Spec) extends BaseObjcGenerator(spec) {
         w.wl(s"- (NSComparisonResult)compare:($self *)other")
         w.braced {
           w.wl("NSComparisonResult tempResult;")
-          for (f <- r.fields) {
+          for (f <- superFields ++ r.fields) {
             f.ty.resolved.base match {
               case MString | MDate => w.wl(s"tempResult = [self.${idObjc.field(f.ident)} compare:other.${idObjc.field(f.ident)}];")
               case t: MPrimitive => generatePrimitiveOrder(f.ident, w)
@@ -438,10 +438,10 @@ class ObjcGenerator(spec: Spec) extends BaseObjcGenerator(spec) {
         w.w(s"return ").nestedN(2) {
           w.w("[NSString stringWithFormat:@\"<%@ %p")
           
-          for (f <- r.fields) w.w(s" ${idObjc.field(f.ident)}:%@")
+          for (f <- superFields ++ r.fields) w.w(s" ${idObjc.field(f.ident)}:%@")
           w.w(">\", self.class, (void *)self")
           
-          for (f <- r.fields) {
+          for (f <- superFields ++ r.fields) {
             w.w(", ")
             f.ty.resolved.base match {
               case MOptional => w.w(s"self.${idObjc.field(f.ident)}")
