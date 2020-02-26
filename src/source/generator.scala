@@ -446,17 +446,7 @@ abstract class Generator(spec: Spec)
   def generateEnum(origin: String, ident: Ident, doc: Doc, e: Enum, deprecated: scala.Option[Deprecated])
   def generateRecord(origin: String, ident: Ident, doc: Doc, params: Seq[TypeParam], r: Record, deprecated: scala.Option[Deprecated], idl: Seq[TypeDecl])
   def generateInterface(origin: String, ident: Ident, doc: Doc, typeParams: Seq[TypeParam], i: Interface, deprecated: scala.Option[Deprecated])
-  //   def getSuperRecord(idl: Seq[TypeDecl], r: Record): Option[SuperRecord] = {
-  //   r.baseRecord match {
-  //     case None => None
-  //     case Some(value) => {
-  //       idl.find(td => td.ident.name == value) match {
-  //         case Some(superDec) => SuperRecord(superDec.ident)
-  //         case _ => throw new AssertionError("Unreachable. The parser throws an exception when extending an interface that doesn't exist.")
-  //       }
-  //     }
-  //   }
-  // }
+  
   def getSuperRecord(idl: Seq[TypeDecl], r: Record): Option[SuperRecord] = {
     r.baseRecord match {
       case None => None
