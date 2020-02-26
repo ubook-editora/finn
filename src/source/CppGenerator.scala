@@ -210,6 +210,11 @@ class CppGenerator(spec: Spec) extends Generator(spec) {
       }
     }
     
+    val superFields: Seq[Field] = superRecord match {
+      case None => Seq.empty
+      case Some(value) => value.fields
+    }
+    
     // C++ Header
     def writeCppPrototype(w: IndentWriter) {
       if (r.ext.cpp) {
@@ -249,12 +254,6 @@ class CppGenerator(spec: Spec) extends Generator(spec) {
         
         // Constructor.
         if(r.fields.nonEmpty) {
-          
-          val superFields: Seq[Field] = superRecord match {
-            case None => Seq.empty
-            case Some(value) => value.fields
-          }
-          
           w.wl
           writeAlignedCall(w, actualSelf + "(", superFields ++ r.fields, ")", f => marshal.fieldType(f.ty) + " " + idCpp.local(f.ident) + "_")
           w.wl
@@ -295,11 +294,13 @@ class CppGenerator(spec: Spec) extends Generator(spec) {
       writeCppFile(cppName, origin, refs.cpp, w => {
         generateCppConstants(w, r.consts, actualSelf)
         
+        val fields = superFields ++ r.fields
+
         if (r.derivingTypes.contains(DerivingType.Eq)) {
           w.wl
           w.w(s"bool operator==(const $actualSelf& lhs, const $actualSelf& rhs)").braced {
-            if(!r.fields.isEmpty) {
-              writeAlignedCall(w, "return ", r.fields, " &&", "", f => s"lhs.${idCpp.field(f.ident)} == rhs.${idCpp.field(f.ident)}")
+            if(!fields.isEmpty) {
+              writeAlignedCall(w, "return ", fields, " &&", "", f => s"lhs.${idCpp.field(f.ident)} == rhs.${idCpp.field(f.ident)}")
               w.wl(";")
             } else {
               w.wl("return true;")
@@ -310,10 +311,11 @@ class CppGenerator(spec: Spec) extends Generator(spec) {
             w.wl("return !(lhs == rhs);")
           }
         }
+
         if (r.derivingTypes.contains(DerivingType.Ord)) {
           w.wl
           w.w(s"bool operator<(const $actualSelf& lhs, const $actualSelf& rhs)").braced {
-            for(f <- r.fields) {
+            for(f <- fields) {
               w.w(s"if (lhs.${idCpp.field(f.ident)} < rhs.${idCpp.field(f.ident)})").braced {
                 w.wl("return true;")
               }
@@ -323,11 +325,13 @@ class CppGenerator(spec: Spec) extends Generator(spec) {
             }
             w.wl("return false;")
           }
+          
           w.wl
           w.w(s"bool operator>(const $actualSelf& lhs, const $actualSelf& rhs)").braced {
             w.wl("return rhs < lhs;")
           }
         }
+
         if (r.derivingTypes.contains(DerivingType.Eq) && r.derivingTypes.contains(DerivingType.Ord)) {
           w.wl
           w.w(s"bool operator<=(const $actualSelf& lhs, const $actualSelf& rhs)").braced {
@@ -340,7 +344,6 @@ class CppGenerator(spec: Spec) extends Generator(spec) {
         }
       })
     }
-    
   }
   
   override def generateInterface(origin: String, ident: Ident, doc: Doc, typeParams: Seq[TypeParam], i: Interface, deprecated: scala.Option[Deprecated]) {
