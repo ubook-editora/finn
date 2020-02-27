@@ -33,7 +33,7 @@ class CWrapperMarshal(spec: Spec) extends Marshal(spec) { // modeled(pretty much
 
   def ctypename(tm: MExpr, forHeader: Boolean): String = cParamType(tm, forHeader)
   override def typename(tm: MExpr): String = cParamType(tm, false)
-  def typename(name: String, ty: TypeDef): String = ty match {
+  override def typename(name: String, ty: TypeDef): String = ty match {
     case e: Enum => idCpp.enumType(name)
     case i: Interface => idCpp.ty(name)
     case r: Record => idCpp.ty(name)

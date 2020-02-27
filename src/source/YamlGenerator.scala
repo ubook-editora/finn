@@ -179,7 +179,7 @@ class YamlGenerator(spec: Spec) extends Generator(spec) {
     // unused
   }
 
-  override def generateRecord(origin: String, ident: Ident, doc: Doc, params: Seq[TypeParam], r: Record, deprecated: scala.Option[Deprecated]) {
+  override def generateRecord(origin: String, ident: Ident, doc: Doc, params: Seq[TypeParam], r: Record, deprecated: scala.Option[Deprecated], idl: Seq[TypeDecl]) {
     // unused
   }
 }

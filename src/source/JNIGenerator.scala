@@ -89,7 +89,7 @@ class JNIGenerator(spec: Spec) extends Generator(spec) {
     })
   }
 
-  override def generateRecord(origin: String, ident: Ident, doc: Doc, params: Seq[TypeParam], r: Record, deprecated: scala.Option[Deprecated]) {
+  override def generateRecord(origin: String, ident: Ident, doc: Doc, params: Seq[TypeParam], r: Record, deprecated: scala.Option[Deprecated], idl: Seq[TypeDecl]) {
     val prefixOverride: Option[String] = if (r.ext.cpp) {
       Some(spec.cppExtendedRecordIncludePrefix)
     } else {
