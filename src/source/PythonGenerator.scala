@@ -1071,78 +1071,108 @@ class PythonGenerator(spec: Spec) extends Generator(spec) {
               if (r.fields.isEmpty) { w.wl("pass") }
             }
             
-          }
-          w.wl
-          // Const record object of type equal to current record type must be defined after class definition
-          if (r.consts.nonEmpty) {
-            generateRecursiveConstants(w, r.consts, recordClassName)
+            // String
             w.wl
-          }
-        })
-        
-        writePythonFile(ident.name + "_helper", origin, refs.python, true, w => {
-          w.wl("from " + spec.pyImportPrefix + ident.name + " import " + recordClassName )
-          w.wl
-          w.wl("class " + recordClassName + "Helper" + ":").nested {
-            w.wl("@staticmethod")
-            w.wl("def release(c_ptr):").nested {
-              w.wl("assert c_ptr in c_data_set")
-              w.wl("c_data_set.remove(ffi.cast(\"void*\", c_ptr))")
-            }
-            w.wl
-            // Callbacks to pass every record field to C, and to allow creating record from C
-            val callbackNames = mutable.Set[String]()
-            writeRecordCallbacks(ident, r, 0, callbackNames, w, superFields)
-            
-            // Function to give C access to callbacks
-            w.wl("@staticmethod")
-            w.wl("def _add_callbacks():").nested {
-              for (cb <- callbackNames) {
-                w.wl("lib." + recordAsMethod + "_add_callback_" + idPython.method(cb) + p(recordClassName + "Helper" + "." + cb))
+            w.wl("def __str__(self):").nested {
+              w.w("return ").nestedN(2) {
+                w.wl(s""""${recordClassName}{" +""")
+                val fields = superFields ++ r.fields
+                
+                for (i <- 0 to (fields).length-1) {
+                  val f = fields(i)
+                  val name = f.ident.name
+                  val comma = if (i > 0) """"," + """ else ""
+                  
+                  f.ty.resolved.base match {
+                    case df: MDef => df.defType match {
+                      case DEnum => w.wl(s"""${comma}"${name}=" + ${name} +""")
+                      case _ => w.wl(s"""${comma}"${name}=" + str(${name}) +""")
+                    }
+                    case _ => w.wl(s"""${comma}"${name}=" + ${name} +""")
+                  }
+                }
+                
+                // for (i <- 0 to (fields).length-1) {
+                  
+                  
+                  
+                  //   w.wl(s"""${comma}"${name}=" + ${name} +""")
+                  
+                }
+                w.wl(s""""}"""")
               }
             }
-          }
-          w.wl
-          // Recursive constants, such as records, might reference the record class that is currently definied
-          // They are added as properties on the class, after the class definition to avoid 'incomplete type' errors
-          if( ! r.consts.isEmpty) {
-            generateRecursiveConstants(w, r.consts, recordClassName)
             w.wl
-          }
-          // Send callback pointers to C
-          w.wl(recordClassName + "Helper" + "._add_callbacks()")
-          w.wl
-        })
+            // Const record object of type equal to current record type must be defined after class definition
+            if (r.consts.nonEmpty) {
+              generateRecursiveConstants(w, r.consts, recordClassName)
+              w.wl
+            }
+          })
+          
+          writePythonFile(ident.name + "_helper", origin, refs.python, true, w => {
+            w.wl("from " + spec.pyImportPrefix + ident.name + " import " + recordClassName )
+            w.wl
+            w.wl("class " + recordClassName + "Helper" + ":").nested {
+              w.wl("@staticmethod")
+              w.wl("def release(c_ptr):").nested {
+                w.wl("assert c_ptr in c_data_set")
+                w.wl("c_data_set.remove(ffi.cast(\"void*\", c_ptr))")
+              }
+              w.wl
+              // Callbacks to pass every record field to C, and to allow creating record from C
+              val callbackNames = mutable.Set[String]()
+              writeRecordCallbacks(ident, r, 0, callbackNames, w, superFields)
+              
+              // Function to give C access to callbacks
+              w.wl("@staticmethod")
+              w.wl("def _add_callbacks():").nested {
+                for (cb <- callbackNames) {
+                  w.wl("lib." + recordAsMethod + "_add_callback_" + idPython.method(cb) + p(recordClassName + "Helper" + "." + cb))
+                }
+              }
+            }
+            w.wl
+            // Recursive constants, such as records, might reference the record class that is currently definied
+            // They are added as properties on the class, after the class definition to avoid 'incomplete type' errors
+            if( ! r.consts.isEmpty) {
+              generateRecursiveConstants(w, r.consts, recordClassName)
+              w.wl
+            }
+            // Send callback pointers to C
+            w.wl(recordClassName + "Helper" + "._add_callbacks()")
+            w.wl
+          })
+          
+        }
         
+        override def generateEnum(origin: String, ident: Ident, doc: Doc, e: Enum, deprecated: scala.Option[Deprecated]): Unit = {
+          val enumClassName = idPython.className(ident.name)
+          val refs = new PythonRefs(ident, origin)
+          writePythonFile(ident, origin, refs.python, false, w => {
+            w.wl("from enum import IntEnum, unique")
+            w.wl
+            // TODO: Consider whether to use IntEnum rather than Enum
+            w.wl("@unique")
+            w.wl("class " + enumClassName + p("IntEnum") + ":").nested {
+              if (writeDocString(w, doc)) { w.wl }
+              
+              // Generate enum fields, and set their values to 0..# of fields -1
+              var shift = -1;
+              for (o <- e.options) {
+                writeDocString(w, o.doc) // Enum supports docstrings, unlike plain constant variables.
+                if (o.value != None) {
+                  var constValue = o.value match {
+                    case Some(i) =>  i 
+                  }
+                  shift = (constValue.toString.toInt);
+                } else {
+                  shift = shift + 1;
+                }
+                w.wl(s"${idPython.enum(o.ident.name)} = $shift")
+              }
+            }
+          })
+        }
       }
       
-      override def generateEnum(origin: String, ident: Ident, doc: Doc, e: Enum, deprecated: scala.Option[Deprecated]): Unit = {
-        val enumClassName = idPython.className(ident.name)
-        val refs = new PythonRefs(ident, origin)
-        writePythonFile(ident, origin, refs.python, false, w => {
-          w.wl("from enum import IntEnum, unique")
-          w.wl
-          // TODO: Consider whether to use IntEnum rather than Enum
-          w.wl("@unique")
-          w.wl("class " + enumClassName + p("IntEnum") + ":").nested {
-            if (writeDocString(w, doc)) { w.wl }
-            
-            // Generate enum fields, and set their values to 0..# of fields -1
-            var shift = -1;
-            for (o <- e.options) {
-              writeDocString(w, o.doc) // Enum supports docstrings, unlike plain constant variables.
-              if (o.value != None) {
-                var constValue = o.value match {
-                  case Some(i) =>  i 
-                }
-                shift = (constValue.toString.toInt);
-              } else {
-                shift = shift + 1;
-              }
-              w.wl(s"${idPython.enum(o.ident.name)} = $shift")
-            }
-          }
-        })
-      }
-    }
-    
