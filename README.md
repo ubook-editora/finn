@@ -306,6 +306,20 @@ Djinni now support `@deprecated(message)` to mark Method, Enum and Interface as 
       random;
     }
 
+### Extend Record
+Djinni now support `extends` keywork for record to inherit properties from base record.
+    base_record = record {
+      base_record_value: string;
+    }
+
+    child_record = record extends base_record {
+      child_record_value: string;
+    }
+
+    grand_children_record = record extends child_record {
+      grand_children_record_value: string;
+    }
+
 ### Constants
 Constants can be defined within interfaces and records. In Java and C++ they are part of the
 generated class; and in Objective-C, constant names are globals with the name of the
