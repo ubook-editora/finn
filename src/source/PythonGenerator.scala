@@ -36,8 +36,8 @@ class PythonGenerator(spec: Spec) extends Generator(spec) {
     else fields.map( f => idPython.field(f.ident.name))
   }
   
-  def getRecordTypes(r: Record) = {
-    r.fields.map( f => cMarshal.cParamType(f.ty, true))
+  def getRecordTypes(r: Record, superFields: Seq[Field]) = {
+    (superFields ++ r.fields).map( f => cMarshal.cParamType(f.ty, true))
   }
   
   // Override since Python doesn't share the C-style comment syntax.
@@ -162,6 +162,7 @@ class PythonGenerator(spec: Spec) extends Generator(spec) {
     ret = "struct DjinniObjectHandle *"
     defArgs = Seq("").mkString("(", ", ", ")")
     cArgs = Seq("").mkString("(", ", ", ")")
+    
     writeGetterCallback("__python_create", ret, cArgs, defArgs, w, w => {
       w.wl("c_ptr = ffi.new_handle" + p(createName))
       w.wl(className + ".c_data_set.add(c_ptr)")
@@ -905,7 +906,7 @@ class PythonGenerator(spec: Spec) extends Generator(spec) {
           }
           
           // Callback to allow creating a Python Record from C
-          w.wl("@ffi.callback" + p(q("struct DjinniRecordHandle *" + getRecordTypes(r).mkString("(", ",", ")"))))
+          w.wl("@ffi.callback" + p(q("struct DjinniRecordHandle *" + getRecordTypes(r, superFields).mkString("(", ",", ")"))))
           w.wl("def " + "python_create_" + recordAsMethod + getRecordArguments(r, "", superFields).mkString("(", ",", ")") +":").nested {
             writeRecordToFromCb(ident, r, "", 0, w, superFields)
           }

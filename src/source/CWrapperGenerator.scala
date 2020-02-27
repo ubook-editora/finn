@@ -51,8 +51,8 @@ class CWrapperGenerator(spec: Spec) extends Generator(spec) {
     marshal.cArgDecl(Seq(self) ++ m.params.map(p => marshal.cParamType(p.ty, forHeader)))
   }
   
-  def getRecordTypes(r: Record, forHeader: Boolean) = {
-    r.fields.map( f => marshal.cParamType(f.ty, forHeader))
+  def getRecordTypes(r: Record, forHeader: Boolean, superFields: Seq[Field]) = {
+    (superFields ++ r.fields).map( f => marshal.cParamType(f.ty, forHeader))
   }
   
   def getElementTypeRef(tm: MExpr, ident: Ident): TypeRef = {
@@ -81,7 +81,7 @@ class CWrapperGenerator(spec: Spec) extends Generator(spec) {
   
   def declareGlobalGetterSignature(methodName: String, ret: String, cArgs: String, className: String, w: IndentWriter): Unit = {
     val methodSignature = ret + p(" * ptr") + cArgs
-    w.wl("void "  + idCpp.method(className + "_add_callback" + methodName) + p(methodSignature) + ";" )
+    w.wl("void "  + idCpp.method(className + "_add_callback" + methodName) + p(methodSignature) + ";")
   }
   
   def writeWrapHandleAsUniquePointer(tm: MExpr, createMethod: String, w: IndentWriter): Unit = {
@@ -611,7 +611,7 @@ class CWrapperGenerator(spec: Spec) extends Generator(spec) {
       
     }
     val ret = "DjinniRecordHandle *"
-    val cArgs = marshal.cArgDecl(getRecordTypes(r, false))
+    val cArgs = marshal.cArgDecl(getRecordTypes(r, false, superFields))
     declareGlobalGetter("_python_create_" + recordAsMethodName, ret, cArgs, recordAsMethodName, w)
   }
   
@@ -629,7 +629,7 @@ class CWrapperGenerator(spec: Spec) extends Generator(spec) {
     
     // For creating record
     var ret = "struct DjinniRecordHandle *"
-    var cArgs = marshal.cArgDecl(getRecordTypes(r, true))
+    var cArgs = marshal.cArgDecl(getRecordTypes(r, true, superFields))
     declareGlobalGetterSignature("_python_create_" + recordAsMethodName, ret, cArgs, recordAsMethodName, w)
     // For releasing record
     ret = "void"
