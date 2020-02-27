@@ -25,6 +25,7 @@ import djinni.writer.IndentWriter
 import scala.language.implicitConversions
 import scala.collection.mutable
 import scala.util.matching.Regex
+import scala.annotation.tailrec
 
 package object generatorTools {
   
@@ -427,7 +428,7 @@ abstract class Generator(spec: Spec)
       wrapNamespace(w, namespace, f)
     })
   }
-  
+
   def generate(idl: Seq[TypeDecl]) {
     for (td <- idl.collect { case itd: InternTypeDecl => itd }) td.body match {
       case e: Enum => {
@@ -447,6 +448,20 @@ abstract class Generator(spec: Spec)
   def generateRecord(origin: String, ident: Ident, doc: Doc, params: Seq[TypeParam], r: Record, deprecated: scala.Option[Deprecated], idl: Seq[TypeDecl])
   def generateInterface(origin: String, ident: Ident, doc: Doc, typeParams: Seq[TypeParam], i: Interface, deprecated: scala.Option[Deprecated])
   
+  def collectSuperFields(idl: Seq[TypeDecl], _r: Record): Seq[Field] = {
+    @tailrec
+    def superFieldsAccumulator(r: Record, fields: Seq[Field]) : Seq[Field] = {
+      r.baseRecord match {
+        case None => r.fields ++ fields
+        case Some(value) => {
+          val baseRecord = getSuperRecord(idl, r).get
+          superFieldsAccumulator(baseRecord.record, r.fields)
+        }
+      }
+    }
+    superFieldsAccumulator(_r, Seq.empty)
+  }
+
   def getSuperRecord(idl: Seq[TypeDecl], r: Record): Option[SuperRecord] = {
     r.baseRecord match {
       case None => None
@@ -454,7 +469,8 @@ abstract class Generator(spec: Spec)
         idl.find(td => td.ident.name == value) match {
           case Some(superDec) => superDec.body match {
             case superRecord: Record => {
-              return Some(SuperRecord(superDec.ident, superRecord, superRecord.fields))
+              val superFields = collectSuperFields(idl, superRecord)
+              return Some(SuperRecord(superDec.ident, superRecord, superFields))
             }
             case _ => throw new AssertionError("Unreachable. The parser throws an exception when extending a non-interface type.")
           }
@@ -463,6 +479,8 @@ abstract class Generator(spec: Spec)
       }
     }
   }
+
+
   // --------------------------------------------------------------------------
   // Render type expression
   
