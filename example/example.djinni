@@ -1,22 +1,7 @@
-item_list = record{
-    items: list<string> +m;
+hien = record {
+    hien: string;
+    hien_1: string;
 }
-
-sort_order = enum {
-    ascending=1;
-    descending=3;
-    random;
-}
-
-sort_items = interface +c {
-    # For the iOS / Android demo
-    sort(order: sort_order, items: item_list);
-    static create_with_listener(listener: textbox_listener): sort_items;
-
-    # For the localhost / command-line demo
-    static run_sort(items: item_list): item_list;
-}
-
-textbox_listener = interface +j +o +p {
-    update(items: item_list);
+base_record = record extends hien {
+    parent: string;
 }

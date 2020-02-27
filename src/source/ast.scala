@@ -37,13 +37,15 @@ case class TypeParam(ident: Ident)
 
 case class Doc(lines: Seq[String])
 
+case class Deprecated(messages: String)
+
 sealed abstract class TypeDecl {
   val ident: Ident
   val params: Seq[TypeParam]
   val body: TypeDef
   val origin: String
 }
-case class InternTypeDecl(override val ident: Ident, override val params: Seq[TypeParam], override val body: TypeDef, doc: Doc, override val origin: String) extends TypeDecl
+case class InternTypeDecl(override val ident: Ident, override val params: Seq[TypeParam], override val body: TypeDef, doc: Doc, override val origin: String, deprecated: scala.Option[Deprecated]) extends TypeDecl
 case class ExternTypeDecl(override val ident: Ident, override val params: Seq[TypeParam], override val body: TypeDef, properties: Map[String, Any], override val origin: String) extends TypeDecl
 
 case class Ext(java: Boolean, cpp: Boolean, objc: Boolean, py: Boolean) {
@@ -68,10 +70,10 @@ object Enum {
     val NoFlags, AllFlags = Value
   }
   import SpecialFlag._
-  case class Option(ident: Ident, doc: Doc, specialFlag: scala.Option[SpecialFlag], value: Any)
+  case class Option(ident: Ident, doc: Doc, specialFlag: scala.Option[SpecialFlag], value: Any, deprecated: scala.Option[Deprecated])
 }
 
-case class Record(ext: Ext, fields: Seq[Field], consts: Seq[Const], derivingTypes: Set[DerivingType]) extends TypeDef
+case class Record(ext: Ext, fields: Seq[Field], consts: Seq[Const], derivingTypes: Set[DerivingType], baseRecord: scala.Option[String]) extends TypeDef
 object Record {
   object DerivingType extends Enumeration {
     type DerivingType = Value
@@ -81,7 +83,9 @@ object Record {
 
 case class Interface(ext: Ext, methods: Seq[Interface.Method], consts: Seq[Const]) extends TypeDef
 object Interface {
-  case class Method(ident: Ident, params: Seq[Field], ret: Option[TypeRef], doc: Doc, static: Boolean, const: Boolean)
+  case class Method(ident: Ident, params: Seq[Field], ret: Option[TypeRef], doc: Doc, static: Boolean, const: Boolean, deprecated: Option[Deprecated])
 }
 
 case class Field(ident: Ident, ty: TypeRef, doc: Doc, modifiable: Boolean)
+
+case class SuperRecord(ident: Ident, record: Record, fields: Seq[Field])

@@ -20,6 +20,7 @@ NS_SWIFT_NAME(SortItems)
 + (nullable TXSSortItems *)createWithListener:(nullable id<TXSTextboxListener>)listener;
 
 /** For the localhost / command-line demo */
-+ (nonnull TXSItemList *)runSort:(nonnull TXSItemList *)items;
++ (nonnull TXSItemList *)runSort:(nonnull TXSItemList *)items __attribute((deprecated(("Please"))))
+;
 
 @end

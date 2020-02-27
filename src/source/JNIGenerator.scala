@@ -58,7 +58,7 @@ class JNIGenerator(spec: Spec) extends Generator(spec) {
     }
   }
 
-  override def generateEnum(origin: String, ident: Ident, doc: Doc, e: Enum) {
+  override def generateEnum(origin: String, ident: Ident, doc: Doc, e: Enum, deprecated: scala.Option[Deprecated]) {
     val refs = new JNIRefs(ident.name)
     val jniHelper = jniMarshal.helperClass(ident)
     val cppSelf = cppMarshal.fqTypename(ident, e)
@@ -89,7 +89,7 @@ class JNIGenerator(spec: Spec) extends Generator(spec) {
     })
   }
 
-  override def generateRecord(origin: String, ident: Ident, doc: Doc, params: Seq[TypeParam], r: Record) {
+  override def generateRecord(origin: String, ident: Ident, doc: Doc, params: Seq[TypeParam], r: Record, deprecated: scala.Option[Deprecated], idl: Seq[TypeDecl]) {
     val prefixOverride: Option[String] = if (r.ext.cpp) {
       Some(spec.cppExtendedRecordIncludePrefix)
     } else {
@@ -182,7 +182,7 @@ class JNIGenerator(spec: Spec) extends Generator(spec) {
     writeJniFiles(origin, params.nonEmpty, ident, refs, writeJniPrototype, writeJniBody)
   }
 
-  override def generateInterface(origin: String, ident: Ident, doc: Doc, typeParams: Seq[TypeParam], i: Interface) {
+  override def generateInterface(origin: String, ident: Ident, doc: Doc, typeParams: Seq[TypeParam], i: Interface, deprecated: scala.Option[Deprecated]) {
     val refs = new JNIRefs(ident.name)
     i.methods.foreach(m => {
       m.params.foreach(p => refs.find(p.ty))

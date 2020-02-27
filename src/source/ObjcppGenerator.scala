@@ -1,18 +1,18 @@
 /**
-  * Copyright 2014 Dropbox, Inc.
-  *
-  * Licensed under the Apache License, Version 2.0 (the "License");
-  * you may not use this file except in compliance with the License.
-  * You may obtain a copy of the License at
-  *
-  *    http://www.apache.org/licenses/LICENSE-2.0
-  *
-  * Unless required by applicable law or agreed to in writing, software
-  * distributed under the License is distributed on an "AS IS" BASIS,
-  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  * See the License for the specific language governing permissions and
-  * limitations under the License.
-  */
+* Copyright 2014 Dropbox, Inc.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
 
 package djinni
 
@@ -26,15 +26,15 @@ import djinni.writer.IndentWriter
 import scala.collection.mutable
 
 class ObjcppGenerator(spec: Spec) extends BaseObjcGenerator(spec) {
-
+  
   val objcMarshal = new ObjcMarshal(spec)
   val objcppMarshal = new ObjcppMarshal(spec)
   val cppMarshal = new CppMarshal(spec)
-
+  
   class ObjcRefs() {
     var body = mutable.TreeSet[String]()
     var privHeader = mutable.TreeSet[String]()
-
+    
     def find(ty: TypeRef) { find(ty.resolved) }
     def find(tm: MExpr) {
       tm.args.foreach(find)
@@ -45,10 +45,10 @@ class ObjcppGenerator(spec: Spec) extends BaseObjcGenerator(spec) {
       case _ =>
     }
   }
-
+  
   private def arcAssert(w: IndentWriter) = w.wl("static_assert(__has_feature(objc_arc), " + q("Djinni requires ARC to be enabled for this file") + ");")
-
-  override def generateEnum(origin: String, ident: Ident, doc: Doc, e: Enum) {
+  
+  override def generateEnum(origin: String, ident: Ident, doc: Doc, e: Enum, deprecated: scala.Option[Deprecated]) {
     var imports = mutable.TreeSet[String]()
     if (spec.objcSupportFramework) {
       imports.add("#import <DJIMarshal+Private.h>")
@@ -58,16 +58,16 @@ class ObjcppGenerator(spec: Spec) extends BaseObjcGenerator(spec) {
       imports.add("#import " + q(spec.objcBaseLibIncludePrefix + "DJIMarshal+Json.h"))
     }
     imports.add("!#include " + q(spec.objcppIncludeCppPrefix + spec.cppFileIdentStyle(ident) + "." + spec.cppHeaderExt))
-
+    
     writeObjcFile(objcppMarshal.privateHeaderName(ident.name), origin, imports, w => {} )
   }
-
+  
   def headerName(ident: String): String = idObjc.ty(ident) + "." + spec.objcHeaderExt
   def privateBodyName(ident: String): String = idObjc.ty(ident) + "+Private." + spec.objcppExt
-
+  
   def nnCheck(expr: String): String = spec.cppNnCheckExpression.fold(expr)(check => s"$check($expr)")
-
-  override def generateInterface(origin: String, ident: Ident, doc: Doc, typeParams: Seq[TypeParam], i: Interface) {
+  
+  override def generateInterface(origin: String, ident: Ident, doc: Doc, typeParams: Seq[TypeParam], i: Interface, deprecated: scala.Option[Deprecated]) {
     val refs = new ObjcRefs()
     i.methods.map(m => {
       m.params.map(p => refs.find(p.ty))
@@ -76,29 +76,29 @@ class ObjcppGenerator(spec: Spec) extends BaseObjcGenerator(spec) {
     i.consts.map(c => {
       refs.find(c.ty)
     })
-
+    
     val self = objcMarshal.typename(ident, i)
     val cppSelf = cppMarshal.fqTypename(ident, i)
-
+    
     refs.privHeader.add("#include <memory>")
     refs.privHeader.add("!#include " + q(spec.objcppIncludeCppPrefix + spec.cppFileIdentStyle(ident) + "." + spec.cppHeaderExt))
     refs.body.add("!#import " + q(spec.objcppIncludeObjcPrefix + headerName(ident)))
     refs.body.add("!#import " + q(spec.objcppIncludePrefix + objcppMarshal.privateHeaderName(ident.name)))
-
+    
     spec.cppNnHeader match {
       case Some(nnHdr) => refs.privHeader.add("#include " + nnHdr)
       case _ =>
     }
-
+    
     def writeObjcFuncDecl(method: Interface.Method, w: IndentWriter) {
       val label = if (method.static) "+" else "-"
       val ret = objcMarshal.fqReturnType(method.ret)
       val decl = s"$label ($ret)${idObjc.method(method.ident)}"
       writeAlignedObjcCall(w, decl, method.params, "", p => (idObjc.field(p.ident), s"(${objcMarshal.paramType(p.ty)})${idObjc.local(p.ident)}"))
     }
-
+    
     val helperClass = objcppMarshal.helperClass(ident)
-
+    
     writeObjcFile(objcppMarshal.privateHeaderName(ident.name), origin, refs.privHeader, w => {
       arcAssert(w)
       w.wl
@@ -109,11 +109,11 @@ class ObjcppGenerator(spec: Spec) extends BaseObjcGenerator(spec) {
           w.wlOutdent("public:")
           spec.cppNnType match {
             case Some(nnPtr) =>
-              w.wl(s"using CppType = ${nnPtr}<$cppSelf>;")
-              w.wl(s"using CppOptType = std::shared_ptr<$cppSelf>;")
+            w.wl(s"using CppType = ${nnPtr}<$cppSelf>;")
+            w.wl(s"using CppOptType = std::shared_ptr<$cppSelf>;")
             case _ =>
-              w.wl(s"using CppType = std::shared_ptr<$cppSelf>;")
-              w.wl(s"using CppOptType = std::shared_ptr<$cppSelf>;")
+            w.wl(s"using CppType = std::shared_ptr<$cppSelf>;")
+            w.wl(s"using CppOptType = std::shared_ptr<$cppSelf>;")
           }
           w.wl("using ObjcType = " + (if(i.ext.objc) s"id<$self>" else s"$self*") + ";");
           w.wl
@@ -129,7 +129,7 @@ class ObjcppGenerator(spec: Spec) extends BaseObjcGenerator(spec) {
       })
       w.wl
     })
-
+    
     if (i.ext.cpp) {
       if (spec.objcSupportFramework) {
         refs.body.add("#import <DJICppWrapperCache+Private.h>")
@@ -145,7 +145,7 @@ class ObjcppGenerator(spec: Spec) extends BaseObjcGenerator(spec) {
     if (!spec.cppNnType.isEmpty || !spec.cppNnCheckExpression.nonEmpty) {
       refs.body.add("#include <stdexcept>")
     }
-
+    
     if (i.ext.objc) {
       if (spec.objcSupportFramework) {
         refs.body.add("#import <DJIObjcWrapperCache+Private.h>")
@@ -153,7 +153,7 @@ class ObjcppGenerator(spec: Spec) extends BaseObjcGenerator(spec) {
         refs.body.add("#import " + q(spec.objcBaseLibIncludePrefix + "DJIObjcWrapperCache+Private.h"))
       }
     }
-
+    
     if (!i.ext.cpp && !i.ext.objc) {
       if (spec.objcSupportFramework) {
         refs.body.add("#import <DJIError.h>")
@@ -161,18 +161,18 @@ class ObjcppGenerator(spec: Spec) extends BaseObjcGenerator(spec) {
         refs.body.add("#import " + q(spec.objcBaseLibIncludePrefix + "DJIError.h"))
       }
     }
-
+    
     writeObjcFile(privateBodyName(ident.name), origin, refs.body, w => {
       arcAssert(w)
-
+      
       val objcSelf = if (i.ext.objc && i.ext.cpp) self + "CppProxy" else self
-
+      
       if (i.ext.cpp) {
         w.wl
         if (i.ext.objc)
-          w.wl(s"@interface $objcSelf : NSObject<$self>")
+        w.wl(s"@interface $objcSelf : NSObject<$self>")
         else
-          w.wl(s"@interface $objcSelf ()")
+        w.wl(s"@interface $objcSelf ()")
         w.wl
         w.wl(s"- (id)initWithCpp:(const std::shared_ptr<$cppSelf>&)cppRef;")
         w.wl
@@ -210,19 +210,19 @@ class ObjcppGenerator(spec: Spec) extends BaseObjcGenerator(spec) {
               val ret = m.ret.fold("")(_ => "auto objcpp_result_ = ")
               val call = ret + (if (!m.static) "_cppRefHandle.get()->" else cppSelf + "::") + idCpp.method(m.ident) + "("
               writeAlignedCall(w, call, m.params, ")", p => objcppMarshal.toCpp(p.ty, idObjc.local(p.ident.name)))
-
+              
               w.wl(";")
               m.ret.fold()(r => w.wl(s"return ${objcppMarshal.fromCpp(r, "objcpp_result_")};"))
             }
           }
         }
-
+        
         if (i.consts.nonEmpty) {
           w.wl
           generateObjcConstants(w, i.consts, self, ObjcConstantType.ConstMethod)
         }
       }
-
+      
       if (i.ext.objc) {
         w.wl
         wrapNamespace(w, spec.objcppNamespace, w => {
@@ -262,7 +262,7 @@ class ObjcppGenerator(spec: Spec) extends BaseObjcGenerator(spec) {
           }
         })
       }
-
+      
       w.wl
       wrapNamespace(w, spec.objcppNamespace, w => {
         // ObjC-to-C++ coversion
@@ -321,40 +321,40 @@ class ObjcppGenerator(spec: Spec) extends BaseObjcGenerator(spec) {
           }
         }
       })
-
+      
       if (i.ext.cpp) {
         w.wl
         w.wl("@end")
       }
     })
   }
-
-  override def generateRecord(origin: String, ident: Ident, doc: Doc, params: Seq[TypeParam], r: Record) {
+  
+  override def generateRecord(origin: String, ident: Ident, doc: Doc, params: Seq[TypeParam], r: Record, deprecated: scala.Option[Deprecated], idl: Seq[TypeDecl]) {
     val refs = new ObjcRefs()
     for (c <- r.consts)
-      refs.find(c.ty)
+    refs.find(c.ty)
     for (f <- r.fields)
-      refs.find(f.ty)
-
+    refs.find(f.ty)
+    
     val objcName = ident.name + (if (r.ext.objc) "_base" else "")
     val noBaseSelf = objcMarshal.typename(ident, r) // Used for constant names
     val cppSelf = cppMarshal.fqTypename(ident, r)
-
+    
     refs.privHeader.add("!#import " + q((if(r.ext.objc) spec.objcExtendedRecordIncludePrefix else spec.objcppIncludeObjcPrefix) + headerName(ident)))
     refs.privHeader.add("!#include " + q((if(r.ext.cpp) spec.cppExtendedRecordIncludePrefix else spec.objcppIncludeCppPrefix) + spec.cppFileIdentStyle(ident) + "." + spec.cppHeaderExt))
-
+    
     refs.body.add("#include <cassert>")
     refs.body.add("!#import " + q(spec.objcppIncludePrefix + objcppMarshal.privateHeaderName(objcName)))
-
+    
     def checkMutable(tm: MExpr): Boolean = tm.base match {
       case MOptional => checkMutable(tm.args.head)
       case MString => true
       case MBinary => true
       case _ => false
     }
-
+    
     val helperClass = objcppMarshal.helperClass(ident)
-
+    
     writeObjcFile(objcppMarshal.privateHeaderName(objcName), origin, refs.privHeader, w => {
       arcAssert(w)
       w.wl
@@ -373,30 +373,36 @@ class ObjcppGenerator(spec: Spec) extends BaseObjcGenerator(spec) {
         }
       })
     })
-
+    
     writeObjcFile(privateBodyName(objcName), origin, refs.body, w => {
       wrapNamespace(w, spec.objcppNamespace, w => {
+        
+        val (superFields, firstInitializerArg) = getSuperRecord(idl, r) match {
+          case None => (Seq.empty, if(r.fields.isEmpty) "" else IdentStyle.camelUpper("with_" + r.fields.head.ident.name))
+          case Some(value) => (value.fields, if(r.fields.isEmpty) "" else IdentStyle.camelUpper("with_" + value.fields.head.ident.name))
+        }
+        
         w.wl(s"auto $helperClass::toCpp(ObjcType obj) -> CppType")
         w.braced {
           w.wl("assert(obj);")
           if(r.fields.isEmpty) w.wl("(void)obj; // Suppress warnings in relase builds for empty records")
           val call = "return CppType("
-          writeAlignedCall(w, "return {", r.fields, "}", f => objcppMarshal.toCpp(f.ty, "obj." + idObjc.field(f.ident)))
+          writeAlignedCall(w, "return {", superFields++r.fields, "}", f => objcppMarshal.toCpp(f.ty, "obj." + idObjc.field(f.ident)))
           w.wl(";")
         }
         w.wl
         w.wl(s"auto $helperClass::fromCpp(const CppType& cpp) -> ObjcType")
         w.braced {
           if(r.fields.isEmpty) w.wl("(void)cpp; // Suppress warnings in relase builds for empty records")
-          val first = if(r.fields.isEmpty) "" else IdentStyle.camelUpper("with_" + r.fields.head.ident.name)
-          val call = s"return [[$noBaseSelf alloc] init$first"
-          writeAlignedObjcCall(w, call, r.fields, "]", f => (idObjc.field(f.ident), s"(${objcppMarshal.fromCpp(f.ty, "cpp." + idCpp.field(f.ident))})"))
+          // val first = if(r.fields.isEmpty) "" else IdentStyle.camelUpper("with_" + r.fields.head.ident.name)
+          val call = s"return [[$noBaseSelf alloc] init$firstInitializerArg"
+          writeAlignedObjcCall(w, call, superFields++r.fields, "]", f => (idObjc.field(f.ident), s"(${objcppMarshal.fromCpp(f.ty, "cpp." + idCpp.field(f.ident))})"))
           w.wl(";")
         }
       })
     })
- }
-
+  }
+  
   def writeObjcFile(fileName: String, origin: String, refs: Iterable[String], f: IndentWriter => Unit) {
     createFile(spec.objcppOutFolder.get, fileName, (w: IndentWriter) => {
       w.wl("// AUTOGENERATED FILE - DO NOT MODIFY!")

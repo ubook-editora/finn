@@ -10,7 +10,7 @@ class ObjcMarshal(spec: Spec) extends Marshal(spec) {
     val (name, _) = toObjcType(tm)
     name
   }
-  def typename(name: String, ty: TypeDef): String = idObjc.ty(name)
+  override def typename(name: String, ty: TypeDef): String = idObjc.ty(name)
 
   override def fqTypename(tm: MExpr): String = typename(tm)
   def fqTypename(name: String, ty: TypeDef): String = typename(name, ty)
@@ -164,5 +164,12 @@ class ObjcMarshal(spec: Spec) extends Marshal(spec) {
         case _ => false
       }
     case _ => false
+  }
+
+  override def deprecatedAnnotation(deprecated: Option[Deprecated]): Option[String] = {
+    deprecated match {
+      case Some(value) => Some(s" __attribute((deprecated((${value.messages}))))")
+      case None => None
+    }
   }
 }

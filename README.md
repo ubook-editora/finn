@@ -288,6 +288,38 @@ When an interface implemented in C++ throws a `std::exception`, it will be trans
 `java.lang.RuntimeException` in Java or an `NSException` in Objective-C. The `what()` message
 will be translated as well.
 
+### Deprecated Directive
+Djinni now support `@deprecated(message)` to mark Method, Enum and Interface as Deprecated with a message.
+
+    @deprecated("Deprecated interface")
+    sort_items = interface +c {
+        static create_with_listener(listener: textbox_listener): sort_items;
+
+        @deprecated("Please")
+        sort(order: sort_order, items: item_list);
+    }
+
+    @deprecated("Please")
+      sort_order = enum {
+      @deprecated("Please use the `random`")
+      descending=3;
+      random;
+    }
+
+### Extend Record
+Djinni now support `extends` keywork for record to inherit properties from base record.
+    base_record = record {
+      base_record_value: string;
+    }
+
+    child_record = record extends base_record {
+      child_record_value: string;
+    }
+
+    grand_children_record = record extends child_record {
+      grand_children_record_value: string;
+    }
+
 ### Constants
 Constants can be defined within interfaces and records. In Java and C++ they are part of the
 generated class; and in Objective-C, constant names are globals with the name of the
