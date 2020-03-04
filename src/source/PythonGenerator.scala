@@ -1176,7 +1176,7 @@ class PythonGenerator(spec: Spec) extends Generator(spec) {
         }
         case MOptional =>
           tm.args(0).base match {
-            case m@(MPrimitive(_, _, _, _, _, _, _, _) | MDate) => {
+            case m@(MPrimitive(_, _, _, _, _, _, _, _, _) | MDate) => {
               python.add("from djinni.pycffi_marshal import CPyBoxed" + idPython.className(m.asInstanceOf[MOpaque].idlName))
             }
             case _ => collect(tm.args(0), justCollect, true)

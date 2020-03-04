@@ -109,7 +109,7 @@ class CWrapperMarshal(spec: Spec) extends Marshal(spec) { // modeled(pretty much
           structPrefix + "Djinni" + idlName + " *"
         case MList | MSet | MMap => structPrefix + djinniObjectHandle + " *"
         case MOptional => tm.args(0).base match {
-          case m@(MPrimitive(_, _, _, _, _, _, _, _) | MDate) =>
+          case m@(MPrimitive(_, _, _, _, _, _, _, _, _) | MDate) =>
             val idlName = m.asInstanceOf[MOpaque].idlName
             structPrefix + "DjinniBoxed" + idCpp.ty(idlName) + " *"
           case MList | MSet | MMap => structPrefix + "DjinniOptionalObjectHandle *"
