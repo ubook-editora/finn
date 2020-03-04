@@ -107,7 +107,7 @@ class PythonMarshal(spec: Spec) extends Marshal(spec) {
       tm.base match {
         case MOptional => {
           tm.args(0).base match {
-            case m@(MPrimitive(_, _, _, _, _, _, _, _) | MDate) => {
+            case m@(MPrimitive(_, _, _, _, _, _, _, _, _) | MDate) => {
               refs.add("from djinni.pycffi_marshal import CPyBoxed" + idPython.className(m.asInstanceOf[MOpaque].idlName))
             }
             case _ => getRef(tm.args(0))
@@ -303,7 +303,7 @@ class PythonMarshal(spec: Spec) extends Marshal(spec) {
     ty.base match {
       case MString | MBinary => "CPy" + idlName + ".toPyWithoutTakingOwnership" + p(local)
       case MOptional => ty.args(0).base match {
-        case m@(MPrimitive(_, _, _, _, _, _, _, _) | MDate) =>
+        case m@(MPrimitive(_, _, _, _, _, _, _, _, _) | MDate) =>
           val idlName = m.asInstanceOf[MOpaque].idlName
           "CPyBoxed" + idPython.className(idlName) + ".toPyOptWithoutTakingOwnership" + p(local)
         case MString | MBinary => convertToRelease(name, ty.args(0))
