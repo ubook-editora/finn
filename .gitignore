@@ -54,3 +54,4 @@ callgrind.out.*
 .metals
 .project
 .settings
+src/source/test/generated-src
