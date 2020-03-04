@@ -983,7 +983,7 @@ class PythonGenerator(spec: Spec) extends Generator(spec) {
                 w.wl("return " + marshal.releaseRAII("py_obj", optTy, true)) // here
               }
             }, true, w)
-          case MPrimitive(_, _, _, _, _, _, _, _) | MDate =>
+          case MPrimitive(_, _, _, _, _, _, _, _, _) | MDate =>
             checkForExceptionFromPython(w => {
               w.wl("with " + marshal.convertFrom(libCall, ret) + " as py_obj:").nested {
                 w.wl("return " + marshal.releaseRAII("py_obj", ret)) // here

@@ -245,7 +245,7 @@ class CWrapperMarshal(spec: Spec) extends Marshal(spec) { // modeled(pretty much
     ty.base match {
       case MOptional => {
         ty.args(0).base match {
-          case MPrimitive(_, _, _, _, _, _, _, _) | MDate =>
+          case MPrimitive(_, _, _, _, _, _, _, _, _) | MDate =>
             val idlName = ty.args(0).base.asInstanceOf[MOpaque].idlName
             "DjinniBoxed" + idCpp.ty(idlName) + "::toCpp" + p(exprArg)
           case MString | MBinary =>
@@ -280,7 +280,7 @@ class CWrapperMarshal(spec: Spec) extends Marshal(spec) { // modeled(pretty much
     ty.base match {
       case MOptional => {
         ty.args(0).base match {
-          case MPrimitive(_, _, _, _, _, _, _, _) | MDate =>
+          case MPrimitive(_, _, _, _, _, _, _, _, _) | MDate =>
             val idlName = ty.args(0).base.asInstanceOf[MOpaque].idlName
             "DjinniBoxed" + idCpp.ty(idlName) + "::fromCpp" + p(cppExpr)
           case MString | MBinary =>
