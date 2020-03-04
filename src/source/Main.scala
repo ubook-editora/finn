@@ -5,7 +5,7 @@
   * you may not use this file except in compliance with the License.
   * You may obtain a copy of the License at
   *
-  *    http://www.apache.org/licenses/LICENSE-2.0
+  * http://www.apache.org/licenses/LICENSE-2.0
   *
   * Unless required by applicable law or agreed to in writing, software
   * distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,7 +16,7 @@
 
 package djinni
 
-import java.io.{IOException, FileNotFoundException, FileInputStream, InputStreamReader, File, BufferedWriter, FileWriter}
+import java.io._
 
 import djinni.generatorTools._
 
@@ -32,7 +32,7 @@ object Main {
     var cppFileIdentStyle: IdentConverter = IdentStyle.underLower
     var cppOptionalTemplate: String = "std::optional"
     var cppOptionalHeader: String = "<optional>"
-    var cppEnumHashWorkaround : Boolean = true
+    var cppEnumHashWorkaround: Boolean = true
     var cppNnHeader: Option[String] = None
     var cppNnType: Option[String] = None
     var cppNnCheckExpression: Option[String] = None
@@ -45,7 +45,7 @@ object Main {
     var javaGenerateInterfaces: Boolean = false
     var javaNullableAnnotation: Option[String] = None
     var javaNonnullAnnotation: Option[String] = None
-    var javaImplementAndroidOsParcelable : Boolean = false
+    var javaImplementAndroidOsParcelable: Boolean = false
     var javaUseFinalForRecord: Boolean = true
     var jniOutFolder: Option[File] = None
     var jniHeaderOutFolderOptional: Option[File] = None
@@ -107,6 +107,7 @@ object Main {
       }
 
       override def showUsageOnError = false
+
       help("help")
       opt[File]("idl").valueName("<in-file>").required().foreach(idlFile = _)
         .text("The IDL file with the type definitions, typically with extension \".djinni\".")
@@ -158,7 +159,7 @@ object Main {
         .text("The type to use for non-nullable pointers (as a substitute for std::shared_ptr)")
       opt[String]("cpp-nn-check-expression").valueName("<header>").foreach(x => cppNnCheckExpression = Some(x))
         .text("The expression to use for building non-nullable pointers")
-      opt[Boolean]( "cpp-use-wide-strings").valueName("<true/false>").foreach(x => cppUseWideStrings = x)
+      opt[Boolean]("cpp-use-wide-strings").valueName("<true/false>").foreach(x => cppUseWideStrings = x)
         .text("Use wide strings in C++ code (default: false)")
       note("")
       opt[File]("jni-out").valueName("<out-folder>").foreach(x => jniOutFolder = Some(x))
@@ -178,10 +179,10 @@ object Main {
         .text("The output folder for Objective-C files (Generator disabled if unspecified).")
       opt[String]("objc-h-ext").valueName("<ext>").foreach(objcHeaderExt = _)
         .text("The filename extension for Objective-C[++] header files (default: \"h\")")
-      
+
       opt[String]("objc-type-prefix").valueName("<pre>").foreach(objcTypePrefix = _)
         .text("The prefix for Objective-C data types (usually two or three letters)")
-      
+
       opt[Boolean]("objc-support-framework").valueName("<support-framework>").foreach(x => objcSupportFramework = x)
         .text("Support Djinni as framework")
 
@@ -231,9 +232,9 @@ object Main {
         .text("The output folder for Python files (Generator disabled if unspecified).")
       opt[File]("pycffi-out").valueName("<out-folder>").foreach(x => pycffiOutFolder = Some(x))
         .text("The output folder for PyCFFI files (Generator disabled if unspecified).")
-      opt[String]("pycffi-package-name").valueName("...").foreach(x => pycffiPackageName= x)
+      opt[String]("pycffi-package-name").valueName("...").foreach(x => pycffiPackageName = x)
         .text("The package name to use for the generated PyCFFI classes.")
-      opt[String]("pycffi-dynamic-lib-list").valueName("...").foreach(x => pycffiDynamicLibList= x)
+      opt[String]("pycffi-dynamic-lib-list").valueName("...").foreach(x => pycffiDynamicLibList = x)
         .text("The names of the dynamic libraries to be linked with PyCFFI.")
       opt[File]("c-wrapper-out").valueName("<out-folder>").foreach(x => cWrapperOutFolder = Some(x))
         .text("The output folder for Wrapper C files (Generator disabled if unspecified).")
@@ -241,38 +242,91 @@ object Main {
         .text("The import prefix used within python genereated files (default: \"\")")
 
       note("\nIdentifier styles (ex: \"FooBar\", \"fooBar\", \"foo_bar\", \"FOO_BAR\", \"m_fooBar\")\n")
-      identStyle("ident-java-enum",      c => { javaIdentStyle = javaIdentStyle.copy(enum = c) })
-      identStyle("ident-java-field",     c => { javaIdentStyle = javaIdentStyle.copy(field = c) })
-      identStyle("ident-java-type",      c => { javaIdentStyle = javaIdentStyle.copy(ty = c) })
-      identStyle("ident-cpp-enum",       c => { cppIdentStyle = cppIdentStyle.copy(enum = c) })
-      identStyle("ident-cpp-field",      c => { cppIdentStyle = cppIdentStyle.copy(field = c) })
-      identStyle("ident-cpp-method",     c => { cppIdentStyle = cppIdentStyle.copy(method = c) })
-      identStyle("ident-cpp-type",       c => { cppIdentStyle = cppIdentStyle.copy(ty = c) })
-      identStyle("ident-cpp-enum-type",  c => { cppTypeEnumIdentStyle = c })
-      identStyle("ident-cpp-type-param", c => { cppIdentStyle = cppIdentStyle.copy(typeParam = c) })
-      identStyle("ident-cpp-local",      c => { cppIdentStyle = cppIdentStyle.copy(local = c) })
-      identStyle("ident-cpp-file",       c => { cppFileIdentStyle = c })
-      identStyle("ident-jni-class",      c => { jniClassIdentStyleOptional = Some(c)})
-      identStyle("ident-jni-file",       c => { jniFileIdentStyleOptional = Some(c)})
+      identStyle("ident-java-enum", c => {
+        javaIdentStyle = javaIdentStyle.copy(enum = c)
+      })
+      identStyle("ident-java-field", c => {
+        javaIdentStyle = javaIdentStyle.copy(field = c)
+      })
+      identStyle("ident-java-type", c => {
+        javaIdentStyle = javaIdentStyle.copy(ty = c)
+      })
+      identStyle("ident-cpp-enum", c => {
+        cppIdentStyle = cppIdentStyle.copy(enum = c)
+      })
+      identStyle("ident-cpp-field", c => {
+        cppIdentStyle = cppIdentStyle.copy(field = c)
+      })
+      identStyle("ident-cpp-method", c => {
+        cppIdentStyle = cppIdentStyle.copy(method = c)
+      })
+      identStyle("ident-cpp-type", c => {
+        cppIdentStyle = cppIdentStyle.copy(ty = c)
+      })
+      identStyle("ident-cpp-enum-type", c => {
+        cppTypeEnumIdentStyle = c
+      })
+      identStyle("ident-cpp-type-param", c => {
+        cppIdentStyle = cppIdentStyle.copy(typeParam = c)
+      })
+      identStyle("ident-cpp-local", c => {
+        cppIdentStyle = cppIdentStyle.copy(local = c)
+      })
+      identStyle("ident-cpp-file", c => {
+        cppFileIdentStyle = c
+      })
+      identStyle("ident-jni-class", c => {
+        jniClassIdentStyleOptional = Some(c)
+      })
+      identStyle("ident-jni-file", c => {
+        jniFileIdentStyleOptional = Some(c)
+      })
 
-      identStyle("ident-objc-enum",       c => { objcIdentStyle = objcIdentStyle.copy(enum = c) })
-      identStyle("ident-objc-field",      c => { objcIdentStyle = objcIdentStyle.copy(field = c) })
-      identStyle("ident-objc-method",     c => { objcIdentStyle = objcIdentStyle.copy(method = c) })
-      identStyle("ident-objc-type",       c => { objcIdentStyle = objcIdentStyle.copy(ty = c) })
-      identStyle("ident-objc-type-param", c => { objcIdentStyle = objcIdentStyle.copy(typeParam = c) })
-      identStyle("ident-objc-local",      c => { objcIdentStyle = objcIdentStyle.copy(local = c) })
-      identStyle("ident-objc-file",       c => { objcFileIdentStyleOptional = Some(c) })
+      identStyle("ident-objc-enum", c => {
+        objcIdentStyle = objcIdentStyle.copy(enum = c)
+      })
+      identStyle("ident-objc-field", c => {
+        objcIdentStyle = objcIdentStyle.copy(field = c)
+      })
+      identStyle("ident-objc-method", c => {
+        objcIdentStyle = objcIdentStyle.copy(method = c)
+      })
+      identStyle("ident-objc-type", c => {
+        objcIdentStyle = objcIdentStyle.copy(ty = c)
+      })
+      identStyle("ident-objc-type-param", c => {
+        objcIdentStyle = objcIdentStyle.copy(typeParam = c)
+      })
+      identStyle("ident-objc-local", c => {
+        objcIdentStyle = objcIdentStyle.copy(local = c)
+      })
+      identStyle("ident-objc-file", c => {
+        objcFileIdentStyleOptional = Some(c)
+      })
 
-      identStyle("ident-python-enum",       c => { pyIdentStyle = pyIdentStyle.copy(enum = c) })
-      identStyle("ident-python-field",      c => { pyIdentStyle = pyIdentStyle.copy(field = c) })
-      identStyle("ident-python-method",     c => { pyIdentStyle = pyIdentStyle.copy(method = c) })
-      identStyle("ident-python-type",       c => { pyIdentStyle = pyIdentStyle.copy(ty = c) })
-      identStyle("ident-python-type-param", c => { pyIdentStyle = pyIdentStyle.copy(typeParam = c) })
-      identStyle("ident-python-local",      c => { pyIdentStyle = pyIdentStyle.copy(local = c) })
+      identStyle("ident-python-enum", c => {
+        pyIdentStyle = pyIdentStyle.copy(enum = c)
+      })
+      identStyle("ident-python-field", c => {
+        pyIdentStyle = pyIdentStyle.copy(field = c)
+      })
+      identStyle("ident-python-method", c => {
+        pyIdentStyle = pyIdentStyle.copy(method = c)
+      })
+      identStyle("ident-python-type", c => {
+        pyIdentStyle = pyIdentStyle.copy(ty = c)
+      })
+      identStyle("ident-python-type-param", c => {
+        pyIdentStyle = pyIdentStyle.copy(typeParam = c)
+      })
+      identStyle("ident-python-local", c => {
+        pyIdentStyle = pyIdentStyle.copy(local = c)
+      })
     }
 
     if (!argParser.parse(args)) {
-      System.exit(1); return
+      System.exit(1);
+      return
     }
 
     val cppHeaderOutFolder = if (cppHeaderOutFolderOptional.isDefined) cppHeaderOutFolderOptional else cppOutFolder
@@ -284,7 +338,7 @@ object Main {
     val objcppIncludeObjcPrefix = objcppIncludeObjcPrefixOptional.getOrElse(objcppIncludePrefix)
 
     // Add ObjC prefix to identstyle
-    objcIdentStyle = objcIdentStyle.copy(ty = IdentStyle.prefix(objcTypePrefix,objcIdentStyle.ty))
+    objcIdentStyle = objcIdentStyle.copy(ty = IdentStyle.prefix(objcTypePrefix, objcIdentStyle.ty))
     objcFileIdentStyle = IdentStyle.prefix(objcTypePrefix, objcFileIdentStyle)
 
     if (cppTypeEnumIdentStyle != null) {
@@ -304,9 +358,10 @@ object Main {
       (new Parser(idlIncludePaths)).parseFile(idlFile, inFileListWriter)
     }
     catch {
-      case ex @ (_: FileNotFoundException | _: IOException) =>
+      case ex@(_: FileNotFoundException | _: IOException) =>
         System.err.println("Error reading from --idl file: " + ex.getMessage)
-        System.exit(1); return
+        System.exit(1);
+        return
     }
     finally {
       if (inFileListWriter.isDefined) {
@@ -320,7 +375,8 @@ object Main {
     resolver.resolve(meta.defaults, idl) match {
       case Some(err) =>
         System.err.println(err)
-        System.exit(1); return
+        System.exit(1);
+        return
       case _ =>
     }
 

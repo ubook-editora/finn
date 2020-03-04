@@ -9,23 +9,29 @@ class ObjcppMarshal(spec: Spec) extends Marshal(spec) {
   private val objcMarshal = new ObjcMarshal(spec)
 
   override def typename(tm: MExpr): String = throw new AssertionError("not applicable")
+
   override def typename(name: String, ty: TypeDef): String = throw new AssertionError("not applicable")
 
   override def fqTypename(tm: MExpr): String = throw new AssertionError("not applicable")
+
   def fqTypename(name: String, ty: TypeDef): String = throw new AssertionError("not applicable")
 
   override def paramType(tm: MExpr): String = throw new AssertionError("not applicable")
+
   override def fqParamType(tm: MExpr): String = throw new AssertionError("not applicable")
 
   override def returnType(ret: Option[TypeRef]): String = throw new AssertionError("not applicable")
+
   override def fqReturnType(ret: Option[TypeRef]): String = throw new AssertionError("not applicable")
 
   override def fieldType(tm: MExpr): String = throw new AssertionError("not applicable")
+
   override def fqFieldType(tm: MExpr): String = throw new AssertionError("not applicable")
 
   override def toCpp(tm: MExpr, expr: String): String = {
     s"${helperClass(tm)}::toCpp($expr)"
   }
+
   override def fromCpp(tm: MExpr, expr: String): String = {
     s"${helperClass(tm)}::fromCpp($expr)"
   }
@@ -57,12 +63,11 @@ class ObjcppMarshal(spec: Spec) extends Marshal(spec) {
     case _ => throw new AssertionError("not applicable")
   }
 
-  def helperClass(name: String) = idCpp.ty(name)
-  private def helperClass(tm: MExpr): String = helperName(tm) + helperTemplates(tm)
+  def privateHeaderName(ident: String): String = idObjc.ty(ident) + "+Private." + spec.objcHeaderExt
 
   def helperClassWithNs(name: String) = withNs(Some(spec.objcppNamespace), helperClass(name))
 
-  def privateHeaderName(ident: String): String = idObjc.ty(ident) + "+Private." + spec.objcHeaderExt
+  def helperClass(name: String) = idCpp.ty(name)
 
   def helperName(tm: MExpr): String = tm.base match {
     case d: MDef => d.defType match {
@@ -94,8 +99,11 @@ class ObjcppMarshal(spec: Spec) extends Marshal(spec) {
     })
   }
 
+  private def helperClass(tm: MExpr): String = helperName(tm) + helperTemplates(tm)
+
   private def helperTemplates(tm: MExpr): String = {
-    def f() = if(tm.args.isEmpty) "" else tm.args.map(helperClass).mkString("<", ", ", ">")
+    def f() = if (tm.args.isEmpty) "" else tm.args.map(helperClass).mkString("<", ", ", ">")
+
     tm.base match {
       case MOptional =>
         assert(tm.args.size == 1)
