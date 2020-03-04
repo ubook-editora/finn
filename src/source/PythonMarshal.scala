@@ -174,7 +174,7 @@ class PythonMarshal(spec: Spec) extends Marshal(spec) {
   def isPacked(ty: TypeRef): Boolean = ty.resolved.base match {
     case MOptional =>
       ty.resolved.args(0).base match {
-        case MPrimitive(_, _, _, _, _, _, _, _) | MDate => true
+        case MPrimitive(_, _, _, _, _, _, _, _, _) | MDate => true
         case MString | MBinary | MJson => true
         case _ => false
       }
@@ -192,7 +192,7 @@ class PythonMarshal(spec: Spec) extends Marshal(spec) {
     arg.ty.resolved.base match {
       case MOptional => {
         arg.ty.resolved.args(0).base match {
-          case MPrimitive(_, _, _, _, _, _, _, _) | MDate =>
+          case MPrimitive(_, _, _, _, _, _, _, _, _) | MDate =>
             val idlName = arg.ty.resolved.args(0).base.asInstanceOf[MOpaque].idlName
             "CPyBoxed" + idPython.className(idlName) + ".fromPyOpt" + p(argName) + " as " + pyArgName
           case _ => getPacked(arg.ty.resolved.args(0), true, argName, pyArgName)
@@ -233,7 +233,7 @@ class PythonMarshal(spec: Spec) extends Marshal(spec) {
   def fromRAII(name: String, ty: TypeRef): String = ty.resolved.base match {
     case MOptional => {
       ty.resolved.args(0).base match {
-        case MPrimitive(_, _, _, _, _, _, _, _) | MDate =>
+        case MPrimitive(_, _, _, _, _, _, _, _, _) | MDate =>
           idPython.method(name + ".get_djinni_boxed" + "()")
         case _ => fromRAII(name, ty.resolved.args(0), true)
       }
@@ -255,7 +255,7 @@ class PythonMarshal(spec: Spec) extends Marshal(spec) {
   def releaseRAII(name: String, ty: TypeRef): String = ty.resolved.base match {
     case MOptional =>
       ty.resolved.args(0).base match {
-        case MPrimitive(_, _, _, _, _, _, _, _) | MDate =>
+        case MPrimitive(_, _, _, _, _, _, _, _, _) | MDate =>
           idPython.method(name + ".release_djinni_boxed" + "()")
         case _ => releaseRAII(name, ty.resolved.args(0), true)
       }
@@ -283,7 +283,7 @@ class PythonMarshal(spec: Spec) extends Marshal(spec) {
       }
       case MOptional => {
         ty.args(0).base match {
-          case MPrimitive(_, _, _, _, _, _, _, _) | MDate =>
+          case MPrimitive(_, _, _, _, _, _, _, _, _) | MDate =>
             val idlName = ty.args(0).base.asInstanceOf[MOpaque].idlName
             "CPyBoxed" + idPython.className(idlName) + ".toPyOpt" + p(local)
           case _ => convertTo(name, ty.args(0), true)
@@ -333,7 +333,7 @@ class PythonMarshal(spec: Spec) extends Marshal(spec) {
       }
       case MOptional => {
         ty.args(0).base match {
-          case MPrimitive(_, _, _, _, _, _, _, _) | MDate =>
+          case MPrimitive(_, _, _, _, _, _, _, _, _) | MDate =>
             val idlName = ty.args(0).base.asInstanceOf[MOpaque].idlName
             "CPyBoxed" + idPython.className(idlName) + ".fromPyOpt" + p(local)
           case _ => convertFrom(name, ty.args(0), true)
@@ -370,7 +370,7 @@ class PythonMarshal(spec: Spec) extends Marshal(spec) {
       case MMap => "map"
       case MJson => "json"
       case MOptional => tm.args(0).base match {
-        case MPrimitive(_, _, _, _, _, _, _, _) | MDate => "boxed"
+        case MPrimitive(_, _, _, _, _, _, _, _, _) | MDate => "boxed"
         case _ => "optional"
       }
       case d: MDef => d.defType match {
