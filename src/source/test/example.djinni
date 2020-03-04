@@ -1,0 +1,7 @@
+hien = record {
+    hien: string;
+    hien_1: string;
+}
+base_record = record extends hien {
+    parent: string;
+}

@@ -18,6 +18,7 @@ package djinni.ast
 
 import java.io.File
 
+import djinni.ast.Enum.SpecialFlag.SpecialFlag
 import djinni.ast.Record.DerivingType.DerivingType
 import djinni.meta.MExpr
 import djinni.syntax.Loc
@@ -77,7 +78,6 @@ object Enum {
 
   case class Option(ident: Ident, doc: Doc, specialFlag: scala.Option[SpecialFlag], value: Any, deprecated: scala.Option[Deprecated])
 
-  import SpecialFlag._
 
   object SpecialFlag extends Enumeration {
     type SpecialFlag = Value
