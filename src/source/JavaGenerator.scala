@@ -44,7 +44,7 @@ class JavaGenerator(spec: Spec) extends Generator(spec) {
           writeDoc(w, o.doc)
           marshal.deprecatedAnnotation(o.deprecated).foreach(w.wl)
           if (o.value != None) {
-            var constValue = o.value match {
+            val constValue = o.value match {
               case Some(i) => i
             }
             shift = (constValue.toString.toInt);

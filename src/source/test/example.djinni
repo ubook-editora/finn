@@ -1,7 +1,14 @@
-hien = record {
-    hien: string;
-    hien_1: string;
+my_enum = enum {
+    hien;
+    a;
+    b;
 }
-base_record = record extends hien {
-    parent: string;
+my_record = record {
+    id: i32;
+    info: optional<string>;
+    l1: list<string>;
+}
+
+sub_recrod = record extends my_record {
+    hien: string;
 }

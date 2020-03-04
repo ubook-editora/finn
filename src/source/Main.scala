@@ -94,7 +94,8 @@ object Main {
     var pycffiDynamicLibList: String = ""
     var pycffiOutFolder: Option[File] = None
     var pyImportPrefix: String = ""
-
+    var swiftIdentStyle = IdentStyle.swiftDefault
+    var swiftOutFolder: Option[File] = None
     val argParser = new scopt.OptionParser[Unit]("djinni") {
 
       def identStyle(optionName: String, update: IdentConverter => Unit) = {
@@ -214,6 +215,9 @@ object Main {
         .text("The namespace name to use for generated Objective-C++ classes.")
       opt[String]("objc-base-lib-include-prefix").valueName("...").foreach(x => objcBaseLibIncludePrefix = x)
         .text("The Objective-C++ base library's include path, relative to the Objective-C++ classes.")
+      note("")
+      opt[File]("swift-out").valueName("<out-folder>").foreach(x => swiftOutFolder = Some(x))
+        .text("The output folder for Swift files (Generator disabled if unspecified).")
       note("")
       opt[File]("yaml-out").valueName("<out-folder>").foreach(x => yamlOutFolder = Some(x))
         .text("The output folder for YAML files (Generator disabled if unspecified).")
@@ -465,7 +469,10 @@ object Main {
       pycffiDynamicLibList,
       idlFileName,
       cWrapperOutFolder,
-      pyImportPrefix)
+      pyImportPrefix,
+      swiftIdentStyle,
+      swiftOutFolder
+    )
 
     try {
       val r = generate(idl, outSpec)

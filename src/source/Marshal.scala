@@ -16,6 +16,7 @@ abstract class Marshal(spec: Spec) {
   protected val idJava = spec.javaIdentStyle
   protected val idObjc = spec.objcIdentStyle
   protected val idPython = spec.pyIdentStyle
+  protected val idSwift = spec.swiftIdentStyle
 
   def typename(name: String, ty: TypeDef): String
 
@@ -71,8 +72,7 @@ abstract class Marshal(spec: Spec) {
         idl.find(td => td.ident.name == value) match {
           case Some(superDec) => superDec.body match {
             case br: Record => {
-              val name = typename(superDec.ident, br)
-              return extendsRecordFormat(name)
+              extendsRecordFormat(typename(superDec.ident, br))
             }
             case _ => throw new AssertionError("Unreachable. The parser throws an exception when extending a non-interface type.")
           }

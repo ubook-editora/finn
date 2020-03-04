@@ -106,6 +106,15 @@ package object generatorTools {
         }
         new CffiGenerator(spec).generate(idl)
       }
+
+      if (spec.swiftOutFolder.isDefined) {
+        DEBUG(spec.swiftOutFolder.get.toString)
+        if (!spec.skipGeneration) {
+          createFolder("Swift", spec.swiftOutFolder.get)
+        }
+        new SwiftGenerator(spec).generate(idl)
+      }
+
       None
     }
     catch {
@@ -198,7 +207,9 @@ package object generatorTools {
                    pycffiDynamicLibList: String,
                    idlFileName: String,
                    cWrapperOutFolder: Option[File],
-                   pyImportPrefix: String)
+                   pyImportPrefix: String,
+                   swiftIdentStyle: SwiftIdentStyle,
+                   swiftOutFolder: Option[File])
 
   case class CppIdentStyle(ty: IdentConverter, enumType: IdentConverter, typeParam: IdentConverter,
                            method: IdentConverter, field: IdentConverter, local: IdentConverter,
@@ -217,6 +228,10 @@ package object generatorTools {
   case class PythonIdentStyle(ty: IdentConverter, className: IdentConverter, typeParam: IdentConverter,
                               method: IdentConverter, field: IdentConverter, local: IdentConverter,
                               enum: IdentConverter, const: IdentConverter)
+
+  case class SwiftIdentStyle(ty: IdentConverter, typeParam: IdentConverter,
+                             method: IdentConverter, field: IdentConverter, local: IdentConverter,
+                             enum: IdentConverter, const: IdentConverter)
 
   final case class SkipFirst() {
     private var first = true
@@ -252,6 +267,15 @@ package object generatorTools {
     val cppDefault = CppIdentStyle(camelUpper, camelUpper, camelUpper, underLower, underLower, underLower, underCaps, underCaps)
     val objcDefault = ObjcIdentStyle(camelUpper, camelUpper, camelLower, camelLower, camelLower, camelUpper, camelUpper)
     val pythonDefault = PythonIdentStyle(underLower, camelUpper, underLower, underLower, underLower, underLower, underUpper, underCaps)
+
+    val swiftDefault = SwiftIdentStyle(
+      ty = camelUpper,
+      typeParam = camelUpper,
+      method = camelLower,
+      field = camelLower,
+      local = camelLower,
+      `enum` = camelLower,
+      const = camelLower)
 
     val styles = Map(
       "FooBar" -> camelUpper,
@@ -293,15 +317,16 @@ package object generatorTools {
 }
 
 object Generator {
-  val writtenFiles = mutable.HashMap[String, String]()
+  val writtenFiles: mutable.Map[String, String] = mutable.HashMap[String, String]()
 }
 
 abstract class Generator(spec: Spec) {
 
-  val idCpp = spec.cppIdentStyle
-  val idJava = spec.javaIdentStyle
-  val idObjc = spec.objcIdentStyle
-  val idPython = spec.pyIdentStyle
+  val idCpp: CppIdentStyle = spec.cppIdentStyle
+  val idJava: JavaIdentStyle = spec.javaIdentStyle
+  val idObjc: ObjcIdentStyle = spec.objcIdentStyle
+  val idPython: PythonIdentStyle = spec.pyIdentStyle
+  val idSwift: SwiftIdentStyle = spec.swiftIdentStyle
 
   implicit def identToString(ident: Ident): String = ident.name
 

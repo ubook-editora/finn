@@ -48,10 +48,10 @@ class ObjcGenerator(spec: Spec) extends BaseObjcGenerator(spec) {
       var enumEnd = ";"
       if (spec.objcSupportSwiftName) {
         val swiftName = self.replace(spec.objcTypePrefix, "")
-        enumEnd = s" NS_SWIFT_NAME(${swiftName});"
+        enumEnd = s" NS_SWIFT_NAME($swiftName);"
       }
 
-      w.bracedEnd(s"${enumEnd}") {
+      w.bracedEnd(s"$enumEnd") {
         writeEnumOptionNone(w, e, self + idObjc.enum(_), marshal)
         writeEnumOptions(w, e, self + idObjc.enum(_), marshal)
         writeEnumOptionAll(w, e, self + idObjc.enum(_), marshal)
@@ -64,11 +64,11 @@ class ObjcGenerator(spec: Spec) extends BaseObjcGenerator(spec) {
     */
   override def generateInterface(origin: String, ident: Ident, doc: Doc, typeParams: Seq[TypeParam], i: Interface, deprecated: scala.Option[Deprecated]) {
     val refs = new ObjcRefs()
-    i.methods.map(m => {
-      m.params.map(p => refs.find(p.ty))
+    i.methods.foreach(m => {
+      m.params.foreach(p => refs.find(p.ty))
       m.ret.foreach(refs.find)
     })
-    i.consts.map(c => {
+    i.consts.foreach(c => {
       refs.find(c.ty)
     })
 
@@ -96,7 +96,7 @@ class ObjcGenerator(spec: Spec) extends BaseObjcGenerator(spec) {
       marshal.deprecatedAnnotation(deprecated).foreach(w.wl)
       if (spec.objcSupportSwiftName) {
         val swiftName = self.replace(spec.objcTypePrefix, "")
-        w.wl(s"NS_SWIFT_NAME(${swiftName})")
+        w.wl(s"NS_SWIFT_NAME($swiftName)")
       }
 
       if (i.ext.objc) {
@@ -178,6 +178,7 @@ class ObjcGenerator(spec: Spec) extends BaseObjcGenerator(spec) {
     }
 
 
+    @scala.annotation.tailrec
     def checkMutable(tm: MExpr): Boolean = tm.base match {
       case MOptional => checkMutable(tm.args.head)
       case MString => true
@@ -193,31 +194,28 @@ class ObjcGenerator(spec: Spec) extends BaseObjcGenerator(spec) {
       case Some(value) => value.fields
     }
     val (superClass, firstInitializerArg) = superRecord match {
-      case None => {
+      case None =>
         ("NSObject", if (r.fields.isEmpty) "" else IdentStyle.camelUpper("with_" + r.fields.head.ident.name))
-      }
-      case Some(value) => {
+      case Some(value) =>
         ((if (r.ext.objc) spec.objcExtendedRecordIncludePrefix else spec.objcIncludePrefix) + marshal.typename(value.ident, value.record),
           if (r.fields.isEmpty) "" else IdentStyle.camelUpper("with_" + value.fields.head.ident.name)
         )
-      }
     }
 
     // Generate the header file for record
     writeObjcFile(marshal.headerName(objcName), origin, refs.header, w => {
 
       superRecord match {
-        case None => {}
-        case Some(value) => {
+        case None =>
+        case Some(value) =>
           w.wl("#import " + q((if (r.ext.objc) spec.objcExtendedRecordIncludePrefix else spec.objcIncludePrefix) + marshal.headerName(value.ident)))
-        }
       }
 
       writeDoc(w, doc)
       marshal.deprecatedAnnotation(deprecated).foreach(w.wl)
       if (spec.objcSupportSwiftName) {
         val swiftName = self.replace(spec.objcTypePrefix, "")
-        w.wl(s"NS_SWIFT_NAME(${swiftName})")
+        w.wl(s"NS_SWIFT_NAME($swiftName)")
       }
 
       w.wl(s"@interface $self : $superClass")
@@ -243,7 +241,7 @@ class ObjcGenerator(spec: Spec) extends BaseObjcGenerator(spec) {
         writeDoc(w, f.doc)
         val nullability = marshal.nullability(f.ty.resolved).fold("")(", " + _)
         val readonly = if (f.modifiable) "" else ", readonly"
-        w.wl(s"@property (nonatomic${readonly}${nullability}) ${marshal.fqFieldType(f.ty)} ${idObjc.field(f.ident)};")
+        w.wl(s"@property (nonatomic$readonly$nullability) ${marshal.fqFieldType(f.ty)} ${idObjc.field(f.ident)};")
       }
       if (r.derivingTypes.contains(DerivingType.Ord)) {
         w.wl
@@ -257,7 +255,7 @@ class ObjcGenerator(spec: Spec) extends BaseObjcGenerator(spec) {
         for (c <- r.consts if marshal.canBeConstVariable(c)) {
           writeDoc(w, c.doc)
           w.w(s"extern ")
-          writeObjcConstVariableDecl(w, c, noBaseSelf);
+          writeObjcConstVariableDecl(w, c, noBaseSelf)
           w.wl(s";")
         }
       }
@@ -277,10 +275,9 @@ class ObjcGenerator(spec: Spec) extends BaseObjcGenerator(spec) {
       w.braced {
         superRecord match {
           case None => w.w("if (self = [super init])")
-          case Some(value) => {
+          case Some(value) =>
             writeAlignedObjcCall(w, s"if (self = [super init$firstInitializerArg", value.fields, "", f => (idObjc.field(f.ident), s"${idObjc.local(f.ident)}"))
             w.wl("])")
-          }
         }
         w.braced {
           for (f <- r.fields) {
@@ -470,8 +467,8 @@ class ObjcGenerator(spec: Spec) extends BaseObjcGenerator(spec) {
   }
 
   class ObjcRefs() {
-    var body = mutable.TreeSet[String]()
-    var header = mutable.TreeSet[String]()
+    var body: mutable.Set[String] = mutable.TreeSet[String]()
+    var header: mutable.Set[String] = mutable.TreeSet[String]()
 
     def find(ty: TypeRef) {
       find(ty.resolved)
@@ -482,7 +479,7 @@ class ObjcGenerator(spec: Spec) extends BaseObjcGenerator(spec) {
       find(tm.base)
     }
 
-    def find(m: Meta) = for (r <- marshal.references(m)) r match {
+    def find(m: Meta): Unit = for (r <- marshal.references(m)) r match {
       case ImportRef(arg) => header.add("#import " + arg)
       case DeclRef(decl, _) => header.add(decl)
     }
