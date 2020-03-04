@@ -23,13 +23,13 @@ import scala.collection.immutable
 package object meta {
 
   val defaults: Map[String, MOpaque] = immutable.HashMap(
-    ("i8", MPrimitive("i8", "byte", "jbyte", "int8_t", "Byte", "B", "int8_t", "NSNumber")),
-    ("i16", MPrimitive("i16", "short", "jshort", "int16_t", "Short", "S", "int16_t", "NSNumber")),
-    ("i32", MPrimitive("i32", "int", "jint", "int32_t", "Integer", "I", "int32_t", "NSNumber")),
-    ("i64", MPrimitive("i64", "long", "jlong", "int64_t", "Long", "J", "int64_t", "NSNumber")),
-    ("f32", MPrimitive("f32", "float", "jfloat", "float", "Float", "F", "float", "NSNumber")),
-    ("f64", MPrimitive("f64", "double", "jdouble", "double", "Double", "D", "double", "NSNumber")),
-    ("bool", MPrimitive("bool", "boolean", "jboolean", "bool", "Boolean", "Z", "BOOL", "NSNumber")),
+    ("i8", MPrimitive("i8", "byte", "jbyte", "int8_t", "Byte", "B", "int8_t", "NSNumber", "Int8")),
+    ("i16", MPrimitive("i16", "short", "jshort", "int16_t", "Short", "S", "int16_t", "NSNumber", "Int16")),
+    ("i32", MPrimitive("i32", "int", "jint", "int32_t", "Integer", "I", "int32_t", "NSNumber", "Int32")),
+    ("i64", MPrimitive("i64", "long", "jlong", "int64_t", "Long", "J", "int64_t", "NSNumber", "Int64")),
+    ("f32", MPrimitive("f32", "float", "jfloat", "float", "Float", "F", "float", "NSNumber", "Float32")),
+    ("f64", MPrimitive("f64", "double", "jdouble", "double", "Double", "D", "double", "NSNumber", "Float64")),
+    ("bool", MPrimitive("bool", "boolean", "jboolean", "bool", "Boolean", "Z", "BOOL", "NSNumber", "Bool")),
     ("string", MString),
     ("binary", MBinary),
     ("optional", MOptional),
@@ -71,7 +71,7 @@ package object meta {
 
   case class MExtern(name: String, override val numParams: Int, defType: DefType, body: TypeDef, cpp: MExtern.Cpp, objc: MExtern.Objc, objcpp: MExtern.Objcpp, java: MExtern.Java, jni: MExtern.Jni) extends Meta
 
-  case class MPrimitive(_idlName: String, jName: String, jniName: String, cName: String, jBoxed: String, jSig: String, objcName: String, objcBoxed: String) extends MOpaque {
+  case class MPrimitive(_idlName: String, jName: String, jniName: String, cName: String, jBoxed: String, jSig: String, objcName: String, objcBoxed: String, swiftName: String) extends MOpaque {
     val numParams = 0;
     val idlName = _idlName
   }
