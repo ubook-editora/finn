@@ -5,7 +5,7 @@
   * you may not use this file except in compliance with the License.
   * You may obtain a copy of the License at
   *
-  *    http://www.apache.org/licenses/LICENSE-2.0
+  * http://www.apache.org/licenses/LICENSE-2.0
   *
   * Unless required by applicable law or agreed to in writing, software
   * distributed under the License is distributed on an "AS IS" BASIS,
@@ -38,7 +38,7 @@ class SwiftBridgingHeaderGenerator(spec: Spec) extends Generator(spec) {
 }
 
 object SwiftBridgingHeaderGenerator {
-  
+
   val bridgingHeaderName = (s: String) => s.split('-').mkString("_")
   val bridgingHeaderVariables = (s: String) => s.split('-').mkString("")
 
@@ -53,9 +53,9 @@ object SwiftBridgingHeaderGenerator {
   def writeBridgingVars(name: String, writer: Writer) {
     val bridgingHeaderVarName = bridgingHeaderVariables(name)
     writer.write("#import <Foundation/Foundation.h>\n\n")
-    writer.write("//! Project version number for " + bridgingHeaderVarName +".\n")
+    writer.write("//! Project version number for " + bridgingHeaderVarName + ".\n")
     writer.write("FOUNDATION_EXPORT double " + bridgingHeaderVarName + "VersionNumber;\n\n")
-    writer.write("//! Project version string for " + bridgingHeaderVarName +".\n")
+    writer.write("//! Project version string for " + bridgingHeaderVarName + ".\n")
     writer.write("FOUNDATION_EXPORT const unsigned char " + bridgingHeaderVarName + "VersionString[];\n\n")
   }
 }
