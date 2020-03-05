@@ -9,5 +9,10 @@ my_record = record {
 
 hello = interface +c {
     static create(): hello;
-    say_hello(): my_record;
+
+    hlll();
+
+    say_hello(e: my_enum): my_record;
+
+    say_hi(): my_enum;
 }

@@ -53,31 +53,7 @@ class SwiftGenerator(spec: Spec) extends ObjcGenerator(spec) {
       f(w)
     })
   }
-  override def generateEnum(origin: String, ident: Ident, doc: Doc, e: Enum, deprecated: Option[Deprecated]): Unit = {
-    var header: mutable.Set[String] = mutable.TreeSet[String]()
-    header.add("import Foundation")
 
-    writeSwiftFile(ident, origin = origin, header, w => {
-      writeDoc(w, doc)
-      swiftMarshal.deprecatedAnnotation(deprecated)
-      w.w(s"@objc public enum ${swiftMarshal.typename(ident, e)} : Int").braced {
-        var shift = -1
-        for (o <- normalEnumOptions(e)) {
-          writeDoc(w, o.doc)
-          swiftMarshal.deprecatedAnnotation(o.deprecated).foreach(w.wl)
-          if (o.value != None) {
-            val constValue = o.value match {
-              case Some(i) => i
-            }
-            shift = (constValue.toString.toInt);
-          } else {
-            shift = shift + 1;
-          }
-          w.wl(s"case ${idSwift.enum(o.ident)} = $shift")
-        }
-      }
-    })
-  }
 
   override def generateRecord(origin: String, ident: Ident, doc: Doc, params: Seq[TypeParam], r: Record, deprecated: Option[Deprecated], idl: Seq[TypeDecl]): Unit = {
     var header: mutable.Set[String] = mutable.TreeSet[String]()
@@ -146,8 +122,8 @@ class SwiftGenerator(spec: Spec) extends ObjcGenerator(spec) {
   }
 
   class SwiftObjcRefs() {
-    var body: mutable.Set[String] = mutable.TreeSet[String]()
-    var header: mutable.Set[String] = mutable.TreeSet[String]()
+    var body: mutable.Set[String] = mutable.Set[String]()
+    var header: mutable.Set[String] = mutable.Set[String]()
 
     def find(ty: TypeRef) {
       find(ty.resolved)
@@ -159,7 +135,15 @@ class SwiftGenerator(spec: Spec) extends ObjcGenerator(spec) {
     }
 
     def find(m: Meta): Unit = for (r <- marshal.references(m)) r match {
-      case ImportRef(arg) => header.add("#import " + arg)
+      case ImportRef(arg) => {
+        m match {
+          case MDef(name, numParams, defType, body) => defType match {
+            case DRecord => header.add(s"@class ${marshal.typename(name)};")
+            case _ => header.add("#import " + arg)
+          }
+          case _ => header.add("#import " + arg)
+        }
+      }
       case DeclRef(decl, _) => header.add(decl)
     }
   }
@@ -172,15 +156,22 @@ class SwiftGenerator(spec: Spec) extends ObjcGenerator(spec) {
 
     val self = marshal.typename(ident, i)
     refs.header.add("#import <Foundation/Foundation.h>")
-
     i.methods.foreach(m => {
-      m.params.foreach(p => {
-        printf(s"=====> ${p.ident.name}")
-      })
-      m.ret.foreach(p => {
-        refs.header.add(s"@class ${marshal.typename(p.expr.ident.name, i)};")
-      })
+      m.params.foreach(p => refs.find(p.ty))
+      m.ret.foreach(refs.find)
     })
+    i.consts.foreach(c => {
+      refs.find(c.ty)
+    })
+
+//    i.methods.foreach(m => {
+//      m.params.foreach(p => {
+//        refs.header.add(s"typedef NS_ENUM(NSInteger, ${marshal.typename(p.ty)});")
+//      })
+//      m.ret.foreach(p => {
+//        refs.header.add(s"@class ${marshal.typename(p.expr.ident.name, i)};")
+//      })
+//    })
 
     writeObjcFile(marshal.headerName(ident), origin, refs.header, w => {
       for (c <- i.consts if marshal.canBeConstVariable(c)) {
