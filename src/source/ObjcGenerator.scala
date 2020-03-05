@@ -59,6 +59,13 @@ class ObjcGenerator(spec: Spec) extends BaseObjcGenerator(spec) {
     })
   }
 
+  def writeObjcFuncDecl(method: Interface.Method, w: IndentWriter) {
+    val label = if (method.static) "+" else "-"
+    val ret = marshal.returnType(method.ret)
+    val decl = s"$label ($ret)${idObjc.method(method.ident)}"
+    writeAlignedObjcCall(w, decl, method.params, "", p => (idObjc.field(p.ident), s"(${marshal.paramType(p.ty)})${idObjc.local(p.ident)}"))
+  }
+
   /**
     * Generate Interface
     */
@@ -73,15 +80,7 @@ class ObjcGenerator(spec: Spec) extends BaseObjcGenerator(spec) {
     })
 
     val self = marshal.typename(ident, i)
-
     refs.header.add("#import <Foundation/Foundation.h>")
-
-    def writeObjcFuncDecl(method: Interface.Method, w: IndentWriter) {
-      val label = if (method.static) "+" else "-"
-      val ret = marshal.returnType(method.ret)
-      val decl = s"$label ($ret)${idObjc.method(method.ident)}"
-      writeAlignedObjcCall(w, decl, method.params, "", p => (idObjc.field(p.ident), s"(${marshal.paramType(p.ty)})${idObjc.local(p.ident)}"))
-    }
 
     // Generate the header file for Interface
     writeObjcFile(marshal.headerName(ident), origin, refs.header, w => {
@@ -466,9 +465,9 @@ class ObjcGenerator(spec: Spec) extends BaseObjcGenerator(spec) {
     })
   }
 
-  class ObjcRefs() {
-    var body: mutable.Set[String] = mutable.TreeSet[String]()
-    var header: mutable.Set[String] = mutable.TreeSet[String]()
+  protected class ObjcRefs() {
+    var body: mutable.Set[String] = mutable.Set[String]()
+    var header: mutable.Set[String] = mutable.Set[String]()
 
     def find(ty: TypeRef) {
       find(ty.resolved)

@@ -5,10 +5,9 @@ my_enum = enum {
 }
 my_record = record {
     id: i32;
-    info: optional<string>;
-    l1: list<string>;
 }
 
-sub_recrod = record extends my_record {
-    hien: string;
+hello = interface +c {
+    static create(): hello;
+    say_hello(): my_record;
 }

@@ -209,7 +209,8 @@ package object generatorTools {
                    cWrapperOutFolder: Option[File],
                    pyImportPrefix: String,
                    swiftIdentStyle: SwiftIdentStyle,
-                   swiftOutFolder: Option[File])
+                   swiftOutFolder: Option[File],
+                   swiftGeneratedHeader: Option[String])
 
   case class CppIdentStyle(ty: IdentConverter, enumType: IdentConverter, typeParam: IdentConverter,
                            method: IdentConverter, field: IdentConverter, local: IdentConverter,

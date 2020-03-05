@@ -67,7 +67,7 @@ class ObjcppMarshal(spec: Spec) extends Marshal(spec) {
 
   def helperClassWithNs(name: String) = withNs(Some(spec.objcppNamespace), helperClass(name))
 
-  def helperClass(name: String) = idCpp.ty(name)
+  def helperClass(name: String) = s"${idCpp.ty(name)}Helper"
 
   def helperName(tm: MExpr): String = tm.base match {
     case d: MDef => d.defType match {
