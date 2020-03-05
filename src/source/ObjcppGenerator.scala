@@ -47,11 +47,12 @@ class ObjcppGenerator(spec: Spec) extends BaseObjcGenerator(spec) {
 
   override def generateInterface(origin: String, ident: Ident, doc: Doc, typeParams: Seq[TypeParam], i: Interface, deprecated: scala.Option[Deprecated]) {
     val refs = new ObjcRefs()
-    i.methods.map(m => {
-      m.params.map(p => refs.find(p.ty))
+
+    i.methods.foreach(m => {
+      m.params.foreach(p => refs.find(p.ty))
       m.ret.foreach(refs.find)
     })
-    i.consts.map(c => {
+    i.consts.foreach(c => {
       refs.find(c.ty)
     })
 
@@ -120,7 +121,7 @@ class ObjcppGenerator(spec: Spec) extends BaseObjcGenerator(spec) {
       refs.body.add("#include <utility>")
       refs.body.add("#include <exception>")
     }
-    if (!spec.cppNnType.isEmpty || !spec.cppNnCheckExpression.nonEmpty) {
+    if (spec.cppNnType.isDefined || spec.cppNnCheckExpression.isEmpty) {
       refs.body.add("#include <stdexcept>")
     }
 
@@ -320,18 +321,17 @@ class ObjcppGenerator(spec: Spec) extends BaseObjcGenerator(spec) {
     val noBaseSelf = objcMarshal.typename(ident, r) // Used for constant names
     val cppSelf = cppMarshal.fqTypename(ident, r)
 
-    refs.privHeader.add("!#import " + q((if (r.ext.objc) spec.objcExtendedRecordIncludePrefix else spec.objcppIncludeObjcPrefix) + headerName(ident)))
+    if (spec.swiftGeneratedHeader.isDefined) {
+      refs.privHeader.add(s"!#import <UIKit/UIKit.h>") // Mus
+      refs.privHeader.add(s"!#import ${spec.swiftGeneratedHeader.get}")
+    } else {
+      refs.privHeader.add("!#import " + q((if (r.ext.objc) spec.objcExtendedRecordIncludePrefix else spec.objcppIncludeObjcPrefix) + headerName(ident)))
+    }
+
     refs.privHeader.add("!#include " + q((if (r.ext.cpp) spec.cppExtendedRecordIncludePrefix else spec.objcppIncludeCppPrefix) + spec.cppFileIdentStyle(ident) + "." + spec.cppHeaderExt))
 
     refs.body.add("#include <cassert>")
     refs.body.add("!#import " + q(spec.objcppIncludePrefix + objcppMarshal.privateHeaderName(objcName)))
-
-    def checkMutable(tm: MExpr): Boolean = tm.base match {
-      case MOptional => checkMutable(tm.args.head)
-      case MString => true
-      case MBinary => true
-      case _ => false
-    }
 
     val helperClass = objcppMarshal.helperClass(ident)
 
@@ -412,8 +412,8 @@ class ObjcppGenerator(spec: Spec) extends BaseObjcGenerator(spec) {
   }
 
   class ObjcRefs() {
-    var body = mutable.TreeSet[String]()
-    var privHeader = mutable.TreeSet[String]()
+    var body: mutable.Set[String] = mutable.Set[String]()
+    var privHeader: mutable.Set[String] = mutable.Set[String]()
 
     def find(ty: TypeRef) {
       find(ty.resolved)
@@ -424,7 +424,7 @@ class ObjcppGenerator(spec: Spec) extends BaseObjcGenerator(spec) {
       find(tm.base)
     }
 
-    def find(m: Meta) = for (r <- objcppMarshal.references(m)) r match {
+    def find(m: Meta): Unit = for (r <- objcppMarshal.references(m)) r match {
       case ImportRef(arg) => body.add("#import " + arg)
       case _ =>
     }

@@ -19,6 +19,7 @@ package djinni
 import java.io._
 
 import djinni.generatorTools._
+import scopt.{OptionDef, OptionParser}
 
 object Main {
 
@@ -97,9 +98,12 @@ object Main {
     var pyImportPrefix: String = ""
     var swiftIdentStyle = IdentStyle.swiftDefault
     var swiftOutFolder: Option[File] = None
-    val argParser = new scopt.OptionParser[Unit]("djinni") {
+    var swiftGeneratedHeader: Option[String] = None
 
-      def identStyle(optionName: String, update: IdentConverter => Unit) = {
+
+    val argParser: OptionParser[Unit] = new scopt.OptionParser[Unit]("djinni") {
+
+      def identStyle(optionName: String, update: IdentConverter => Unit): OptionDef[String, Unit] = {
         opt[String](optionName).valueName("...").foreach(spec =>
           IdentStyle.infer(spec) match {
             case None => failure("invalid ident spec: \"" + spec + "\"")
@@ -199,6 +203,7 @@ object Main {
         .text("The name of Objective-C Bridging Header used in XCode's Swift projects.")
       opt[Boolean]("objc-closed-enums").valueName("<true/false>").foreach(x => objcClosedEnums = x)
         .text("All generated Objective-C enums will be NS_CLOSED_ENUM (default: false). ")
+
       note("")
       opt[File]("objcpp-out").valueName("<out-folder>").foreach(x => objcppOutFolder = Some(x))
         .text("The output folder for private Objective-C++ files (Generator disabled if unspecified).")
@@ -221,6 +226,10 @@ object Main {
       note("")
       opt[File]("swift-out").valueName("<out-folder>").foreach(x => swiftOutFolder = Some(x))
         .text("The output folder for Swift files (Generator disabled if unspecified).")
+
+      opt[String]("swift-generated-header").valueName("<swift-generated-header>").foreach(x => swiftGeneratedHeader = Some(x))
+        .text("The output folder for Swift files (Generator disabled if unspecified).")
+
       note("")
       opt[File]("yaml-out").valueName("<out-folder>").foreach(x => yamlOutFolder = Some(x))
         .text("The output folder for YAML files (Generator disabled if unspecified).")
@@ -475,7 +484,8 @@ object Main {
       cWrapperOutFolder,
       pyImportPrefix,
       swiftIdentStyle,
-      swiftOutFolder
+      swiftOutFolder,
+      swiftGeneratedHeader
     )
 
     try {
