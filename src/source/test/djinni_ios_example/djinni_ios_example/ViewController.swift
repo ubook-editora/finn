@@ -14,8 +14,12 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         let hello = Hello.create()
-        let mr = hello?.say()
+        hello?.hlll()
         
+        let a: MyEnum = (hello?.sayHi())!
+        
+        let mr = hello?.say(.A)
+//        
         print("\(mr?.id)")
     }
 

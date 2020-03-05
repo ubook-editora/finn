@@ -10,6 +10,5 @@
 #define Header_h
 
 #import "Hello.h"
-//#import "djinni_ios_example-Swift.h"
 
 #endif /* Header_h */

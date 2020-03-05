@@ -22,6 +22,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7C0AABE12410FD7D0016431A /* my_enum.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = my_enum.hpp; sourceTree = "<group>"; };
+		7C0AABE22410FE8C0016431A /* MyEnum+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MyEnum+Private.h"; sourceTree = "<group>"; };
+		7C0AABE524110AD00016431A /* MyEnum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyEnum.h; sourceTree = "<group>"; };
 		7CA93C17240FA6D900C27267 /* djinni_ios_example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = djinni_ios_example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7CA93C1A240FA6D900C27267 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7CA93C1C240FA6D900C27267 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -47,7 +50,6 @@
 		7CA93D13240FB79500C27267 /* hello_impl.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = hello_impl.cpp; sourceTree = "<group>"; };
 		7CA93D14240FB79500C27267 /* hello_impl.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = hello_impl.hpp; sourceTree = "<group>"; };
 		7CA93D2B240FD3BC00C27267 /* Hello+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Hello+Private.h"; sourceTree = "<group>"; };
-		7CA93D2C240FD3BC00C27267 /* MyEnum+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MyEnum+Private.h"; sourceTree = "<group>"; };
 		7CA93D2E240FD3BC00C27267 /* MyRecord+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MyRecord+Private.h"; sourceTree = "<group>"; };
 		7CA93D2F240FD3BC00C27267 /* Hello+Private.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "Hello+Private.mm"; sourceTree = "<group>"; };
 		7CA93D30240FD3BC00C27267 /* MyRecord+Private.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "MyRecord+Private.mm"; sourceTree = "<group>"; };
@@ -115,6 +117,7 @@
 		7CA93C68240FAE7200C27267 /* cpp */ = {
 			isa = PBXGroup;
 			children = (
+				7C0AABE12410FD7D0016431A /* my_enum.hpp */,
 				7CA93D12240FB75400C27267 /* hello.hpp */,
 				7CA93C6D240FAE7200C27267 /* my_record.hpp */,
 				7CA93D13240FB79500C27267 /* hello_impl.cpp */,
@@ -193,9 +196,9 @@
 		7CA93D29240FD3BC00C27267 /* objc */ = {
 			isa = PBXGroup;
 			children = (
+				7C0AABE22410FE8C0016431A /* MyEnum+Private.h */,
 				7CA93D2B240FD3BC00C27267 /* Hello+Private.h */,
 				7CA93D2F240FD3BC00C27267 /* Hello+Private.mm */,
-				7CA93D2C240FD3BC00C27267 /* MyEnum+Private.h */,
 				7CA93D2E240FD3BC00C27267 /* MyRecord+Private.h */,
 				7CA93D30240FD3BC00C27267 /* MyRecord+Private.mm */,
 			);
@@ -205,6 +208,7 @@
 		7CA93D39240FD3E200C27267 /* swift */ = {
 			isa = PBXGroup;
 			children = (
+				7C0AABE524110AD00016431A /* MyEnum.h */,
 				7CA93D41240FEF4700C27267 /* Hello.h */,
 				7CA93D3B240FD3E200C27267 /* MyRecord.swift */,
 			);

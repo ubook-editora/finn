@@ -93,6 +93,8 @@ class ObjcMarshal(spec: Spec) extends Marshal(spec) {
     case e: Enum => "NSNumber"
   }
 
+  def typename(name: String): String = idObjc.ty(name)
+
   override def typename(name: String, ty: TypeDef): String = idObjc.ty(name)
 
   // Return value: (Type_Name, Is_Class_Or_Not)
