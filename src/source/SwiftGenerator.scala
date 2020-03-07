@@ -164,15 +164,6 @@ class SwiftGenerator(spec: Spec) extends ObjcGenerator(spec) {
       refs.find(c.ty)
     })
 
-//    i.methods.foreach(m => {
-//      m.params.foreach(p => {
-//        refs.header.add(s"typedef NS_ENUM(NSInteger, ${marshal.typename(p.ty)});")
-//      })
-//      m.ret.foreach(p => {
-//        refs.header.add(s"@class ${marshal.typename(p.expr.ident.name, i)};")
-//      })
-//    })
-
     writeObjcFile(marshal.headerName(ident), origin, refs.header, w => {
       for (c <- i.consts if marshal.canBeConstVariable(c)) {
         writeDoc(w, c.doc)
