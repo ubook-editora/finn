@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import DjinniExample
 class ViewController: UIViewController {
 
     override func viewDidLoad() {
