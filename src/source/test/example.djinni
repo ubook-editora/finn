@@ -5,6 +5,8 @@ my_enum = enum {
 }
 my_record = record {
     id: i32;
+    e: my_enum;
+    resting: optional<i32>;
 }
 
 hello = interface +c {

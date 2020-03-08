@@ -404,8 +404,16 @@ object Main {
     } else {
       None
     }
-    val objcSwiftBridgingHeaderWriter = if (objcSwiftBridgingHeaderName.isDefined && objcOutFolder.isDefined) {
-      val objcSwiftBridgingHeaderFile = new File(objcOutFolder.get.getPath, objcSwiftBridgingHeaderName.get + ".h")
+    val objcSwiftBridgingHeaderWriter = if (objcSwiftBridgingHeaderName.isDefined && (objcOutFolder.isDefined || swiftOutFolder.isDefined)) {
+      val path = if(objcOutFolder.isDefined) {
+        objcOutFolder.get.getPath
+      } else if (swiftOutFolder.isDefined) {
+        swiftOutFolder.get.getPath
+      } else {
+        throw new AssertionError("unexpected behavior here?")
+      }
+
+      val objcSwiftBridgingHeaderFile = new File(path, objcSwiftBridgingHeaderName.get + ".h")
       if (objcSwiftBridgingHeaderFile.getParentFile != null)
         createFolder("output file list", objcSwiftBridgingHeaderFile.getParentFile)
       Some(new BufferedWriter(new FileWriter(objcSwiftBridgingHeaderFile)))

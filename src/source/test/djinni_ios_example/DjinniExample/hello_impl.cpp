@@ -25,7 +25,7 @@ std::shared_ptr<Hello> Hello::create() {
 //}
 
 MyRecord HelloImpl::say_hello(my_enum en) {
-    return MyRecord(1000);
+    return MyRecord(1000, en);
 }
 
 my_enum HelloImpl::say_hi() {
