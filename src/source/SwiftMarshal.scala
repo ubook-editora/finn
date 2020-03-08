@@ -67,7 +67,7 @@ class SwiftMarshal(spec: Spec) extends Marshal(spec) {
           val arg = tm.args.head
           arg.base match {
             case MOptional => throw new AssertionError("nested optional?")
-            case m => f(arg, true) match {
+            case m => f(arg, false) match {
               case (x, y) =>
                 (x + "?", y)
             }

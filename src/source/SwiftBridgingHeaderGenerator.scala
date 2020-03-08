@@ -33,14 +33,19 @@ class SwiftBridgingHeaderGenerator(spec: Spec) extends Generator(spec) {
   }
 
   override def generateRecord(origin: String, ident: Ident, doc: Doc, params: Seq[TypeParam], r: Record, deprecated: scala.Option[Deprecated], idl: Seq[TypeDecl]) {
-    spec.objcSwiftBridgingHeaderWriter.get.write("#import \"" + marshal.headerName(ident) + "\"\n")
+    if (spec.objcOutFolder.isDefined && spec.swiftOutFolder.isEmpty) {
+      // We only generates the import record for objc.
+      spec.objcSwiftBridgingHeaderWriter.get.write("#import \"" + marshal.headerName(ident) + "\"\n")
+    } else if (spec.objcOutFolder.isDefined && spec.swiftOutFolder.isDefined) {
+      throw new AssertionError("The bridging record is only generated for objc.")
+    }
   }
 }
 
 object SwiftBridgingHeaderGenerator {
 
-  val bridgingHeaderName = (s: String) => s.split('-').mkString("_")
-  val bridgingHeaderVariables = (s: String) => s.split('-').mkString("")
+  val bridgingHeaderName: String => String = (s: String) => s.split('-').mkString("_")
+  val bridgingHeaderVariables: String => String = (s: String) => s.split('-').mkString("")
 
   def writeAutogenerationWarning(name: String, writer: Writer) {
     val bridgingHeaderVarName = bridgingHeaderName(name)
