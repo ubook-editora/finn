@@ -73,30 +73,32 @@ class SwiftGenerator(spec: Spec) extends ObjcGenerator(spec) {
         )
     }
 
+    val className = swiftMarshal.typename(ident, r)
     writeSwiftFile(ident, origin = origin, header, w => {
       writeDoc(w, doc)
       swiftMarshal.deprecatedAnnotation(deprecated).foreach(w.wl)
 
-      w.w(s"@objc public class ${swiftMarshal.typename(ident, r)} : $superClass").braced {
+      var optionalFields: mutable.ListBuffer[Field] = mutable.ListBuffer[Field]()
 
+      w.w(s"@objc public class $className : $superClass").braced {
         // ----------- GENERATE FIELDS
         def writeRecordFields(field: Seq[Field]): Unit = {
           for (f <- r.fields) {
             w.wl
             writeDoc(w, f.doc)
             val readonly = if (f.modifiable) "var" else "let"
-            w.wl(s"@objc public $readonly ${idSwift.field(f.ident)} : ${swiftMarshal.fqFieldType(f.ty)}")
+            w.wl(s"public $readonly ${idSwift.field(f.ident)} : ${swiftMarshal.fqFieldType(f.ty)}")
           }
           w.wl
         }
+
 
         writeRecordFields(r.fields)
 
         // ----------- GENERATE CONSTRUCTOR
         def writeRecordConstructor(): Unit = {
-          val decl = s"@objc public init("
-          writeAlignedSwiftCall(w, decl, superFields ++ r.fields, "", f => (idSwift.field(f.ident), s"${swiftMarshal.paramType(f.ty)}"))
-          w.w(")")braced {
+          val decl = s"public init("
+          writeAlignedSwiftCall(w, decl, superFields ++ r.fields, ")", f => (idSwift.field(f.ident), s"${swiftMarshal.paramType(f.ty)}")).braced {
             // Write record fields
             for (f <- r.fields) {
               w.wl(s"self.${idSwift.field(f.ident)} = ${idSwift.local(f.ident)}")
@@ -110,14 +112,66 @@ class SwiftGenerator(spec: Spec) extends ObjcGenerator(spec) {
                 skipFirst {
                   w.w(", ")
                 }
-                w.w(s"${idJava.local(f.ident)}: ${idJava.local(f.ident)}")
+                w.w(s"${idSwift.local(f.ident)}: ${idSwift.local(f.ident)}")
               }
               w.wl(")")
             }
           }
         }
+
         writeRecordConstructor()
       }
+
+      // ----------- GENERATE SWIFT/OBJC WRAPPER
+      def writeSwiftExtension(): Unit = {
+
+        def swiftObsoleted: String = {
+          "@available(swift, obsoleted: 1.0)"
+        }
+
+        w.w(s"extension $className ").braced {
+          // wrapper init
+          w.wl(swiftObsoleted)
+
+          val fields = superFields ++ r.fields
+          writeAlignedSwiftCall(w, "@objc public convenience init(", fields, ")", f => (idSwift.field(f.ident), s"${swiftMarshal.toSwiftWrapperType(f.ty.resolved)}")).braced {
+            if (fields.nonEmpty) {
+              w.w("self.init(")
+              val skipFirst = SkipFirst()
+              for (f <- fields) {
+                skipFirst { w.w(", ") }
+
+                val forcedCast = swiftMarshal.swiftForceCast(f.ty.resolved) match {
+                  case Some(x) => s" as! ${x._2}"
+                  case None => ""
+                }
+                w.w(s"${idSwift.field(f.ident)}: ${idSwift.field(f.ident)}${forcedCast}")
+              }
+              w.wl(")")
+            }
+          }
+
+          for (f <- fields) {
+            // wrapper init
+            w.wl(swiftObsoleted)
+
+            val forcedCast = swiftMarshal.swiftForceCast(f.ty.resolved) match {
+              case Some(x) => s" ${x._1}"
+              case None => s"${swiftMarshal.toSwiftWrapperType(f.ty.resolved)}"
+            }
+
+            val name = idSwift.field(f.ident)
+
+            w.w(s"@objc public var __djinni__objc_$name: $forcedCast").braced {
+              w.w("get").braced {
+                w.wl(s"return $name as ${forcedCast}")
+              }
+            }
+          }
+        }
+      }
+
+      writeSwiftExtension()
     })
   }
 

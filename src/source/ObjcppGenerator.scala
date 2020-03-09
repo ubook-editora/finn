@@ -367,7 +367,16 @@ class ObjcppGenerator(spec: Spec) extends BaseObjcGenerator(spec) {
           w.wl("assert(obj);")
           if (r.fields.isEmpty) w.wl("(void)obj; // Suppress warnings in relase builds for empty records")
           val call = "return CppType("
-          writeAlignedCall(w, "return {", superFields ++ r.fields, "}", f => objcppMarshal.toCpp(f.ty, "obj." + idObjc.field(f.ident)))
+
+          def wrapper: String = {
+            var prefix = ""
+            if (spec.swiftOutFolder.isDefined) {
+              prefix = "__djinni__objc_"
+            }
+            s"$prefix"
+          }
+
+          writeAlignedCall(w, "return {", superFields ++ r.fields, "}", f => objcppMarshal.toCpp(f.ty, "obj." + s"${wrapper}${idObjc.field(f.ident)}"))
           w.wl(";")
         }
         w.wl

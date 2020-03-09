@@ -8,7 +8,7 @@
 
 #include "hello_impl.hpp"
 #include "my_record.hpp"
-
+#include <optional>
 //--cpp-namespace "demo"
 
 namespace demo {
@@ -25,7 +25,7 @@ std::shared_ptr<Hello> Hello::create() {
 //}
 
 MyRecord HelloImpl::say_hello(my_enum en) {
-    return MyRecord(1000, en);
+    return MyRecord(1000, en, std::nullopt);
 }
 
 my_enum HelloImpl::say_hi() {

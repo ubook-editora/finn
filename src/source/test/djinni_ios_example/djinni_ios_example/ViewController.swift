@@ -13,14 +13,17 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let hello = Hello.create()
-        hello?.hlll()
+//        let hello = Hello.create()
+//        hello?.hlll()
+//
+//        let a: MyEnum = (hello?.sayHi())!
+//
+//        let mr = hello?.say(.A)
+//
+//        print("\(mr?.id) - \(mr?.resting)")
         
-        let a: MyEnum = (hello?.sayHi())!
+        var s: String = "abc"
         
-        let mr = hello?.say(.A)
-//        
-        print("\(mr?.id)")
     }
 
 
