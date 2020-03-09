@@ -341,7 +341,7 @@ object Main {
     }
 
     if (!argParser.parse(args)) {
-      System.exit(1);
+      System.exit(1)
       return
     }
 
@@ -376,7 +376,7 @@ object Main {
     catch {
       case ex@(_: FileNotFoundException | _: IOException) =>
         System.err.println("Error reading from --idl file: " + ex.getMessage)
-        System.exit(1);
+        System.exit(1)
         return
     }
     finally {
@@ -391,7 +391,7 @@ object Main {
     resolver.resolve(meta.defaults, idl) match {
       case Some(err) =>
         System.err.println(err)
-        System.exit(1);
+        System.exit(1)
         return
       case _ =>
     }
