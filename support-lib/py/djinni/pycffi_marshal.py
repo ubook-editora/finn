@@ -76,7 +76,7 @@ class CPyBoxedI8(CPyBoxedBase):
 
 class CPyBoxedI16(CPyBoxedBase):
     def __init__(self, data):
-        CPyBoxedBase.__init__(self, data, lib.delete_djinni_boxed_i16, CPyBoxedI1)
+        CPyBoxedBase.__init__(self, data, lib.delete_djinni_boxed_i16, CPyBoxedI16)
 
     @staticmethod
     def toPyOptWithoutTakingOwnership(dopt):
