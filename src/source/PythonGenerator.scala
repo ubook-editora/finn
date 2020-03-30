@@ -1075,7 +1075,7 @@ class PythonGenerator(spec: Spec) extends Generator(spec) {
             w.wl
             w.wl("def __str__(self):").nested {
               w.w("return ").nestedN(2) {
-                w.wl(s""""${recordClassName}{" +""")
+                w.wl(s""""${recordClassName}{" +\\""")
                 val fields = superFields ++ r.fields
                 
                 for (i <- 0 to (fields).length-1) {
@@ -1085,19 +1085,12 @@ class PythonGenerator(spec: Spec) extends Generator(spec) {
                   
                   f.ty.resolved.base match {
                     case df: MDef => df.defType match {
-                      case DEnum => w.wl(s"""${comma}"${name}=" + ${name} +""")
-                      case _ => w.wl(s"""${comma}"${name}=" + str(${name}) +""")
+                      case DEnum => w.wl(s"""${comma}"${name}=" + ${name} +\\""")
+                      case _ => w.wl(s"""${comma}"${name}=" + str(${name}) +\\""")
                     }
-                    case _ => w.wl(s"""${comma}"${name}=" + ${name} +""")
+                    case _ => w.wl(s"""${comma}"${name}=" + ${name} +\\""")
                   }
                 }
-                
-                // for (i <- 0 to (fields).length-1) {
-                  
-                  
-                  
-                  //   w.wl(s"""${comma}"${name}=" + ${name} +""")
-                  
                 }
                 w.wl(s""""}"""")
               }
