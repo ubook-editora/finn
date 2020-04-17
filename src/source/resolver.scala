@@ -283,7 +283,7 @@ package object resolver {
     }
     val dupeChecker = new DupeChecker("method")
     for (m <- i.methods) {
-      dupeChecker.check(m.ident)
+      // dupeChecker.check(m.ident)
       for (p <- m.params) {
         resolveRef(scope, p.ty)
       }
