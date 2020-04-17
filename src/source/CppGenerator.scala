@@ -271,6 +271,10 @@ class CppGenerator(spec: Spec) extends Generator(spec) {
           
           r.fields.tail.map(f => ", " + init(f)).foreach(w.wl)
           w.wl("{}")
+
+          w.wl
+          w.w(s"$actualSelf() = default;")
+          w.wl
         }
         
         if (r.ext.cpp) {
@@ -326,9 +330,11 @@ class CppGenerator(spec: Spec) extends Generator(spec) {
             w.wl("return false;")
           }
           
-          w.wl
-          w.w(s"bool operator>(const $actualSelf& lhs, const $actualSelf& rhs)").braced {
-            w.wl("return rhs < lhs;")
+          if (spec.cppDefaultContructor) {
+            w.wl
+            w.w(s"bool operator>(const $actualSelf& lhs, const $actualSelf& rhs)").braced {
+              w.wl("return rhs < lhs;")
+            }
           }
         }
 
