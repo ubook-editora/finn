@@ -331,7 +331,6 @@ class JNIGenerator(spec: Spec) extends Generator(spec) {
           var overloadSig = ""
 
           if (params.nonEmpty) {
-            overloadSig = overloadSig ++ "__"
             for (f <- params) {
               val javaSig = jniMarshal.fqTypename(f.ty).replaceAllLiterally(";", "").replaceAllLiterally("/", "_")
               overloadSig = overloadSig ++ javaSig ++ "_2"
@@ -339,6 +338,9 @@ class JNIGenerator(spec: Spec) extends Generator(spec) {
           }
           val zero = ret.fold("")(s => "0 /* value doesn't matter */")
           if (static) {
+            if (overloadSig != "") {
+              overloadSig =  "__" ++ overloadSig
+            }
             w.wl(s"CJNIEXPORT $jniRetType JNICALL ${prefix}_00024CppProxy_$methodNameMunged$overloadSig(JNIEnv* jniEnv, jobject /*this*/${preComma(paramList)})").braced {
               w.w("try").bracedEnd(s" JNI_TRANSLATE_EXCEPTIONS_RETURN(jniEnv, $zero)") {
                 w.wl(s"DJINNI_FUNCTION_PROLOGUE0(jniEnv);")
@@ -347,6 +349,9 @@ class JNIGenerator(spec: Spec) extends Generator(spec) {
             }
           }
           else {
+            if (overloadSig != "") {
+              overloadSig =  "__J" ++ overloadSig
+            }
             w.wl(s"CJNIEXPORT $jniRetType JNICALL ${prefix}_00024CppProxy_$methodNameMunged$overloadSig(JNIEnv* jniEnv, jobject /*this*/, jlong nativeRef${preComma(paramList)})").braced {
               w.w("try").bracedEnd(s" JNI_TRANSLATE_EXCEPTIONS_RETURN(jniEnv, $zero)") {
                 w.wl(s"DJINNI_FUNCTION_PROLOGUE1(jniEnv, nativeRef);")
