@@ -362,7 +362,7 @@ class PythonGenerator(spec: Spec) extends Generator(spec) {
         }
         case MOptional =>
         tm.args(0).base match {
-          case m @ (MPrimitive(_,_,_,_,_,_,_,_) | MDate) => {
+          case m @ (MPrimitive(_,_,_,_,_,_,_,_,_) | MDate) => {
             python.add("from djinni.pycffi_marshal import CPyBoxed" + idPython.className(m.asInstanceOf[MOpaque].idlName))
           }
           case _ => collect(tm.args(0), justCollect, true)
@@ -390,11 +390,19 @@ class PythonGenerator(spec: Spec) extends Generator(spec) {
     (Seq(self) ++ m.params.map(p => cMarshal.cParamType(p.ty, true))).mkString("(", ", ", ")")
   }
   
-  def getDefArgs(m: Interface.Method, self: String) = {
+  def getDefArgs(m: Interface.Method, self: String, pyType: Boolean = false) = {
+
+    def getArgs(f: Field): String = {
+      if (pyType) {
+        return s"${idPython.local(f.ident.name)}: ${marshal.toPythonOrgType(f.ty)}"
+      }
+      return idPython.local(f.ident.name)
+    }
+
     if (m.static) {
-      m.params.map(p => idPython.local(p.ident.name)).mkString("(", ", ", ")")
+      m.params.map(p => s"${getArgs(p)}").mkString("(", ", ", ")")
     } else {
-      (Seq(self) ++ m.params.map(p => idPython.local(p.ident.name))).mkString("(", ", ", ")")
+      (Seq(self) ++ m.params.map(p => s"${getArgs(p)}")).mkString("(", ", ", ")")
     }
   }
   
@@ -525,7 +533,7 @@ class PythonGenerator(spec: Spec) extends Generator(spec) {
               w.wl("with " + marshal.convertFrom(libCall, ret) + " as py_obj:").nested {
                 w.wl("return " + marshal.releaseRAII("py_obj", optTy, true)) // here
               } }, true, w)
-              case MPrimitive(_,_,_,_,_,_,_,_) | MDate =>
+              case MPrimitive(_,_,_,_,_,_,_,_,_) | MDate =>
               checkForExceptionFromPython( w=> {
                 w.wl("with " + marshal.convertFrom(libCall, ret) + " as py_obj:").nested {
                   w.wl("return " + marshal.releaseRAII("py_obj", ret)) // here
@@ -570,7 +578,8 @@ class PythonGenerator(spec: Spec) extends Generator(spec) {
           if (m.static) {
             w.wl("@staticmethod")
           }
-          w.wl("def " + m.ident.name + defArgs + ":").nested{
+          w.wl("@multimethod")
+          w.wl("def " + m.ident.name + getDefArgs(m, "self", true) + ":").nested{
             val withStmts = mutable.ArrayBuffer[String]()
             processPackedArgs(m, withStmts)
             // check that if python promised to send as arguments non optionals then they are not None
@@ -813,7 +822,9 @@ class PythonGenerator(spec: Spec) extends Generator(spec) {
           })
           refs.python.add("from abc import ABCMeta, abstractmethod")
           refs.python.add("from future.utils import with_metaclass")
+          refs.python.add("from multimethod import multimethod")
           
+
           writePythonFile(ident, origin, refs.python, true, w => {
             // Asbtract Class Definition
             w.wl("class " + pythonClass + "(with_metaclass(ABCMeta)):").nested {
@@ -828,7 +839,8 @@ class PythonGenerator(spec: Spec) extends Generator(spec) {
               }
               for (m <- i.methods if ! m.static) {
                 w.wl("@abstractmethod")
-                w.wl("def " + idPython.method(m.ident.name) + getDefArgs(m, "self") + ":").nested {
+                w.wl("@multimethod")
+                w.wl("def " + idPython.method(m.ident.name) + getDefArgs(m, "self", true) + ":").nested {
                   writeDocString(w, m.doc)
                   marshal.deprecatedAnnotation(m.deprecated).foreach(w.wl)
                   w.wl("raise NotImplementedError")
@@ -840,7 +852,8 @@ class PythonGenerator(spec: Spec) extends Generator(spec) {
                 for (m <- i.methods if m.static) {
                   val defArgs = getDefArgs(m, "self")
                   w.wl("@staticmethod")
-                  w.wl("def " + idPython.method(m.ident.name) + defArgs + ":").nested {
+                  w.wl("@multimethod")
+                  w.wl("def " + idPython.method(m.ident.name) + getDefArgs(m, "self", true) + ":").nested {
                     writeDocString(w, m.doc)
                     marshal.deprecatedAnnotation(m.deprecated).foreach(w.wl)
                     if (m.ret.isDefined) {
