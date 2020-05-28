@@ -19,7 +19,7 @@ ffi.set_source('PyCFFIlib_cffi', '''#include "clean_headers.h"''',
     libraries=['textsort_py'])
 
 ffi.cdef("typedef _Bool bool;"
- + cdef_headers)
+ + cdef_headers, )
 
 if __name__ == '__main__':
     ffi.compile()

@@ -510,6 +510,10 @@ class PythonGenerator(spec: Spec) extends Generator(spec) {
       }
     }
   }
+
+  def getCWDefMethodName(m: Interface.Method): String = {
+    s"${idCpp.method(m.ident.name)}__${m.params.size}"
+  }
   
   def writeReturnFromCallback(self: String, ret: TypeRef, libCall: String, w: IndentWriter): Unit = {
     val returnStmt: String = ret.resolved.base match {
@@ -573,12 +577,12 @@ class PythonGenerator(spec: Spec) extends Generator(spec) {
           w.wl("CPyException.toPyCheckAndRaise" + p(ret))
         }
         
-        def writeCppProxyMethod(m: Interface.Method, cMethodWrapper: String, pythonClass: String, w: IndentWriter): Unit = {
+        def writeCppProxyMethod(m: Interface.Method, overload_methods: mutable.Map[String, Interface.Method], cMethodWrapper: String, pythonClass: String, w: IndentWriter): Unit = {
           val defArgs = getDefArgs(m, "self")
           if (m.static) {
             w.wl("@staticmethod")
           }
-          w.wl("@multimethod")
+          
           w.wl("def " + m.ident.name + getDefArgs(m, "self", true) + ":").nested{
             val withStmts = mutable.ArrayBuffer[String]()
             processPackedArgs(m, withStmts)
@@ -586,7 +590,8 @@ class PythonGenerator(spec: Spec) extends Generator(spec) {
             //checkNonOptionals(m, w)
             writeWithStmts(withStmts, w) {
               val libArgs = getLibArgsFrom(m, pythonClass)
-              val libCall = lib + "." + cMethodWrapper + "_" + m.ident.name + libArgs
+              val libMethod = getCWDefMethodName(m)
+              val libCall = lib + "." + cMethodWrapper + "_" + libMethod + libArgs
               if (m.ret.isEmpty) {
                 w.wl(libCall)
                 checkForExceptionFromCpp("ffi.NULL", w)
@@ -631,7 +636,7 @@ class PythonGenerator(spec: Spec) extends Generator(spec) {
           }
         }
         
-        def writeCppProxyClass(pythonClass: String, cMethodWrapper: String, methods: Seq[Interface.Method], w: IndentWriter): Unit = {
+        def writeCppProxyClass(pythonClass: String, cMethodWrapper: String, methods: Seq[Interface.Method], overload_methods: mutable.Map[String, Interface.Method], w: IndentWriter): Unit = {
           val proxyClass = pythonClass + "CppProxy"
           // Proxy Class Definition
           w.wl("class " + proxyClass + p(pythonClass) + ":").nested {
@@ -650,7 +655,7 @@ class PythonGenerator(spec: Spec) extends Generator(spec) {
             
             // Method implementations, calling into C code via ccfi library
             for (m <- methods) {
-              writeCppProxyMethod(m, cMarshal.cw + cMethodWrapper, pythonClass, w)
+              writeCppProxyMethod(m, overload_methods, cMarshal.cw + cMethodWrapper, pythonClass, w)
               w.wl
             }
           }
@@ -803,6 +808,25 @@ class PythonGenerator(spec: Spec) extends Generator(spec) {
             }
           }
         }
+
+        def find_overload_method(methods: Seq[Interface.Method]): mutable.Map[String, Interface.Method] = {
+          var method: Option[Interface.Method] = None
+          var result: mutable.Map[String, Interface.Method] = mutable.Map()
+
+          for (m <- methods) {
+            if (method != None && method.get.ident.name == m.ident.name) {
+              // result[m.ident.name]
+              if (method.get.params.size > m.params.size) {
+                result(method.get.ident.name) = method.get
+              } else {
+                result(m.ident.name) = m  
+              }
+            }
+            method = Some(m)
+          }
+
+          return result
+        }
         
         override def generateInterface(origin: String, ident: Ident, doc: Doc, typeParams: Seq[TypeParam], i: Interface, deprecated: scala.Option[Deprecated]): Unit = {
           System.out.println("Generting python interface...", origin, ident)
@@ -822,10 +846,12 @@ class PythonGenerator(spec: Spec) extends Generator(spec) {
           })
           refs.python.add("from abc import ABCMeta, abstractmethod")
           refs.python.add("from future.utils import with_metaclass")
-          refs.python.add("from multimethod import multimethod")
-          
+          refs.python.add("from typing import overload")
 
           writePythonFile(ident, origin, refs.python, true, w => {
+
+            val overload_methods = find_overload_method(i.methods)
+
             // Asbtract Class Definition
             w.wl("class " + pythonClass + "(with_metaclass(ABCMeta)):").nested {
               val docConsts = if (!i.consts.exists(!_.doc.lines.isEmpty)) Seq() else Seq({
@@ -837,9 +863,12 @@ class PythonGenerator(spec: Spec) extends Generator(spec) {
                 generateNonRecursiveConstants(w, i.consts, idPython.className(ident.name), true)
                 w.wl
               }
+
               for (m <- i.methods if ! m.static) {
                 w.wl("@abstractmethod")
-                w.wl("@multimethod")
+                if (overload_methods.contains(m.ident.name)) {
+                  w.wl("@overload")
+                }
                 w.wl("def " + idPython.method(m.ident.name) + getDefArgs(m, "self", true) + ":").nested {
                   writeDocString(w, m.doc)
                   marshal.deprecatedAnnotation(m.deprecated).foreach(w.wl)
@@ -852,7 +881,6 @@ class PythonGenerator(spec: Spec) extends Generator(spec) {
                 for (m <- i.methods if m.static) {
                   val defArgs = getDefArgs(m, "self")
                   w.wl("@staticmethod")
-                  w.wl("@multimethod")
                   w.wl("def " + idPython.method(m.ident.name) + getDefArgs(m, "self", true) + ":").nested {
                     writeDocString(w, m.doc)
                     marshal.deprecatedAnnotation(m.deprecated).foreach(w.wl)
@@ -873,7 +901,7 @@ class PythonGenerator(spec: Spec) extends Generator(spec) {
               w.wl
             }
             if (i.ext.cpp && i.ext.py) {
-              writeCppProxyClass(pythonClass, cMethodWrapper, i.methods, w)
+              writeCppProxyClass(pythonClass, cMethodWrapper, i.methods, overload_methods, w)
               writeCallbacksHelperClass(ident, pythonClass, i.methods, i.ext, w)
               w.wl("class " + pythonClass + "Helper" + ":").nested {
                 w.wl("c_data_set = MultiSet()")
@@ -881,7 +909,7 @@ class PythonGenerator(spec: Spec) extends Generator(spec) {
                 writeHelperMethodsForPythonImplementedInterface(ident.name, i.methods, i.ext, w)
               }
             } else if (i.ext.cpp) {
-              writeCppProxyClass(pythonClass, cMethodWrapper, i.methods, w)
+              writeCppProxyClass(pythonClass, cMethodWrapper, i.methods, overload_methods, w)
               w.wl("class " + pythonClass + "Helper" + ":").nested {
                 w.wl("c_data_set = MultiSet()")
                 writeHelperMethodsForCppImplementedInterface(ident.name, i.ext, w)

@@ -775,17 +775,19 @@ class CWrapperGenerator(spec: Spec) extends Generator(spec) {
       f(w)
     })
   }
+
+  def getCWDefMethodName(m: Interface.Method): String = {
+    s"${idCpp.method(m.ident.name)}__${m.params.size}"
+  }
   
-  def writeMethodSignatures(methods: Seq[Interface.Method], forHeader: Boolean, forCpp: Boolean,
-  cWrapper: String, cMethodWrapper: String, w: IndentWriter): Unit = {
+  def writeMethodSignatures(methods: Seq[Interface.Method], forHeader: Boolean, forCpp: Boolean, cWrapper: String, cMethodWrapper: String, w: IndentWriter): Unit = {
     val structCWrapper = if(cWrapper != "")  "struct " + cWrapper else ""
     val self = if(structCWrapper != "") structCWrapper + " * " + dw else ""
     // C Wrapper method signatures for calling into cpp
     for (m <- methods) {
       val ret = if(forCpp) cppMarshal.fqReturnType(m.ret) else marshal.cReturnType(m.ret, forHeader)
-      
       val params = if(forCpp) getCppDefArgs(m, self) else getDefArgs(m, self, true)
-      w.wl(ret + " " + cMethodWrapper + idCpp.method(m.ident.name) + params + ";")
+      w.wl(ret + " " + cMethodWrapper + getCWDefMethodName(m) + params + ";")
       w.wl
     }
   }
@@ -868,7 +870,9 @@ class CWrapperGenerator(spec: Spec) extends Generator(spec) {
     else "return " + marshal.convertFrom(fctCall, m.ret.get, tempExpr=true) + (if (marshal.needsRAII(m.ret.get)) ".release()" else "") + ";"
     
     val params = getDefArgs(m, cWrapper + " * " + dw, false)
-    w.wl(ret + " " + cMethodWrapper + "_" + idCpp.method(m.ident.name) + params + " {").nested {
+    val methodName = getCWDefMethodName(m)
+
+    w.wl(ret + " " + cMethodWrapper + "_" + methodName + params + " {").nested {
       // take ownership of arguments memory when arguments come from Python
       m.params.foreach(p => declareUniquePointer("_" + p.ident.name, p.ident.name, p.ty.resolved, w))
       w.wl("try {").nested {

@@ -1,7 +1,10 @@
-hien = record {
-    hien: string;
-    hien_1: string;
+
+abc = record {
+    a: string;
 }
-base_record = record extends hien {
-    parent: string;
+
+muti = interface +c {
+    hello(message: i8, a: list<string>);
+    hello(message: i8);
+    static create(id: f32);
 }

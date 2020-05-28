@@ -61,7 +61,7 @@ class CffiGenerator(spec: Spec) extends Generator(spec) {
         w.wl(")")
       }
       w.wl
-      w.wl("ffi.cdef(\"typedef _Bool bool;\"\n + cdef_headers)")
+      w.wl("ffi.cdef(\"typedef _Bool bool;\"\n + cdef_headers, )")
       w.wl
       w.wl("if __name__ == '__main__':").nested {
         w.wl("ffi.compile()")
