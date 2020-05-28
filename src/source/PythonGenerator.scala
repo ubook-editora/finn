@@ -1069,31 +1069,30 @@ class PythonGenerator(spec: Spec) extends Generator(spec) {
               
               r.fields.foreach( f => w.wl("self." + idPython.field(f.ident.name) + " = " + idPython.field(f.ident.name)))
               if (r.fields.isEmpty) { w.wl("pass") }
-            }
-            
-            // String
-            w.wl
-            w.wl("def __str__(self):").nested {
-              w.w("return ").nestedN(2) {
-                w.wl(s""""${recordClassName}{" +\\""")
-                val fields = superFields ++ r.fields
+            }            
+            // // String
+            // w.wl
+            // w.wl("def __str__(self):").nested {
+            //   w.w("return ").nestedN(2) {
+            //     w.wl(s""""${recordClassName}{" +\\""")
+            //     val fields = superFields ++ r.fields
                 
-                for (i <- 0 to (fields).length-1) {
-                  val f = fields(i)
-                  val name = f.ident.name
-                  val comma = if (i > 0) """"," + """ else ""
+            //     for (i <- 0 to (fields).length-1) {
+            //       val f = fields(i)
+            //       val name = f.ident.name
+            //       val comma = if (i > 0) """"," + """ else ""
                   
-                  f.ty.resolved.base match {
-                    case df: MDef => df.defType match {
-                      case DEnum => w.wl(s"""${comma}"${name}=" + ${name} +\\""")
-                      case _ => w.wl(s"""${comma}"${name}=" + str(${name}) +\\""")
-                    }
-                    case _ => w.wl(s"""${comma}"${name}=" + ${name} +\\""")
-                  }
-                }
-                }
-                w.wl(s""""}"""")
-              }
+            //       f.ty.resolved.base match {
+            //         case df: MDef => df.defType match {
+            //           case DEnum => w.wl(s"""${comma}"${name}=" + ${name} +\\""")
+            //           case _ => w.wl(s"""${comma}"${name}=" + str(${name}) +\\""")
+            //         }
+            //         case _ => w.wl(s"""${comma}"${name}=" + ${name} +\\""")
+            //       }
+            //     }
+            //     }
+            //     w.wl(s""""}"""")
+            //   }
             }
             w.wl
             // Const record object of type equal to current record type must be defined after class definition
