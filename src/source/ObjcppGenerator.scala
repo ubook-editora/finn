@@ -51,8 +51,8 @@ class ObjcppGenerator(spec: Spec) extends BaseObjcGenerator(spec) {
   override def generateEnum(origin: String, ident: Ident, doc: Doc, e: Enum, deprecated: scala.Option[Deprecated]) {
     var imports = mutable.TreeSet[String]()
     if (spec.objcSupportFramework) {
-      imports.add("#import <DJIMarshal+Private.h>")
-      imports.add("#import <DJIMarshal+Json.h>")
+      imports.add("#import <Djinni/DJIMarshal+Private.h>")
+      imports.add("#import <Djinni/DJIMarshal+Json.h>")
     } else {
       imports.add("#import " + q(spec.objcBaseLibIncludePrefix + "DJIMarshal+Private.h"))
       imports.add("#import " + q(spec.objcBaseLibIncludePrefix + "DJIMarshal+Json.h"))
@@ -132,8 +132,8 @@ class ObjcppGenerator(spec: Spec) extends BaseObjcGenerator(spec) {
     
     if (i.ext.cpp) {
       if (spec.objcSupportFramework) {
-        refs.body.add("#import <DJICppWrapperCache+Private.h>")
-        refs.body.add("#import <DJIError.h>")
+        refs.body.add("#import <Djinni/DJICppWrapperCache+Private.h>")
+        refs.body.add("#import <Djinni/DJIError.h>")
       } else {
         refs.body.add("#import " + q(spec.objcBaseLibIncludePrefix + "DJICppWrapperCache+Private.h"))
         refs.body.add("#import " + q(spec.objcBaseLibIncludePrefix + "DJIError.h"))
@@ -148,7 +148,7 @@ class ObjcppGenerator(spec: Spec) extends BaseObjcGenerator(spec) {
     
     if (i.ext.objc) {
       if (spec.objcSupportFramework) {
-        refs.body.add("#import <DJIObjcWrapperCache+Private.h>")
+        refs.body.add("#import <Djinni/DJIObjcWrapperCache+Private.h>")
       } else {
         refs.body.add("#import " + q(spec.objcBaseLibIncludePrefix + "DJIObjcWrapperCache+Private.h"))
       }
@@ -156,7 +156,7 @@ class ObjcppGenerator(spec: Spec) extends BaseObjcGenerator(spec) {
     
     if (!i.ext.cpp && !i.ext.objc) {
       if (spec.objcSupportFramework) {
-        refs.body.add("#import <DJIError.h>")
+        refs.body.add("#import <Djinni/DJIError.h>")
       } else {
         refs.body.add("#import " + q(spec.objcBaseLibIncludePrefix + "DJIError.h"))
       }
