@@ -92,7 +92,6 @@ class SwiftGenerator(spec: Spec) extends ObjcGenerator(spec) {
           w.wl
         }
 
-
         writeRecordFields(r.fields)
 
         // ----------- GENERATE CONSTRUCTOR
@@ -130,41 +129,39 @@ class SwiftGenerator(spec: Spec) extends ObjcGenerator(spec) {
         }
 
         w.w(s"extension $className ").braced {
-          // wrapper init
-          w.wl(swiftObsoleted)
 
           val fields = superFields ++ r.fields
-          writeAlignedSwiftCall(w, "@objc public convenience init(", fields, ")", f => (idSwift.field(f.ident), s"${swiftMarshal.toSwiftWrapperType(f.ty.resolved)}")).braced {
-            if (fields.nonEmpty) {
-              w.w("self.init(")
-              val skipFirst = SkipFirst()
-              for (f <- fields) {
-                skipFirst { w.w(", ") }
 
-                val forcedCast = swiftMarshal.swiftForceCast(f.ty.resolved) match {
-                  case Some(x) => s" as! ${x._2}"
-                  case None => ""
-                }
-                w.w(s"${idSwift.field(f.ident)}: ${idSwift.field(f.ident)}${forcedCast}")
-              }
-              w.wl(")")
-            }
-          }
-
+          var needWriteForceCastConstructor = true
           for (f <- fields) {
             // wrapper init
             w.wl(swiftObsoleted)
 
-            val forcedCast = swiftMarshal.swiftForceCast(f.ty.resolved) match {
-              case Some(x) => s" ${x._1}"
-              case None => s"${swiftMarshal.toSwiftWrapperType(f.ty.resolved)}"
-            }
+            val swiftBridgingType = swiftMarshal.getSwiftBridgingType(f.ty.resolved)
 
             val name = idSwift.field(f.ident)
 
-            w.w(s"@objc public var __djinni__objc_$name: $forcedCast").braced {
+            w.w(s"@objc public var __djinni__objc_$name: ${swiftBridgingType.objcName}").braced {
               w.w("get").braced {
-                w.wl(s"return $name as ${forcedCast}")
+                w.wl(s"return $name as ${swiftBridgingType.objcName}")
+              }
+            }
+          }
+
+          if (needWriteForceCastConstructor) {
+            // wrapper init
+            w.wl(swiftObsoleted)
+            writeAlignedSwiftCall(w, "@objc public static func `init`(", fields, s") -> ${className}",
+              f => (idSwift.field(f.ident), s" ${swiftMarshal.getSwiftBridgingType(f.ty.resolved).objcBoxed}")).braced {
+              if (fields.nonEmpty) {
+                w.w(s"return ${className}.init(")
+                val skipFirst = SkipFirst()
+                for (f <- fields) {
+                  skipFirst { w.w(", ") }
+
+                  w.w(s"${idSwift.field(f.ident)}: ${idSwift.field(f.ident)} as! ${swiftMarshal.fqFieldType(f.ty)}")
+                }
+                w.wl(")")
               }
             }
           }

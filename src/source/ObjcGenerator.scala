@@ -176,7 +176,6 @@ class ObjcGenerator(spec: Spec) extends BaseObjcGenerator(spec) {
       refs.header.add(s"@class $noBaseSelf;")
     }
 
-
     @scala.annotation.tailrec
     def checkMutable(tm: MExpr): Boolean = tm.base match {
       case MOptional => checkMutable(tm.args.head)

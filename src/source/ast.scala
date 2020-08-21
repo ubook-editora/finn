@@ -108,3 +108,5 @@ object Interface {
 case class Field(ident: Ident, ty: TypeRef, doc: Doc, modifiable: Boolean)
 
 case class SuperRecord(ident: Ident, record: Record, fields: Seq[Field])
+
+case class SwiftBridgingType(objcBoxed: String, objcName: String, swift: String, needBoxedValue: Boolean = false)

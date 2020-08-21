@@ -8,24 +8,22 @@
 
 import UIKit
 import DjinniExample
+
 class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
 //        let hello = Hello.create()
-//        hello?.hlll()
 //
 //        let a: MyEnum = (hello?.sayHi())!
 //
-//        let mr = hello?.say(.A)
-//
-//        print("\(mr?.id) - \(mr?.resting)")
+//        print("\(a.rawValue)")
         
-        var s: String = "abc"
+        
+        
+        let r = MyRecord.init(bo: [MyEnum.A, MyEnum.B])
+        
         
     }
-
-
 }
 
