@@ -57,6 +57,11 @@ class SwiftMarshal(spec: Spec) extends Marshal(spec) {
     name
   }
 
+  def toBoxedParamType_2(tm: MExpr): String = {
+    val (name, needRef) = toSwiftType(tm, true)
+    name
+  }
+
   def swiftForceCast(tm: MExpr): Option[(String, String)] = {
     def args(tm: MExpr) = if (tm.args.isEmpty) "" else tm.args.map(toBoxedParamType).mkString("<", ", ", ">")
 
@@ -76,15 +81,42 @@ class SwiftMarshal(spec: Spec) extends Marshal(spec) {
         case o =>
           val base = o match {
             case p: MPrimitive => if (needRef) None else Some(p.objcBoxed, p.swiftName)
-            case MString => Some("String", "true")
-            case MDate => Some("Date", "true")
-            case MBinary => Some("Data", "true")
             case MOptional => throw new AssertionError("optional should have been special cased")
-            case MList => Some("Array" + args(tm), "true")
-            case MSet => Some("Set" + args(tm), "true")
-            case MMap => Some("Dictionary" + args(tm), "true")
+//            case MString => Some("NSString", "String")
+//            case MDate => Some("Date", "true")
+//            case MBinary => Some("Data", "true")
+            case MList => {
+              val arg = tm.args.head
+              f(arg, needRef = false) match {
+                case Some(x) => Some(s"Array<${x._1}>", s"Array<${x._2}>")
+                case None => None
+              }
+            }
+            case MSet => {
+              val arg = tm.args.head
+              f(arg, needRef = false) match {
+                case Some(x) => Some(s"Set<${x._1}>", s"Set<${x._2}>")
+                case None => None
+              }
+            }
+            case MMap => {
+              val keyType = f(tm.args.head, needRef = false) match {
+                case Some(x) => s"${x._1}"
+                case None => s"${toSwiftType(tm.args.head, needRef = false)._1}"
+              }
+
+              val valueType = f(tm.args(1), needRef = true) match {
+                case Some(x) => s"${x._1}"
+                case None => s"${toSwiftType(tm.args(1), needRef = true)._1}"
+              }
+
+              if (keyType.isEmpty || valueType.isEmpty) None
+              else {
+                Some(s"Dictionary<$keyType, $valueType>", s"Dictionary<${keyType}, ${valueType}>")
+              }
+            }
             case d: MDef => d.defType match {
-              case DEnum => if (needRef) None else Some(idSwift.ty(d.name), "false")
+              case DEnum => if (needRef) None else Some(s"NSInteger" , s"${idSwift.ty(d.name)}")
               case DRecord => Some(idSwift.ty(d.name), "true")
               case DInterface =>
                 val ext = d.body.asInstanceOf[Interface].ext
@@ -95,13 +127,13 @@ class SwiftMarshal(spec: Spec) extends Marshal(spec) {
               case i: Interface => if(i.ext.objc) Some(s"id<${e.objc.typename}>", "false") else Some(e.objc.typename, "true")
               case _ => if(needRef) Some(e.objc.boxed, "true") else Some(e.objc.typename," e.objc.pointer")
             }
-            case _ => throw new AssertionError("Parameter should not happen at Obj-C top level")
+            case _ => None
           }
           base
       }
     }
 
-    f(tm, needRef = true)
+    f(tm, needRef = false)
   }
 
   def toSwiftWrapperType(tm: MExpr): String = {
@@ -131,7 +163,7 @@ class SwiftMarshal(spec: Spec) extends Marshal(spec) {
             case MSet => ("Set" + args(tm), true)
             case MMap => ("Dictionary" + args(tm), true)
             case d: MDef => d.defType match {
-              case DEnum => if (needRef) ("NSNumber", true) else (idSwift.ty(d.name), false)
+              case DEnum => if (needRef) ("NSInteger", true) else (idSwift.ty(d.name), false)
               case DRecord => (idSwift.ty(d.name), true)
               case DInterface =>
                 val ext = d.body.asInstanceOf[Interface].ext
@@ -178,7 +210,7 @@ class SwiftMarshal(spec: Spec) extends Marshal(spec) {
             case MSet => ("Set" + args(tm), true)
             case MMap => ("Dictionary" + args(tm), true)
             case d: MDef => d.defType match {
-              case DEnum => if (needRef) ("NSNumber", true) else (idSwift.ty(d.name), false)
+              case DEnum => if (needRef) ("NSInteger", true) else (idSwift.ty(d.name), false)
               case DRecord => (idSwift.ty(d.name), true)
               case DInterface =>
                 val ext = d.body.asInstanceOf[Interface].ext
@@ -198,4 +230,71 @@ class SwiftMarshal(spec: Spec) extends Marshal(spec) {
     }
     f(tm, needRef)
   }
+
+  def getTypeCastingKeyword(tm: MExpr): String = {
+    tm.base match {
+      case d: MDef => d.defType match {
+        case meta.DEnum => ".rawValue as "
+        case _ =>" as "
+      }
+      case _ => " as "
+    }
+  }
+
+  def getTypeCastingInit(tm: MExpr): String = {
+    tm.base match {
+      case d: MDef => d.defType match {
+        case meta.DEnum => s"${idSwift.ty(d.name)}.init(rawValue: "
+        case _ =>" as "
+      }
+      case _ => " as "
+    }
+  }
+
+  def getSwiftBridgingType(tm: MExpr): SwiftBridgingType = {
+
+    def find(tm: MExpr, needRef: Boolean): SwiftBridgingType = {
+      val base: SwiftBridgingType = tm.base match {
+        case opaque: MOpaque => opaque match {
+          case p: MPrimitive => SwiftBridgingType(objcBoxed = "NSInteger", objcName = p.objcBoxed, swift = p.swiftName)
+          case meta.MString => SwiftBridgingType(objcBoxed = "NSInteger", objcName = "NSString", swift = "String")
+          case meta.MDate => SwiftBridgingType(objcBoxed = "NSInteger", objcName = "NSDate", swift = "Date")
+          case meta.MBinary => SwiftBridgingType(objcBoxed = "NSInteger", objcName = "NSData", swift = "Data")
+          case meta.MOptional => {
+            // recursive to find the correct arg type
+            val arg = tm.args.head
+            val bridgingType = find(arg, needRef = true)
+
+            SwiftBridgingType(objcBoxed = "NSInteger", objcName = s"${bridgingType.objcName}", swift = s"${bridgingType.swift}?")
+          }
+          case meta.MList => {
+            val arg = tm.args.head
+            val bridgingType = find(arg, needRef = true)
+
+            SwiftBridgingType(objcBoxed = "NSArray", objcName = s"NSArray", swift = s"Array<${bridgingType.swift}>")
+          }
+          case meta.MSet => throw new AssertionError("Parameter should not happen at Obj-C top level")
+          case meta.MMap => throw new AssertionError("Parameter should not happen at Obj-C top level")
+          case meta.MJson => throw new AssertionError("Parameter should not happen at Obj-C top level")
+        }
+        case d: MDef => d.defType match {
+          case meta.DEnum => {
+            if (needRef) SwiftBridgingType(objcBoxed = "NSInteger", objcName = "NSNumber", swift = idSwift.ty(d.name))
+            else SwiftBridgingType(objcBoxed = "NSInteger", objcName = idSwift.ty(d.name), swift = idSwift.ty(d.name))
+          }
+          case meta.DInterface => throw new AssertionError("Parameter should not happen at Obj-C top level")
+          case meta.DRecord => throw new AssertionError("Parameter should not happen at Obj-C top level")
+        }
+        case MExtern(name, numParams, defType, body, cpp, objc, objcpp, java, jni) => throw new AssertionError("Parameter should not happen at Obj-C top level")
+        case _ => throw new AssertionError("Parameter should not happen at Obj-C top level")
+      }
+      base
+    }
+
+    find(tm = tm, needRef = false)
+  }
+
+
+
+
 }

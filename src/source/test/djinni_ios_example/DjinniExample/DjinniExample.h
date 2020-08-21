@@ -7,8 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <DjinniExample/MyEnum.h>
+
+//#import <DjinniExample/MyEnum.h>
 #import <DjinniExample/Hello.h>
+
 //! Project version number for DjinniExample.
 FOUNDATION_EXPORT double DjinniExampleVersionNumber;
 

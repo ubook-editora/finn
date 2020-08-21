@@ -34,11 +34,15 @@ class ObjcppGenerator(spec: Spec) extends BaseObjcGenerator(spec) {
   override def generateEnum(origin: String, ident: Ident, doc: Doc, e: Enum, deprecated: scala.Option[Deprecated]) {
     var imports = mutable.TreeSet[String]()
     if (spec.objcSupportFramework) {
-      imports.add("#import <Djinni/DJIMarshal+Private.h>")
-      imports.add("#import <Djinni/DJIMarshal+Json.h>")
+      imports.add("#import <DJIMarshal+Private.h>")
+      imports.add("#import <DJIMarshal+Json.h>")
+
+      imports.add(s"#import <${objcMarshal.headerName(ident.name)}>")
     } else {
       imports.add("#import " + q(spec.objcBaseLibIncludePrefix + "DJIMarshal+Private.h"))
       imports.add("#import " + q(spec.objcBaseLibIncludePrefix + "DJIMarshal+Json.h"))
+
+      imports.add(s"#import ${q(spec.objcBaseLibIncludePrefix + objcMarshal.headerName(ident.name))}")
     }
     imports.add("!#include " + q(spec.objcppIncludeCppPrefix + spec.cppFileIdentStyle(ident) + "." + spec.cppHeaderExt))
 
@@ -111,8 +115,8 @@ class ObjcppGenerator(spec: Spec) extends BaseObjcGenerator(spec) {
 
     if (i.ext.cpp) {
       if (spec.objcSupportFramework) {
-        refs.body.add("#import <Djinni/DJICppWrapperCache+Private.h>")
-        refs.body.add("#import <Djinni/DJIError.h>")
+        refs.body.add("#import <DJICppWrapperCache+Private.h>")
+        refs.body.add("#import <DJIError.h>")
       } else {
         refs.body.add("#import " + q(spec.objcBaseLibIncludePrefix + "DJICppWrapperCache+Private.h"))
         refs.body.add("#import " + q(spec.objcBaseLibIncludePrefix + "DJIError.h"))
@@ -127,7 +131,7 @@ class ObjcppGenerator(spec: Spec) extends BaseObjcGenerator(spec) {
 
     if (i.ext.objc) {
       if (spec.objcSupportFramework) {
-        refs.body.add("#import <Djinni/DJIObjcWrapperCache+Private.h>")
+        refs.body.add("#import <DJIObjcWrapperCache+Private.h>")
       } else {
         refs.body.add("#import " + q(spec.objcBaseLibIncludePrefix + "DJIObjcWrapperCache+Private.h"))
       }
@@ -135,7 +139,7 @@ class ObjcppGenerator(spec: Spec) extends BaseObjcGenerator(spec) {
 
     if (!i.ext.cpp && !i.ext.objc) {
       if (spec.objcSupportFramework) {
-        refs.body.add("#import <Djinni/DJIError.h>")
+        refs.body.add("#import <DJIError.h>")
       } else {
         refs.body.add("#import " + q(spec.objcBaseLibIncludePrefix + "DJIError.h"))
       }
@@ -317,6 +321,7 @@ class ObjcppGenerator(spec: Spec) extends BaseObjcGenerator(spec) {
     for (f <- r.fields)
       refs.find(f.ty)
 
+
     val objcName = ident.name + (if (r.ext.objc) "_base" else "")
     val noBaseSelf = objcMarshal.typename(ident, r) // Used for constant names
     val cppSelf = cppMarshal.fqTypename(ident, r)
@@ -369,13 +374,12 @@ class ObjcppGenerator(spec: Spec) extends BaseObjcGenerator(spec) {
           val call = "return CppType("
 
           def wrapper: String = {
-            var prefix = ""
             if (spec.swiftOutFolder.isDefined) {
-              prefix = "__djinni__objc_"
+              "__djinni__objc_"
+            } else {
+              ""
             }
-            s"$prefix"
           }
-
           writeAlignedCall(w, "return {", superFields ++ r.fields, "}", f => objcppMarshal.toCpp(f.ty, "obj." + s"${wrapper}${idObjc.field(f.ident)}"))
           w.wl(";")
         }
@@ -384,7 +388,15 @@ class ObjcppGenerator(spec: Spec) extends BaseObjcGenerator(spec) {
         w.braced {
           if (r.fields.isEmpty) w.wl("(void)cpp; // Suppress warnings in relase builds for empty records")
           // val first = if(r.fields.isEmpty) "" else IdentStyle.camelUpper("with_" + r.fields.head.ident.name)
-          val call = s"return [[$noBaseSelf alloc] init$firstInitializerArg"
+
+          val call: String = {
+            if (spec.swiftOutFolder.isDefined) {
+              s"return [$noBaseSelf init$firstInitializerArg"
+            } else {
+              s"return [[$noBaseSelf alloc] init$firstInitializerArg"
+            }
+          }
+
           writeAlignedObjcCall(w, call, superFields ++ r.fields, "]", f => (idObjc.field(f.ident), s"(${objcppMarshal.fromCpp(f.ty, "cpp." + idCpp.field(f.ident))})"))
           w.wl(";")
         }

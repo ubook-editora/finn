@@ -24,16 +24,16 @@ std::shared_ptr<Hello> Hello::create() {
 //    return MyRecord(1000);
 //}
 
-MyRecord HelloImpl::say_hello(my_enum en) {
-    return MyRecord(1000, en, std::nullopt);
-}
+//MyRecord HelloImpl::say_hello(my_enum en) {
+//    return MyRecord(en);
+//}
 
 my_enum HelloImpl::say_hi() {
     return (my_enum)0;
 }
 
-void HelloImpl::hlll() {
-    printf("Ahihi");
-}
+//void HelloImpl::hlll() {
+//    printf("Ahihi");
+//}
 
 }

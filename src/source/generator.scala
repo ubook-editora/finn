@@ -62,18 +62,29 @@ package object generatorTools {
         }
         new JNIGenerator(spec).generate(idl)
       }
-      if (spec.objcOutFolder.isDefined) {
-        if (!spec.skipGeneration) {
-          createFolder("Objective-C", spec.objcOutFolder.get)
-        }
-        new ObjcGenerator(spec).generate(idl)
-      }
+
       if (spec.objcppOutFolder.isDefined) {
         if (!spec.skipGeneration) {
           createFolder("Objective-C++", spec.objcppOutFolder.get)
         }
         new ObjcppGenerator(spec).generate(idl)
       }
+
+      if (spec.objcOutFolder.isDefined) {
+        if (!spec.skipGeneration) {
+          createFolder("Objective-C", spec.objcOutFolder.get)
+        }
+        new ObjcGenerator(spec).generate(idl)
+      }
+
+      if (spec.swiftOutFolder.isDefined) {
+        DEBUG(spec.swiftOutFolder.get.toString)
+        if (!spec.skipGeneration) {
+          createFolder("Swift", spec.swiftOutFolder.get)
+        }
+        new SwiftGenerator(spec).generate(idl)
+      }
+
       if (spec.objcSwiftBridgingHeaderWriter.isDefined) {
         SwiftBridgingHeaderGenerator.writeAutogenerationWarning(spec.objcSwiftBridgingHeaderName.get, spec.objcSwiftBridgingHeaderWriter.get)
         SwiftBridgingHeaderGenerator.writeBridgingVars(spec.objcSwiftBridgingHeaderName.get, spec.objcSwiftBridgingHeaderWriter.get)
@@ -105,14 +116,6 @@ package object generatorTools {
           createFolder("Cffi", spec.pycffiOutFolder.get)
         }
         new CffiGenerator(spec).generate(idl)
-      }
-
-      if (spec.swiftOutFolder.isDefined) {
-        DEBUG(spec.swiftOutFolder.get.toString)
-        if (!spec.skipGeneration) {
-          createFolder("Swift", spec.swiftOutFolder.get)
-        }
-        new SwiftGenerator(spec).generate(idl)
       }
 
       None

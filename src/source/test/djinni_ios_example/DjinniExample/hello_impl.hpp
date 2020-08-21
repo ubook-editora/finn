@@ -23,11 +23,11 @@ public:
     
 //    virtual MyRecord say_hello() override;
     
-    virtual MyRecord say_hello(my_enum en) override;
+//    virtual MyRecord say_hello(my_enum en) override;
     
     virtual my_enum say_hi() override;
     
-    virtual void hlll() override;
+//    virtual void hlll() override;
 };
 }
 #endif /* hello_impl_hpp */

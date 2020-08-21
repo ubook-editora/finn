@@ -3,18 +3,21 @@ my_enum = enum {
     a;
     b;
 }
+
+#b_record = record {
+#    b: string;
+#}
+
 my_record = record {
-    id: i32;
-    e: my_enum;
-    resting: optional<i32>;
+    bo: list<my_enum>;
 }
 
 hello = interface +c {
     static create(): hello;
 
-    hlll();
+#    hlll();
 
-    say_hello(e: my_enum): my_record;
+#    say_hello(e: my_enum): my_record;
 
     say_hi(): my_enum;
 }
