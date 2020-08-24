@@ -19,15 +19,10 @@ class HelloImpl: public Hello {
 public:
     HelloImpl();
     
-//    virtual std::shared_ptr<Hello> create() override;
+    my_enum say_hi() override;
     
-//    virtual MyRecord say_hello() override;
+    MyRecord print(const MyRecord & rc) override;
     
-//    virtual MyRecord say_hello(my_enum en) override;
-    
-    virtual my_enum say_hi() override;
-    
-//    virtual void hlll() override;
 };
 }
 #endif /* hello_impl_hpp */

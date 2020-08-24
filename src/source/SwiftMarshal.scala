@@ -241,49 +241,65 @@ class SwiftMarshal(spec: Spec) extends Marshal(spec) {
     }
   }
 
-  def getTypeCastingInit(tm: MExpr): String = {
-    tm.base match {
-      case d: MDef => d.defType match {
-        case meta.DEnum => s"${idSwift.ty(d.name)}.init(rawValue: "
-        case _ =>" as "
-      }
-      case _ => " as "
-    }
-  }
-
   def getSwiftBridgingType(tm: MExpr): SwiftBridgingType = {
 
-    def find(tm: MExpr, needRef: Boolean): SwiftBridgingType = {
+    def find(tm: MExpr, downcast: Boolean = false): SwiftBridgingType = {
       val base: SwiftBridgingType = tm.base match {
         case opaque: MOpaque => opaque match {
-          case p: MPrimitive => SwiftBridgingType(objcBoxed = "NSInteger", objcName = p.objcBoxed, swift = p.swiftName)
-          case meta.MString => SwiftBridgingType(objcBoxed = "NSInteger", objcName = "NSString", swift = "String")
-          case meta.MDate => SwiftBridgingType(objcBoxed = "NSInteger", objcName = "NSDate", swift = "Date")
-          case meta.MBinary => SwiftBridgingType(objcBoxed = "NSInteger", objcName = "NSData", swift = "Data")
-          case meta.MOptional => {
+          case p: MPrimitive =>
+            var wrapper = p.swiftName
+            if (downcast) wrapper = "NSNumber"
+            SwiftBridgingType(wrapper = wrapper, swift = p.swiftName)
+          case meta.MString => SwiftBridgingType(wrapper = "String", swift = "String")
+          case meta.MDate => SwiftBridgingType(wrapper = "Date", swift = "Date")
+          case meta.MBinary => SwiftBridgingType(wrapper = "Data", swift = "Data")
+          case meta.MOptional =>
             // recursive to find the correct arg type
             val arg = tm.args.head
-            val bridgingType = find(arg, needRef = true)
 
-            SwiftBridgingType(objcBoxed = "NSInteger", objcName = s"${bridgingType.objcName}", swift = s"${bridgingType.swift}?")
-          }
-          case meta.MList => {
+            val downcast = arg.base match {
+              case opaque: MOpaque => opaque match {
+                // Swift primitive can not be represent in Objc -> We need to uses the downcast value.
+                case _: MPrimitive => true
+                case _ => false
+              }
+              case d: MDef => d.defType match {
+                case meta.DEnum => throw new AssertionError("Enum should not define as optional")
+                case _ => false
+              }
+              case _ => false
+            }
+
+            val bridgingType = find(arg, downcast)
+            SwiftBridgingType(wrapper = s"${bridgingType.wrapper}?", swift = s"as? ${bridgingType.swift}", downcast = downcast)
+          case meta.MList =>
             val arg = tm.args.head
-            val bridgingType = find(arg, needRef = true)
+            val bridgingType = find(arg)
+            SwiftBridgingType(wrapper = s"Array<${bridgingType.swift}>", swift = s"Array<${bridgingType.swift}>")
+          case meta.MSet =>
+            val arg = tm.args.head
+            val bridgingType = find(arg)
+            SwiftBridgingType(wrapper = s"Set<${bridgingType.swift}>", swift = s"Set<${bridgingType.swift}>")
 
-            SwiftBridgingType(objcBoxed = "NSArray", objcName = s"NSArray", swift = s"Array<${bridgingType.swift}>")
-          }
-          case meta.MSet => throw new AssertionError("Parameter should not happen at Obj-C top level")
-          case meta.MMap => throw new AssertionError("Parameter should not happen at Obj-C top level")
+          case meta.MMap =>
+            val key = tm.args.head
+            val value = tm.args.last
+            val keyBridgingType = find(key)
+            val valueBridgingType = find(value)
+
+            val bridgingType = s"Dictionary<${keyBridgingType.swift}, ${valueBridgingType.swift}>"
+            SwiftBridgingType(wrapper = bridgingType, swift = bridgingType)
+
           case meta.MJson => throw new AssertionError("Parameter should not happen at Obj-C top level")
         }
         case d: MDef => d.defType match {
-          case meta.DEnum => {
-            if (needRef) SwiftBridgingType(objcBoxed = "NSInteger", objcName = "NSNumber", swift = idSwift.ty(d.name))
-            else SwiftBridgingType(objcBoxed = "NSInteger", objcName = idSwift.ty(d.name), swift = idSwift.ty(d.name))
-          }
+          case meta.DEnum =>
+            SwiftBridgingType(wrapper = idSwift.ty(d.name), swift = idSwift.ty(d.name))
           case meta.DInterface => throw new AssertionError("Parameter should not happen at Obj-C top level")
-          case meta.DRecord => throw new AssertionError("Parameter should not happen at Obj-C top level")
+          case meta.DRecord =>
+            val objcWrapper = idObjc.ty(d.name)
+            val swift = idSwift.ty(d.name)
+            SwiftBridgingType(wrapper = objcWrapper, swift = swift)
         }
         case MExtern(name, numParams, defType, body, cpp, objc, objcpp, java, jni) => throw new AssertionError("Parameter should not happen at Obj-C top level")
         case _ => throw new AssertionError("Parameter should not happen at Obj-C top level")
@@ -291,7 +307,7 @@ class SwiftMarshal(spec: Spec) extends Marshal(spec) {
       base
     }
 
-    find(tm = tm, needRef = false)
+    find(tm = tm)
   }
 
 

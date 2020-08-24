@@ -4,20 +4,44 @@ my_enum = enum {
     b;
 }
 
-#b_record = record {
-#    b: string;
-#}
-
-my_record = record {
-    bo: list<my_enum>;
+rc = record {
+    a: i32;
 }
 
 hello = interface +c {
     static create(): hello;
 
-#    hlll();
-
-#    say_hello(e: my_enum): my_record;
-
     say_hi(): my_enum;
+
+    print(rc: my_record): my_record;
+}
+
+my_record = record {
+    test: i32;
+
+    test1: optional<i32>;
+
+    test2: list<i32>;
+
+    test3: string;
+
+    test3_1: optional<string>;
+
+    test4: date;
+    test4_1: optional<date>;
+
+    test5: binary;
+
+    test6: list<binary>;
+
+    test7: set<i32>;
+
+    test8: map<i32, string>;
+
+    test9: rc;
+
+    test10: optional<rc>;
+
+    test11: my_enum;
+
 }

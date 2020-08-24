@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2C47895C24F3A10200F51E38 /* Rc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C47895B24F3A10200F51E38 /* Rc.swift */; };
+		2C47895F24F3A10C00F51E38 /* Rc+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C47895D24F3A10C00F51E38 /* Rc+Private.h */; };
+		2C47896024F3A10C00F51E38 /* Rc+Private.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2C47895E24F3A10C00F51E38 /* Rc+Private.mm */; };
+		2C47896224F3A11100F51E38 /* rc.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 2C47896124F3A11100F51E38 /* rc.hpp */; };
 		7C6655A5241371760054DA04 /* DjinniExample.h in Headers */ = {isa = PBXBuildFile; fileRef = 7C6655A3241371760054DA04 /* DjinniExample.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7C6655A8241371760054DA04 /* DjinniExample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C6655A1241371760054DA04 /* DjinniExample.framework */; };
 		7C6655A9241371760054DA04 /* DjinniExample.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7C6655A1241371760054DA04 /* DjinniExample.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -67,6 +71,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2C47895B24F3A10200F51E38 /* Rc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rc.swift; sourceTree = "<group>"; };
+		2C47895D24F3A10C00F51E38 /* Rc+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Rc+Private.h"; sourceTree = "<group>"; };
+		2C47895E24F3A10C00F51E38 /* Rc+Private.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "Rc+Private.mm"; sourceTree = "<group>"; };
+		2C47896124F3A11100F51E38 /* rc.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = rc.hpp; sourceTree = "<group>"; };
 		7C6655A1241371760054DA04 /* DjinniExample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DjinniExample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C6655A3241371760054DA04 /* DjinniExample.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DjinniExample.h; sourceTree = "<group>"; };
 		7C6655A4241371760054DA04 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -211,6 +219,7 @@
 		7C66561A241386BB0054DA04 /* cpp */ = {
 			isa = PBXGroup;
 			children = (
+				2C47896124F3A11100F51E38 /* rc.hpp */,
 				7C66561B241386BB0054DA04 /* my_enum.hpp */,
 				7C66561C241386BB0054DA04 /* hello.hpp */,
 				7C66561D241386BB0054DA04 /* my_record.hpp */,
@@ -221,6 +230,7 @@
 		7C66561E241386BB0054DA04 /* swift */ = {
 			isa = PBXGroup;
 			children = (
+				2C47895B24F3A10200F51E38 /* Rc.swift */,
 				7C66561F241386BB0054DA04 /* MyEnum.h */,
 				7C665620241386BB0054DA04 /* Hello.h */,
 				7C665621241386BB0054DA04 /* MyRecord.swift */,
@@ -231,6 +241,8 @@
 		7C665622241386BB0054DA04 /* objc */ = {
 			isa = PBXGroup;
 			children = (
+				2C47895D24F3A10C00F51E38 /* Rc+Private.h */,
+				2C47895E24F3A10C00F51E38 /* Rc+Private.mm */,
 				7C665623241386BB0054DA04 /* Hello+Private.h */,
 				7C665626241386BB0054DA04 /* Hello+Private.mm */,
 				7C665624241386BB0054DA04 /* MyEnum+Private.h */,
@@ -291,6 +303,7 @@
 			files = (
 				7C66562A241386BB0054DA04 /* my_record.hpp in Headers */,
 				7C66562B241386BB0054DA04 /* MyEnum.h in Headers */,
+				2C47896224F3A11100F51E38 /* rc.hpp in Headers */,
 				7C66562C241386BB0054DA04 /* Hello.h in Headers */,
 				7C6656162413732C0054DA04 /* DJIMarshal+Private.h in Headers */,
 				7C66562F241386BB0054DA04 /* MyEnum+Private.h in Headers */,
@@ -302,6 +315,7 @@
 				7C6656022413732C0054DA04 /* DJIMarshal+Json.h in Headers */,
 				7C665629241386BB0054DA04 /* hello.hpp in Headers */,
 				7C665628241386BB0054DA04 /* my_enum.hpp in Headers */,
+				2C47895F24F3A10C00F51E38 /* Rc+Private.h in Headers */,
 				7C6655A5241371760054DA04 /* DjinniExample.h in Headers */,
 				7C665636241387050054DA04 /* hello_impl.hpp in Headers */,
 				7C6656122413732C0054DA04 /* DJIError.h in Headers */,
@@ -413,8 +427,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2C47896024F3A10C00F51E38 /* Rc+Private.mm in Sources */,
 				7C6656152413732C0054DA04 /* DJIError.mm in Sources */,
 				7C6656132413732C0054DA04 /* DJIProxyCaches.mm in Sources */,
+				2C47895C24F3A10200F51E38 /* Rc.swift in Sources */,
 				7C665635241387050054DA04 /* hello_impl.cpp in Sources */,
 				7C665631241386BB0054DA04 /* Hello+Private.mm in Sources */,
 				7C665632241386BB0054DA04 /* MyRecord+Private.mm in Sources */,

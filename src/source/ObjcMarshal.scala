@@ -77,17 +77,17 @@ class ObjcMarshal(spec: Spec) extends Marshal(spec) {
     case p: MParam => List()
   }
 
-  def headerName(ident: String) = idObjc.ty(ident) + "." + spec.objcHeaderExt
+  def headerName(ident: String): String = idObjc.ty(ident) + "." + spec.objcHeaderExt
 
-  def include(ident: String) = q(spec.objcIncludePrefix + headerName(ident))
+  def include(ident: String): String = q(spec.objcIncludePrefix + headerName(ident))
 
-  def isPointer(td: TypeDecl) = td.body match {
+  def isPointer(td: TypeDecl): Boolean = td.body match {
     case i: Interface => true
     case r: Record => true
     case e: Enum => false
   }
 
-  def boxedTypename(td: TypeDecl) = td.body match {
+  def boxedTypename(td: TypeDecl): String = td.body match {
     case i: Interface => typename(td.ident, i)
     case r: Record => typename(td.ident, r)
     case e: Enum => "NSNumber"
@@ -98,11 +98,11 @@ class ObjcMarshal(spec: Spec) extends Marshal(spec) {
   override def typename(name: String, ty: TypeDef): String = idObjc.ty(name)
 
   // Return value: (Type_Name, Is_Class_Or_Not)
-  def toObjcType(ty: TypeRef): (String, Boolean) = toObjcType(ty.resolved, false)
+  def toObjcType(ty: TypeRef): (String, Boolean) = toObjcType(ty.resolved, needRef = false)
 
   def toObjcType(ty: TypeRef, needRef: Boolean): (String, Boolean) = toObjcType(ty.resolved, needRef)
 
-  def toObjcType(tm: MExpr): (String, Boolean) = toObjcType(tm, false)
+  def toObjcType(tm: MExpr): (String, Boolean) = toObjcType(tm, needRef = false)
 
   def toObjcType(tm: MExpr, needRef: Boolean): (String, Boolean) = {
     def args(tm: MExpr) = if (tm.args.isEmpty) "" else tm.args.map(toBoxedParamType).mkString("<", ", ", ">")
@@ -115,7 +115,7 @@ class ObjcMarshal(spec: Spec) extends Marshal(spec) {
           val arg = tm.args.head
           arg.base match {
             case MOptional => throw new AssertionError("nested optional?")
-            case m => f(arg, true)
+            case m => f(arg, needRef = true)
           }
         case o =>
           val base = o match {
