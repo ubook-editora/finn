@@ -25,7 +25,7 @@ class SwiftGenerator(spec: Spec) extends ObjcGenerator(spec) {
     })
   }
 
-  def writeAlignedSwiftCall(w: IndentWriter, call: String, params: Seq[Field], end: String, f: Field => (String, String)) = {
+  def writeAlignedSwiftCall(w: IndentWriter, call: String, params: Seq[Field], end: String, f: Field => (String, String)): IndentWriter = {
     w.w(call)
     val skipFirst = new SkipFirst
     params.foreach(p => {
@@ -165,7 +165,7 @@ class SwiftGenerator(spec: Spec) extends ObjcGenerator(spec) {
                   val swiftBridgingType = swiftMarshal.getSwiftBridgingType(f.ty.resolved)
                   val name = idSwift.field(f.ident)
                   if (swiftBridgingType.downcast) {
-                    (name, s"$name ${swiftBridgingType.swift}")
+                    (name, s"$name as! ${swiftBridgingType.swift}")
                   } else
                     (name, name)
                 }).braced
