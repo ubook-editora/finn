@@ -39,7 +39,7 @@ class ObjcppMarshal(spec: Spec) extends Marshal(spec) {
   def references(m: Meta): Seq[SymbolReference] = m match {
     case o: MOpaque =>
       if (spec.objcSupportFramework) {
-        List(ImportRef("<DJIMarshal+Private.h>"), ImportRef("<DJIMarshal+Json.h>"))
+        List(ImportRef("<Djinni/DJIMarshal+Private.h>"), ImportRef("<Djinni/DJIMarshal+Json.h>"))
       } else {
         List(
           ImportRef(q(spec.objcBaseLibIncludePrefix + "DJIMarshal+Private.h")),
