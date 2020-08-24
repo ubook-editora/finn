@@ -21,7 +21,7 @@ class ViewController: UIViewController {
         
         
         
-        let r = MyRecord.init(bo: [MyEnum.A, MyEnum.B])
+//        let r = MyRecord.init(bo: [MyEnum.A, MyEnum.B], hien: 10)
         
         
     }

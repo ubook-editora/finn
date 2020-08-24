@@ -100,13 +100,12 @@ object Record {
 case class Interface(ext: Ext, methods: Seq[Interface.Method], consts: Seq[Const]) extends TypeDef
 
 object Interface {
-
-  case class Method(ident: Ident, params: Seq[Field], ret: Option[TypeRef], doc: Doc, static: Boolean, const: Boolean, deprecated: Option[Deprecated])
-
+  case class Method(ident: Ident, params: Seq[Field], ret: Option[TypeRef], doc: Doc,
+                    static: Boolean, const: Boolean, deprecated: Option[Deprecated])
 }
 
 case class Field(ident: Ident, ty: TypeRef, doc: Doc, modifiable: Boolean)
 
 case class SuperRecord(ident: Ident, record: Record, fields: Seq[Field])
 
-case class SwiftBridgingType(objcBoxed: String, objcName: String, swift: String, needBoxedValue: Boolean = false)
+case class SwiftBridgingType(wrapper: String, swift: String, downcast: Boolean = false)
