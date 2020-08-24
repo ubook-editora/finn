@@ -40,7 +40,7 @@ package object resolver {
 
         def defType = typeDecl.body match {
           case e: Enum =>
-            if (!typeDecl.params.isEmpty) {
+            if (typeDecl.params.nonEmpty) {
               throw Error(typeDecl.ident.loc, "enums can't have type parameters").toException
             }
             DEnum
@@ -120,17 +120,18 @@ package object resolver {
   // TODO: Have test for this guy
   private def constTypeCheck(ty: MExpr, value: Any, resolvedConsts: Seq[Const]) {
     // Check existing consts
-    if (value.isInstanceOf[ConstRef]) {
-      val ref = value.asInstanceOf[ConstRef]
-      resolvedConsts.map(c => {
-        if (c.ident.name == ref.name) {
-          if (c.ty.resolved == ty)
-            return
-          else
-            throw Error(ref.loc, s"Const ${ref.name} does not match type").toException
-        }
-      })
-      throw new AssertionError(s"Const ${ref.name} does not exist")
+    value match {
+      case ref: ConstRef =>
+        resolvedConsts.foreach(c => {
+          if (c.ident.name == ref.name) {
+            if (c.ty.resolved == ty)
+              return
+            else
+              throw Error(ref.loc, s"Const ${ref.name} does not match type").toException
+          }
+        })
+        throw new AssertionError(s"Const ${ref.name} does not exist")
+      case _ =>
     }
     ty.base match {
       case MBinary | MList | MSet | MMap =>
@@ -141,7 +142,7 @@ package object resolver {
           !value.asInstanceOf[String].endsWith("\""))
           throw new AssertionError("Const type mismatch: string")
       case MOptional =>
-        constTypeCheck(ty.args.apply(0), value, resolvedConsts)
+        constTypeCheck(ty.args.head, value, resolvedConsts)
       case t: MPrimitive => t.idlName match {
         case "bool" =>
           if (!value.isInstanceOf[Boolean])
@@ -224,6 +225,7 @@ package object resolver {
             throw new Error(f.ident.loc, "Cannot compare collections in Ord deriving (Java limitation)").toException
         case MString =>
         case MDate =>
+        case MJson =>
         case MOptional =>
           if (r.derivingTypes.contains(DerivingType.Ord))
             throw new Error(f.ident.loc, "Cannot compare optional in Ord deriving").toException
