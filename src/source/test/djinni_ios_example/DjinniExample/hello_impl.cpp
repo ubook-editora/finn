@@ -21,7 +21,7 @@ std::shared_ptr<Hello> Hello::create() {
 }
 
 my_enum HelloImpl::say_hi() {
-    return (my_enum)0;
+    return my_enum::A;
 }
 
 MyRecord HelloImpl::print(const MyRecord & rc) {

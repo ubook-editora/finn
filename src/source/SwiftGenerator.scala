@@ -53,7 +53,38 @@ class SwiftGenerator(spec: Spec) extends ObjcGenerator(spec) {
       f(w)
     })
   }
+//  @objc public enum MyEnum: NSInteger {
+//    case hien = 10
+//    case a = 20
+//    case b = 30
+//  }
 
+  override def generateEnum(origin: String, ident: Ident, doc: Doc, e: Enum, deprecated: Option[Deprecated]): Unit = {
+    var header: mutable.Set[String] = mutable.TreeSet[String]()
+    header.add("import Foundation")
+
+    val self = marshal.typename(ident, e)
+    var shift = 0
+    writeSwiftFile(ident, origin = origin, header, w => {
+      writeDoc(w, doc)
+      marshal.deprecatedAnnotation(deprecated).foreach(w.wl)
+      w.w(s"@objc public enum $self: NSInteger ").braced {
+        for (o <- normalEnumOptions(e)) {
+          writeDoc(w, o.doc)
+          if (o.value != None) {
+            val constValue = o.value match {
+              case Some(i) => i
+            }
+            shift = constValue.toString.toInt;
+          } else {
+            shift = shift + 1;
+          }
+
+          w.wl((s"case ${idSwift.`enum`(o.ident)} = $shift"))
+        }
+      }
+    })
+  }
 
   override def generateRecord(origin: String, ident: Ident, doc: Doc, params: Seq[TypeParam], r: Record, deprecated: Option[Deprecated], idl: Seq[TypeDecl]): Unit = {
     var header: mutable.Set[String] = mutable.TreeSet[String]()
@@ -197,6 +228,10 @@ class SwiftGenerator(spec: Spec) extends ObjcGenerator(spec) {
         m match {
           case MDef(name, numParams, defType, body) => defType match {
             case DRecord => header.add(s"@class ${marshal.typename(name)};")
+            case DEnum => {
+              val enumName = marshal.typename(name)
+              header.add(s"typedef enum $enumName: NSInteger $enumName;")
+            }
             case _ => header.add("#import " + arg)
           }
           case _ => header.add("#import " + arg)

@@ -522,7 +522,7 @@ abstract class Generator(spec: Spec) {
   }
 
   def writeEnumOptionNone(w: IndentWriter, e: Enum, ident: IdentConverter, marshal: Marshal) {
-    for (o <- e.options.find(_.specialFlag == Some(Enum.SpecialFlag.NoFlags))) {
+    for (o <- e.options.find(_.specialFlag.contains(Enum.SpecialFlag.NoFlags))) {
       writeDoc(w, o.doc)
       marshal.deprecatedAnnotation(o.deprecated).foreach(w.wl)
       w.wl(ident(o.ident.name) + " = 0,")
