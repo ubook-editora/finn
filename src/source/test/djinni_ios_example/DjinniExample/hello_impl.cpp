@@ -25,8 +25,9 @@ my_enum HelloImpl::say_hi() {
 }
 
 MyRecord HelloImpl::print(const MyRecord & rc) {
-    return rc;
     
+    
+    return rc;
 }
 
 

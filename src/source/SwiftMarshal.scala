@@ -36,9 +36,10 @@ class SwiftMarshal(spec: Spec) extends Marshal(spec) {
       val base: SwiftBridgingType = tm.base match {
         case opaque: MOpaque => opaque match {
           case p: MPrimitive =>
-            var wrapper = p.swiftName
-            if (downcast) wrapper = "NSNumber"
-            SwiftBridgingType(wrapper = wrapper, swift = p.swiftName)
+            if (downcast)
+              SwiftBridgingType(wrapper = "NSNumber", swift = p.swiftName, typeCastingOperator = " as ")
+            else
+              SwiftBridgingType(wrapper = p.swiftName, swift = p.swiftName)
           case meta.MString => SwiftBridgingType(wrapper = "String", swift = "String")
           case meta.MDate => SwiftBridgingType(wrapper = "Date", swift = "Date")
           case meta.MBinary => SwiftBridgingType(wrapper = "Data", swift = "Data")
@@ -53,14 +54,16 @@ class SwiftMarshal(spec: Spec) extends Marshal(spec) {
                 case _ => false
               }
               case d: MDef => d.defType match {
-                case meta.DEnum => throw new AssertionError("Enum should not define as optional")
+                case meta.DEnum =>
+                  true
                 case _ => false
               }
               case _ => false
             }
 
             val bridgingType = find(arg, downcast)
-            SwiftBridgingType(wrapper = s"${bridgingType.wrapper}?", swift = s"${bridgingType.swift}?", downcast = downcast)
+            SwiftBridgingType(wrapper = s"${bridgingType.wrapper}?", swift = s"${bridgingType.swift}?", downcast = downcast,
+              typeCastingOperator = bridgingType.typeCastingOperator)
           case meta.MList =>
             val arg = tm.args.head
             val bridgingType = find(arg)
@@ -84,7 +87,10 @@ class SwiftMarshal(spec: Spec) extends Marshal(spec) {
         }
         case d: MDef => d.defType match {
           case meta.DEnum =>
-            SwiftBridgingType(wrapper = idSwift.ty(d.name), swift = idSwift.ty(d.name))
+            if (downcast)
+              SwiftBridgingType(wrapper = "NSNumber", swift = idSwift.ty(d.name), typeCastingOperator = "?.rawValue as ")
+            else
+              SwiftBridgingType(wrapper = idSwift.ty(d.name), swift = idSwift.ty(d.name))
           case meta.DRecord =>
             val objcWrapper = idObjc.ty(d.name)
             val swift = idSwift.ty(d.name)

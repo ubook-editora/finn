@@ -144,7 +144,7 @@ class SwiftGenerator(spec: Spec) extends ObjcGenerator(spec) {
             w.w(s"@objc public var __djinni__objc_$name: ${swiftBridgingType.wrapper}").braced {
               w.w("get").braced {
                 if (swiftBridgingType.downcast)
-                  w.wl(s"return $name as ${swiftBridgingType.wrapper}")
+                  w.wl(s"return $name${swiftBridgingType.typeCastingOperator}${swiftBridgingType.wrapper}")
                 else
                   w.wl(s"return $name")
               }
