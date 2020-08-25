@@ -13,16 +13,16 @@
 		2C47896024F3A10C00F51E38 /* Rc+Private.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2C47895E24F3A10C00F51E38 /* Rc+Private.mm */; };
 		2C47896224F3A11100F51E38 /* rc.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 2C47896124F3A11100F51E38 /* rc.hpp */; };
 		2C47896424F4ACFA00F51E38 /* DjinniExample.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C47896324F4ACFA00F51E38 /* DjinniExample.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2C47896624F4C07400F51E38 /* MyEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C47896524F4C07400F51E38 /* MyEnum.swift */; };
+		2C47896824F4CB5200F51E38 /* MyEnum+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C47896724F4CB5200F51E38 /* MyEnum+Private.h */; };
 		7C6655A8241371760054DA04 /* DjinniExample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C6655A1241371760054DA04 /* DjinniExample.framework */; };
 		7C6655A9241371760054DA04 /* DjinniExample.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7C6655A1241371760054DA04 /* DjinniExample.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		7C665628241386BB0054DA04 /* my_enum.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 7C66561B241386BB0054DA04 /* my_enum.hpp */; };
 		7C665629241386BB0054DA04 /* hello.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 7C66561C241386BB0054DA04 /* hello.hpp */; };
 		7C66562A241386BB0054DA04 /* my_record.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 7C66561D241386BB0054DA04 /* my_record.hpp */; };
-		7C66562B241386BB0054DA04 /* MyEnum.h in Headers */ = {isa = PBXBuildFile; fileRef = 7C66561F241386BB0054DA04 /* MyEnum.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7C66562C241386BB0054DA04 /* Hello.h in Headers */ = {isa = PBXBuildFile; fileRef = 7C665620241386BB0054DA04 /* Hello.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7C66562D241386BB0054DA04 /* MyRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C665621241386BB0054DA04 /* MyRecord.swift */; };
 		7C66562E241386BB0054DA04 /* Hello+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 7C665623241386BB0054DA04 /* Hello+Private.h */; };
-		7C66562F241386BB0054DA04 /* MyEnum+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 7C665624241386BB0054DA04 /* MyEnum+Private.h */; };
 		7C665630241386BB0054DA04 /* MyRecord+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 7C665625241386BB0054DA04 /* MyRecord+Private.h */; };
 		7C665631241386BB0054DA04 /* Hello+Private.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7C665626241386BB0054DA04 /* Hello+Private.mm */; };
 		7C665632241386BB0054DA04 /* MyRecord+Private.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7C665627241386BB0054DA04 /* MyRecord+Private.mm */; };
@@ -68,6 +68,8 @@
 		2C47895E24F3A10C00F51E38 /* Rc+Private.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "Rc+Private.mm"; sourceTree = "<group>"; };
 		2C47896124F3A11100F51E38 /* rc.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = rc.hpp; sourceTree = "<group>"; };
 		2C47896324F4ACFA00F51E38 /* DjinniExample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DjinniExample.h; sourceTree = "<group>"; };
+		2C47896524F4C07400F51E38 /* MyEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyEnum.swift; sourceTree = "<group>"; };
+		2C47896724F4CB5200F51E38 /* MyEnum+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MyEnum+Private.h"; sourceTree = "<group>"; };
 		4F1E396283010F33489EB326 /* Pods-djinni_ios_example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-djinni_ios_example.debug.xcconfig"; path = "Target Support Files/Pods-djinni_ios_example/Pods-djinni_ios_example.debug.xcconfig"; sourceTree = "<group>"; };
 		71380AE229A77CBB278FBB8E /* Pods_djinni_ios_example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_djinni_ios_example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C6655A1241371760054DA04 /* DjinniExample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DjinniExample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -75,11 +77,9 @@
 		7C66561B241386BB0054DA04 /* my_enum.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = my_enum.hpp; sourceTree = "<group>"; };
 		7C66561C241386BB0054DA04 /* hello.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = hello.hpp; sourceTree = "<group>"; };
 		7C66561D241386BB0054DA04 /* my_record.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = my_record.hpp; sourceTree = "<group>"; };
-		7C66561F241386BB0054DA04 /* MyEnum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyEnum.h; sourceTree = "<group>"; };
 		7C665620241386BB0054DA04 /* Hello.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Hello.h; sourceTree = "<group>"; };
 		7C665621241386BB0054DA04 /* MyRecord.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyRecord.swift; sourceTree = "<group>"; };
 		7C665623241386BB0054DA04 /* Hello+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Hello+Private.h"; sourceTree = "<group>"; };
-		7C665624241386BB0054DA04 /* MyEnum+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MyEnum+Private.h"; sourceTree = "<group>"; };
 		7C665625241386BB0054DA04 /* MyRecord+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MyRecord+Private.h"; sourceTree = "<group>"; };
 		7C665626241386BB0054DA04 /* Hello+Private.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "Hello+Private.mm"; sourceTree = "<group>"; };
 		7C665627241386BB0054DA04 /* MyRecord+Private.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "MyRecord+Private.mm"; sourceTree = "<group>"; };
@@ -170,9 +170,9 @@
 			children = (
 				2C47896324F4ACFA00F51E38 /* DjinniExample.h */,
 				2C47895B24F3A10200F51E38 /* Rc.swift */,
-				7C66561F241386BB0054DA04 /* MyEnum.h */,
 				7C665620241386BB0054DA04 /* Hello.h */,
 				7C665621241386BB0054DA04 /* MyRecord.swift */,
+				2C47896524F4C07400F51E38 /* MyEnum.swift */,
 			);
 			path = swift;
 			sourceTree = "<group>";
@@ -180,11 +180,11 @@
 		7C665622241386BB0054DA04 /* objc */ = {
 			isa = PBXGroup;
 			children = (
+				2C47896724F4CB5200F51E38 /* MyEnum+Private.h */,
 				2C47895D24F3A10C00F51E38 /* Rc+Private.h */,
 				2C47895E24F3A10C00F51E38 /* Rc+Private.mm */,
 				7C665623241386BB0054DA04 /* Hello+Private.h */,
 				7C665626241386BB0054DA04 /* Hello+Private.mm */,
-				7C665624241386BB0054DA04 /* MyEnum+Private.h */,
 				7C665625241386BB0054DA04 /* MyRecord+Private.h */,
 				7C665627241386BB0054DA04 /* MyRecord+Private.mm */,
 			);
@@ -244,10 +244,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				7C66562A241386BB0054DA04 /* my_record.hpp in Headers */,
-				7C66562B241386BB0054DA04 /* MyEnum.h in Headers */,
+				2C47896824F4CB5200F51E38 /* MyEnum+Private.h in Headers */,
 				2C47896224F3A11100F51E38 /* rc.hpp in Headers */,
 				7C66562C241386BB0054DA04 /* Hello.h in Headers */,
-				7C66562F241386BB0054DA04 /* MyEnum+Private.h in Headers */,
 				2C47896424F4ACFA00F51E38 /* DjinniExample.h in Headers */,
 				7C665629241386BB0054DA04 /* hello.hpp in Headers */,
 				7C665628241386BB0054DA04 /* my_enum.hpp in Headers */,
@@ -428,6 +427,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2C47896024F3A10C00F51E38 /* Rc+Private.mm in Sources */,
+				2C47896624F4C07400F51E38 /* MyEnum.swift in Sources */,
 				2C47895C24F3A10200F51E38 /* Rc.swift in Sources */,
 				7C665635241387050054DA04 /* hello_impl.cpp in Sources */,
 				7C665631241386BB0054DA04 /* Hello+Private.mm in Sources */,

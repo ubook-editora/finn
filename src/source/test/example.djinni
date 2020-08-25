@@ -1,7 +1,7 @@
 my_enum = enum {
-    hien;
-    a;
-    b;
+    hien = 10;
+    a = 20;
+    b = 30;
 }
 
 rc = record {
@@ -47,5 +47,4 @@ my_record = record {
     test12: json;
 
     test13: optional<my_enum>;
-
 }

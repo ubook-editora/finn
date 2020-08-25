@@ -23,11 +23,14 @@ class ViewController: UIViewController {
                               test8: [:],
                               test9: Rc.init(a: 1),
                               test10: nil,
-                              test11: MyEnum.A,
-                              test12: [:])
+                              test11: MyEnum.a,
+                              test12: [:], test13: MyEnum.b)
         
         
-        Hello.create()?.print(r)
+        let e: MyEnum = Hello.create()!.sayHi()
+        
+        print("\(e.rawValue)")
+        
         
     }
 }
