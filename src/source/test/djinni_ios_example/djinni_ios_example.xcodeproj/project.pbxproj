@@ -7,10 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0041032BA5EE44577674F22D /* Pods_DjinniExample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6F34CFDE368C556DE77B493 /* Pods_DjinniExample.framework */; };
 		2C47895C24F3A10200F51E38 /* Rc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C47895B24F3A10200F51E38 /* Rc.swift */; };
 		2C47895F24F3A10C00F51E38 /* Rc+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C47895D24F3A10C00F51E38 /* Rc+Private.h */; };
 		2C47896024F3A10C00F51E38 /* Rc+Private.mm in Sources */ = {isa = PBXBuildFile; fileRef = 2C47895E24F3A10C00F51E38 /* Rc+Private.mm */; };
 		2C47896224F3A11100F51E38 /* rc.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 2C47896124F3A11100F51E38 /* rc.hpp */; };
+		2C47896424F4ACFA00F51E38 /* DjinniExample.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C47896324F4ACFA00F51E38 /* DjinniExample.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7C6655A8241371760054DA04 /* DjinniExample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C6655A1241371760054DA04 /* DjinniExample.framework */; };
 		7C6655A9241371760054DA04 /* DjinniExample.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7C6655A1241371760054DA04 /* DjinniExample.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		7C665628241386BB0054DA04 /* my_enum.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 7C66561B241386BB0054DA04 /* my_enum.hpp */; };
@@ -32,7 +34,7 @@
 		7CA93C22240FA6D900C27267 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7CA93C20240FA6D900C27267 /* Main.storyboard */; };
 		7CA93C24240FA6DC00C27267 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7CA93C23240FA6DC00C27267 /* Assets.xcassets */; };
 		7CA93C27240FA6DC00C27267 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7CA93C25240FA6DC00C27267 /* LaunchScreen.storyboard */; };
-		F5FE3E6AB5852B0B5A2769E9 /* Pods_djinni_ios_example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA9D07F3F6C2D4F99120E458 /* Pods_djinni_ios_example.framework */; };
+		FB832F3D51B6E2D4556DADE4 /* Pods_djinni_ios_example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71380AE229A77CBB278FBB8E /* Pods_djinni_ios_example.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,10 +62,14 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1A8E33EC198176569FD5AED5 /* Pods-djinni_ios_example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-djinni_ios_example.release.xcconfig"; path = "Target Support Files/Pods-djinni_ios_example/Pods-djinni_ios_example.release.xcconfig"; sourceTree = "<group>"; };
 		2C47895B24F3A10200F51E38 /* Rc.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rc.swift; sourceTree = "<group>"; };
 		2C47895D24F3A10C00F51E38 /* Rc+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Rc+Private.h"; sourceTree = "<group>"; };
 		2C47895E24F3A10C00F51E38 /* Rc+Private.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "Rc+Private.mm"; sourceTree = "<group>"; };
 		2C47896124F3A11100F51E38 /* rc.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = rc.hpp; sourceTree = "<group>"; };
+		2C47896324F4ACFA00F51E38 /* DjinniExample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DjinniExample.h; sourceTree = "<group>"; };
+		4F1E396283010F33489EB326 /* Pods-djinni_ios_example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-djinni_ios_example.debug.xcconfig"; path = "Target Support Files/Pods-djinni_ios_example/Pods-djinni_ios_example.debug.xcconfig"; sourceTree = "<group>"; };
+		71380AE229A77CBB278FBB8E /* Pods_djinni_ios_example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_djinni_ios_example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C6655A1241371760054DA04 /* DjinniExample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DjinniExample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C6655A4241371760054DA04 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7C66561B241386BB0054DA04 /* my_enum.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = my_enum.hpp; sourceTree = "<group>"; };
@@ -89,9 +95,9 @@
 		7CA93C28240FA6DC00C27267 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7CA93D06240FAF2E00C27267 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		7CA93D40240FE0CB00C27267 /* Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Header.h; sourceTree = "<group>"; };
-		8836041D763A3230075605D3 /* Pods-djinni_ios_example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-djinni_ios_example.debug.xcconfig"; path = "Target Support Files/Pods-djinni_ios_example/Pods-djinni_ios_example.debug.xcconfig"; sourceTree = "<group>"; };
-		CA9D07F3F6C2D4F99120E458 /* Pods_djinni_ios_example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_djinni_ios_example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		DDFC2658EC3C2BD7F3544AD6 /* Pods-djinni_ios_example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-djinni_ios_example.release.xcconfig"; path = "Target Support Files/Pods-djinni_ios_example/Pods-djinni_ios_example.release.xcconfig"; sourceTree = "<group>"; };
+		B2D5184A62ACCB4454AB74A4 /* Pods-DjinniExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DjinniExample.release.xcconfig"; path = "Target Support Files/Pods-DjinniExample/Pods-DjinniExample.release.xcconfig"; sourceTree = "<group>"; };
+		D6F34CFDE368C556DE77B493 /* Pods_DjinniExample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DjinniExample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E94940E91A5E8F8788A8C805 /* Pods-DjinniExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DjinniExample.debug.xcconfig"; path = "Target Support Files/Pods-DjinniExample/Pods-DjinniExample.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +105,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0041032BA5EE44577674F22D /* Pods_DjinniExample.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -107,7 +114,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7C6655A8241371760054DA04 /* DjinniExample.framework in Frameworks */,
-				F5FE3E6AB5852B0B5A2769E9 /* Pods_djinni_ios_example.framework in Frameworks */,
+				FB832F3D51B6E2D4556DADE4 /* Pods_djinni_ios_example.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -117,8 +124,10 @@
 		6858E459477B864F016CBB25 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				8836041D763A3230075605D3 /* Pods-djinni_ios_example.debug.xcconfig */,
-				DDFC2658EC3C2BD7F3544AD6 /* Pods-djinni_ios_example.release.xcconfig */,
+				E94940E91A5E8F8788A8C805 /* Pods-DjinniExample.debug.xcconfig */,
+				B2D5184A62ACCB4454AB74A4 /* Pods-DjinniExample.release.xcconfig */,
+				4F1E396283010F33489EB326 /* Pods-djinni_ios_example.debug.xcconfig */,
+				1A8E33EC198176569FD5AED5 /* Pods-djinni_ios_example.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -159,6 +168,7 @@
 		7C66561E241386BB0054DA04 /* swift */ = {
 			isa = PBXGroup;
 			children = (
+				2C47896324F4ACFA00F51E38 /* DjinniExample.h */,
 				2C47895B24F3A10200F51E38 /* Rc.swift */,
 				7C66561F241386BB0054DA04 /* MyEnum.h */,
 				7C665620241386BB0054DA04 /* Hello.h */,
@@ -220,7 +230,8 @@
 			isa = PBXGroup;
 			children = (
 				7CA93D06240FAF2E00C27267 /* libc++.tbd */,
-				CA9D07F3F6C2D4F99120E458 /* Pods_djinni_ios_example.framework */,
+				D6F34CFDE368C556DE77B493 /* Pods_DjinniExample.framework */,
+				71380AE229A77CBB278FBB8E /* Pods_djinni_ios_example.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -237,6 +248,7 @@
 				2C47896224F3A11100F51E38 /* rc.hpp in Headers */,
 				7C66562C241386BB0054DA04 /* Hello.h in Headers */,
 				7C66562F241386BB0054DA04 /* MyEnum+Private.h in Headers */,
+				2C47896424F4ACFA00F51E38 /* DjinniExample.h in Headers */,
 				7C665629241386BB0054DA04 /* hello.hpp in Headers */,
 				7C665628241386BB0054DA04 /* my_enum.hpp in Headers */,
 				2C47895F24F3A10C00F51E38 /* Rc+Private.h in Headers */,
@@ -253,6 +265,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7C6655AD241371760054DA04 /* Build configuration list for PBXNativeTarget "DjinniExample" */;
 			buildPhases = (
+				DC92C7266DE0D8B31A384DE7 /* [CP] Check Pods Manifest.lock */,
 				7C66559C241371760054DA04 /* Headers */,
 				7C66559D241371760054DA04 /* Sources */,
 				7C66559E241371760054DA04 /* Frameworks */,
@@ -271,12 +284,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7CA93C2B240FA6DC00C27267 /* Build configuration list for PBXNativeTarget "djinni_ios_example" */;
 			buildPhases = (
-				366D48627096C9B649495693 /* [CP] Check Pods Manifest.lock */,
+				6D17F2B4F4376542AC686324 /* [CP] Check Pods Manifest.lock */,
 				7CA93C13240FA6D900C27267 /* Sources */,
 				7CA93C14240FA6D900C27267 /* Frameworks */,
 				7CA93C15240FA6D900C27267 /* Resources */,
 				7C6655AA241371760054DA04 /* Embed Frameworks */,
-				21090A6E6D21231C31E6C66E /* [CP] Embed Pods Frameworks */,
+				084E896A24EABC075EEFF475 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -346,7 +359,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		21090A6E6D21231C31E6C66E /* [CP] Embed Pods Frameworks */ = {
+		084E896A24EABC075EEFF475 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -363,7 +376,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-djinni_ios_example/Pods-djinni_ios_example-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		366D48627096C9B649495693 /* [CP] Check Pods Manifest.lock */ = {
+		6D17F2B4F4376542AC686324 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -379,6 +392,28 @@
 			);
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/Pods-djinni_ios_example-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DC92C7266DE0D8B31A384DE7 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-DjinniExample-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -443,6 +478,7 @@
 /* Begin XCBuildConfiguration section */
 		7C6655AB241371760054DA04 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E94940E91A5E8F8788A8C805 /* Pods-DjinniExample.debug.xcconfig */;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CODE_SIGN_STYLE = Automatic;
@@ -478,6 +514,7 @@
 		};
 		7C6655AC241371760054DA04 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B2D5184A62ACCB4454AB74A4 /* Pods-DjinniExample.release.xcconfig */;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CODE_SIGN_STYLE = Automatic;
@@ -629,7 +666,7 @@
 		};
 		7CA93C2C240FA6DC00C27267 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8836041D763A3230075605D3 /* Pods-djinni_ios_example.debug.xcconfig */;
+			baseConfigurationReference = 4F1E396283010F33489EB326 /* Pods-djinni_ios_example.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -656,7 +693,7 @@
 		};
 		7CA93C2D240FA6DC00C27267 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DDFC2658EC3C2BD7F3544AD6 /* Pods-djinni_ios_example.release.xcconfig */;
+			baseConfigurationReference = 1A8E33EC198176569FD5AED5 /* Pods-djinni_ios_example.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;

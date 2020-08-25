@@ -72,7 +72,7 @@ object Main {
     var objcTypePrefix: String = ""
     var objcIncludePrefix: String = ""
     var objcExtendedRecordIncludePrefix: String = ""
-    var objcSwiftBridgingHeaderName: Option[String] = None
+    var swiftFrameworkName: Option[String] = None
     var objcClosedEnums: Boolean = false
     var objcSupportSwiftName: Boolean = true
     var objcSupportFramework: Boolean = true
@@ -96,6 +96,7 @@ object Main {
     var pycffiDynamicLibList: String = ""
     var pycffiOutFolder: Option[File] = None
     var pyImportPrefix: String = ""
+
     var swiftIdentStyle = IdentStyle.swiftDefault
     var swiftOutFolder: Option[File] = None
     var swiftGeneratedHeader: Option[String] = None
@@ -199,8 +200,8 @@ object Main {
 
       opt[String]("objc-include-prefix").valueName("<prefix>").foreach(objcIncludePrefix = _)
         .text("The prefix for #import of header files from Objective-C files.")
-      opt[String]("objc-swift-bridging-header").valueName("<name>").foreach(x => objcSwiftBridgingHeaderName = Some(x))
-        .text("The name of Objective-C Bridging Header used in XCode's Swift projects.")
+//      opt[String]("objc-swift-bridging-header").valueName("<name>").foreach(x => swiftFrameworkName = Some(x))
+//        .text("The name of Objective-C Bridging Header used in XCode's Swift projects.")
       opt[Boolean]("objc-closed-enums").valueName("<true/false>").foreach(x => objcClosedEnums = x)
         .text("All generated Objective-C enums will be NS_CLOSED_ENUM (default: false). ")
 
@@ -224,11 +225,16 @@ object Main {
       opt[String]("objc-base-lib-include-prefix").valueName("...").foreach(x => objcBaseLibIncludePrefix = x)
         .text("The Objective-C++ base library's include path, relative to the Objective-C++ classes.")
       note("")
+
+
       opt[File]("swift-out").valueName("<out-folder>").foreach(x => swiftOutFolder = Some(x))
         .text("The output folder for Swift files (Generator disabled if unspecified).")
 
       opt[String]("swift-generated-header").valueName("<swift-generated-header>").foreach(x => swiftGeneratedHeader = Some(x))
         .text("The output folder for Swift files (Generator disabled if unspecified).")
+
+      opt[String]("swift-framework").valueName("<swift-framework>").foreach(x => swiftFrameworkName = Some(x))
+        .text("The swift framework name (Generator disabled if unspecified).")
 
       note("")
       opt[File]("yaml-out").valueName("<out-folder>").foreach(x => yamlOutFolder = Some(x))
@@ -404,7 +410,7 @@ object Main {
     } else {
       None
     }
-    val objcSwiftBridgingHeaderWriter = if (objcSwiftBridgingHeaderName.isDefined && (objcOutFolder.isDefined || swiftOutFolder.isDefined)) {
+    val objcSwiftBridgingHeaderWriter = if (swiftFrameworkName.isDefined && (objcOutFolder.isDefined || swiftOutFolder.isDefined)) {
       val path = if(objcOutFolder.isDefined) {
         objcOutFolder.get.getPath
       } else if (swiftOutFolder.isDefined) {
@@ -413,13 +419,11 @@ object Main {
         throw new AssertionError("unexpected behavior here?")
       }
 
-      val objcSwiftBridgingHeaderFile = new File(path, objcSwiftBridgingHeaderName.get + ".h")
+      val objcSwiftBridgingHeaderFile = new File(path, swiftFrameworkName.get + ".h")
       if (objcSwiftBridgingHeaderFile.getParentFile != null)
         createFolder("output file list", objcSwiftBridgingHeaderFile.getParentFile)
       Some(new BufferedWriter(new FileWriter(objcSwiftBridgingHeaderFile)))
-    } else {
-      None
-    }
+    } else None
 
     val outSpec = Spec(
       javaOutFolder,
@@ -472,7 +476,7 @@ object Main {
       objcppNamespace,
       objcBaseLibIncludePrefix,
       objcSwiftBridgingHeaderWriter,
-      objcSwiftBridgingHeaderName,
+      swiftFrameworkName,
       objcClosedEnums,
       objcSupportFramework,
       objcSupportSwiftName,
