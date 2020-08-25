@@ -332,27 +332,26 @@ class ObjcppGenerator(spec: Spec) extends BaseObjcGenerator(spec) {
   override def generateRecord(origin: String, ident: Ident, doc: Doc, params: Seq[TypeParam], r: Record, deprecated: scala.Option[Deprecated], idl: Seq[TypeDecl]) {
     val refs = new ObjcRefs()
     for (c <- r.consts)
-    refs.find(c.ty)
+      refs.find(c.ty)
     for (f <- r.fields)
-    refs.find(f.ty)
+      refs.find(f.ty)
     
     val objcName = ident.name + (if (r.ext.objc) "_base" else "")
     val noBaseSelf = objcMarshal.typename(ident, r) // Used for constant names
     val cppSelf = cppMarshal.fqTypename(ident, r)
-    
-    refs.privHeader.add("!#import " + q((if(r.ext.objc) spec.objcExtendedRecordIncludePrefix else spec.objcppIncludeObjcPrefix) + headerName(ident)))
+
+    if (spec.swiftGeneratedHeader.isDefined) {
+      refs.privHeader.add(s"!#import <UIKit/UIKit.h>") // Mus
+      refs.privHeader.add(s"!#import ${spec.swiftGeneratedHeader.get}")
+    } else {
+      refs.privHeader.add("!#import " + q((if (r.ext.objc) spec.objcExtendedRecordIncludePrefix else spec.objcppIncludeObjcPrefix) + headerName(ident)))
+    }
+
     refs.privHeader.add("!#include " + q((if(r.ext.cpp) spec.cppExtendedRecordIncludePrefix else spec.objcppIncludeCppPrefix) + spec.cppFileIdentStyle(ident) + "." + spec.cppHeaderExt))
     
     refs.body.add("#include <cassert>")
     refs.body.add("!#import " + q(spec.objcppIncludePrefix + objcppMarshal.privateHeaderName(objcName)))
-    
-    def checkMutable(tm: MExpr): Boolean = tm.base match {
-      case MOptional => checkMutable(tm.args.head)
-      case MString => true
-      case MBinary => true
-      case _ => false
-    }
-    
+
     val helperClass = objcppMarshal.helperClass(ident)
     
     writeObjcFile(objcppMarshal.privateHeaderName(objcName), origin, refs.privHeader, w => {
@@ -373,30 +372,38 @@ class ObjcppGenerator(spec: Spec) extends BaseObjcGenerator(spec) {
         }
       })
     })
-    
+
     writeObjcFile(privateBodyName(objcName), origin, refs.body, w => {
       wrapNamespace(w, spec.objcppNamespace, w => {
-        
+
         val (superFields, firstInitializerArg) = getSuperRecord(idl, r) match {
-          case None => (Seq.empty, if(r.fields.isEmpty) "" else IdentStyle.camelUpper("with_" + r.fields.head.ident.name))
-          case Some(value) => (value.fields, if(r.fields.isEmpty) "" else IdentStyle.camelUpper("with_" + value.fields.head.ident.name))
+          case None => (Seq.empty, if (r.fields.isEmpty) "" else IdentStyle.camelUpper("with_" + r.fields.head.ident.name))
+          case Some(value) => (value.fields, if (r.fields.isEmpty) "" else IdentStyle.camelUpper("with_" + value.fields.head.ident.name))
         }
-        
+
         w.wl(s"auto $helperClass::toCpp(ObjcType obj) -> CppType")
         w.braced {
           w.wl("assert(obj);")
-          if(r.fields.isEmpty) w.wl("(void)obj; // Suppress warnings in relase builds for empty records")
-          val call = "return CppType("
-          writeAlignedCall(w, "return {", superFields++r.fields, "}", f => objcppMarshal.toCpp(f.ty, "obj." + idObjc.field(f.ident)))
+          if (r.fields.isEmpty) w.wl("(void)obj; // Suppress warnings in relase builds for empty records")
+          def wrapper: String = if (spec.swiftOutFolder.isDefined) "__djinni__objc_" else ""
+          writeAlignedCall(w, "return {", superFields ++ r.fields, "}", f => objcppMarshal.toCpp(f.ty, "obj." + s"${wrapper}${idObjc.field(f.ident)}"))
           w.wl(";")
         }
         w.wl
         w.wl(s"auto $helperClass::fromCpp(const CppType& cpp) -> ObjcType")
         w.braced {
-          if(r.fields.isEmpty) w.wl("(void)cpp; // Suppress warnings in relase builds for empty records")
+          if (r.fields.isEmpty) w.wl("(void)cpp; // Suppress warnings in relase builds for empty records")
           // val first = if(r.fields.isEmpty) "" else IdentStyle.camelUpper("with_" + r.fields.head.ident.name)
-          val call = s"return [[$noBaseSelf alloc] init$firstInitializerArg"
-          writeAlignedObjcCall(w, call, superFields++r.fields, "]", f => (idObjc.field(f.ident), s"(${objcppMarshal.fromCpp(f.ty, "cpp." + idCpp.field(f.ident))})"))
+
+          val call: String = {
+            if (spec.swiftOutFolder.isDefined) {
+              s"return [$noBaseSelf init$firstInitializerArg"
+            } else {
+              s"return [[$noBaseSelf alloc] init$firstInitializerArg"
+            }
+          }
+
+          writeAlignedObjcCall(w, call, superFields ++ r.fields, "]", f => (idObjc.field(f.ident), s"(${objcppMarshal.fromCpp(f.ty, "cpp." + idCpp.field(f.ident))})"))
           w.wl(";")
         }
       })
