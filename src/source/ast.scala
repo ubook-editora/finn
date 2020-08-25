@@ -63,7 +63,7 @@ case class Ext(java: Boolean, cpp: Boolean, objc: Boolean, py: Boolean) {
 }
 
 case class TypeRef(expr: TypeExpr) {
-  var resolved: MExpr = null
+  var resolved: MExpr = _
 }
 
 case class TypeExpr(ident: Ident, args: Seq[TypeExpr])
@@ -108,4 +108,5 @@ case class Field(ident: Ident, ty: TypeRef, doc: Doc, modifiable: Boolean)
 
 case class SuperRecord(ident: Ident, record: Record, fields: Seq[Field])
 
-case class SwiftBridgingType(wrapper: String, swift: String, downcast: Boolean = false)
+case class SwiftBridgingType(wrapper: String, swift: String, downcast: Boolean = false,
+                             typeCastingOperator: String = " as! ")
