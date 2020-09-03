@@ -23,11 +23,7 @@ Pod::Spec.new do |s|
     
     s.ios.deployment_target  = '9.0'
     s.osx.deployment_target  = '10.10'
-    s.pod_target_xcconfig = {
-      'DEFINES_MODULE' => 'YES',
-      'CLANG_CXX_LANGUAGE_STANDARD' => 'c++17'
-    }
-    
+        
     s.pod_target_xcconfig = {
         'HEADER_SEARCH_PATHS' => [
             'support-lib/objc'

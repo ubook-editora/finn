@@ -159,11 +159,11 @@ class SwiftMarshal(spec: Spec) extends Marshal(spec) {
   }
 
   def toObjc(tm: MExpr, expr: String): String = {
-    s"DjinniSwift.${getHelperName(tm)}.toObjc(e: $expr)"
+    s"${getHelperName(tm)}.toObjc(e: $expr)"
   }
 
   def fromObjc(tm: MExpr, expr: String): String = {
-    s"DjinniSwift.${getHelperName(tm)}.fromObjc(e: $expr)"
+    s"${getHelperName(tm)}.fromObjc(e: $expr)"
   }
 
   override protected def withNs(namespace: Option[String], t: String): String = namespace match {
@@ -172,24 +172,28 @@ class SwiftMarshal(spec: Spec) extends Marshal(spec) {
     case Some(s) => s + "." + t
   }
 
+  def swiftHelper(expr: String): String = {
+    s"DjinniSwift.$expr"
+  }
+
   def getHelperName(tm: MExpr): String = {
     def findHelperName(tm: MExpr): String = {
       val base: String = tm.base match {
         case d: MDef => d.defType match {
-          case DEnum => s"Enum<${idSwift.ty(d.name)}>"
+          case DEnum => s"${swiftHelper(s"Enum<${idSwift.ty(d.name)}>")}"
           case DRecord => s"${idSwift.ty(d.name)}"
           case _ => throw new AssertionError("unreachable")
         }
         case e: MExtern => e.objcpp.translator
         case o => withNs(None, o match {
           case p: MPrimitive => p.idlName match {
-            case "i8" => "I8"
-            case "i16" => "I16"
-            case "i32" => "I32"
-            case "i64" => "I64"
-            case "f32" => "F32"
-            case "f64" => "F64"
-            case "bool" => "Bool"
+            case "i8" => swiftHelper("I8")
+            case "i16" => swiftHelper("I16")
+            case "i32" => swiftHelper("I32")
+            case "i64" => swiftHelper("I64")
+            case "f32" => swiftHelper("F32")
+            case "f64" => swiftHelper("F64")
+            case "bool" => swiftHelper("Bool")
           }
           case MOptional =>
             val arg = tm.args.head
@@ -200,17 +204,17 @@ class SwiftMarshal(spec: Spec) extends Marshal(spec) {
           case MList =>
             val arg = tm.args.head
             val helper = findHelperName(arg)
-            s"List<DjinniSwift.$helper>"
+            s"List<$helper>"
           case MSet =>
             val arg = tm.args.head
             val helper = findHelperName(arg)
-            s"SetHelper<DjinniSwift.$helper>"
+            s"SetHelper<$helper>"
           case MMap =>
             val key = tm.args.head
             val value = tm.args.last
             val keyHelper = findHelperName(key)
             val valueHelper = findHelperName(value)
-            s"Map<DjinniSwift.$keyHelper, DjinniSwift.$valueHelper>"
+            s"${swiftHelper(s"Map<$keyHelper, $valueHelper>")}"
           case MJson => "Json"
           case _: MDef => throw new AssertionError("unreachable")
           case _: MExtern => throw new AssertionError("unreachable")

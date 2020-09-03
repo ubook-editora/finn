@@ -68,7 +68,7 @@ class CppGenerator(spec: Spec) extends Generator(spec) {
     val underlyingType = if(e.flags) flagsType else enumType
     
     writeHppFile(ident, origin, refs.hpp, refs.hppFwds, w => {
-      w.w("enum class ")
+      w.w("enum class")
       marshal.deprecatedAnnotation(deprecated).foreach(w.w)
       w.w(s" $self : $underlyingType").bracedSemi {
         writeEnumOptionNone(w, e, idCpp.enum, marshal)

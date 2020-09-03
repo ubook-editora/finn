@@ -27,7 +27,7 @@ class SwiftSupportingFilesGenerator(spec: Spec) extends Generator(spec) {
   val marshal = new ObjcMarshal(spec)
 
   override def generateEnum(origin: String, ident: Ident, doc: Doc, e: Enum, deprecated: scala.Option[Deprecated]) {
-//    spec.objcSwiftBridgingHeaderWriter.get.write("#import \"" + marshal.headerName(ident) + "\"\n")
+    spec.objcSwiftBridgingHeaderWriter.get.write("#import \"" + marshal.headerName(ident) + "\"\n")
   }
 
   override def generateInterface(origin: String, ident: Ident, doc: Doc, typeParams: Seq[TypeParam], i: Interface, deprecated: scala.Option[Deprecated]) {
