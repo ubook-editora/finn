@@ -1,7 +1,7 @@
 my_enum = enum {
-    hien = 10;
-    a = 20;
-    b = 30;
+    hien;
+    a;
+    b;
 }
 
 rc = record {
@@ -42,9 +42,19 @@ my_record = record {
 
     test10: optional<rc>;
 
+    test10_1: list<rc>;
+
     test11: my_enum;
 
     test12: json;
 
     test13: optional<my_enum>;
+
+    test14: optional<i16>;
+
+    test15: list<my_enum>;
+
+    test16: set<my_enum>;
+
+    test17: map<my_enum, i16>;
 }

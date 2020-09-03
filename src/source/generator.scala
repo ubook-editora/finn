@@ -19,7 +19,7 @@ package djinni
 import java.io._
 
 import djinni.ast._
-import djinni.generatorTools._
+import djinni.generatorTools.{JavaAccessModifier, _}
 import djinni.writer.IndentWriter
 
 import scala.annotation.tailrec
@@ -86,10 +86,16 @@ package object generatorTools {
       }
 
       if (spec.objcSwiftBridgingHeaderWriter.isDefined) {
-        SwiftBridgingHeaderGenerator.writeAutogenerationWarning(spec.objcSwiftBridgingHeaderName.get, spec.objcSwiftBridgingHeaderWriter.get)
-        SwiftBridgingHeaderGenerator.writeBridgingVars(spec.objcSwiftBridgingHeaderName.get, spec.objcSwiftBridgingHeaderWriter.get)
-        new SwiftBridgingHeaderGenerator(spec).generate(idl)
+        SwiftSupportingFilesGenerator.writeAutogenerationWarning(spec.objcSwiftBridgingHeaderName.get, spec.objcSwiftBridgingHeaderWriter.get)
+        SwiftSupportingFilesGenerator.writeBridgingVars(spec.objcSwiftBridgingHeaderName.get, spec.objcSwiftBridgingHeaderWriter.get)
+
+        SwiftSupportingFilesGenerator.generateSwiftMarshal(spec.swiftMarshalFileName, spec.swiftMarshalFileWriter.get)
+
+        val generator = new SwiftSupportingFilesGenerator(spec)
+
+        generator.generate(idl)
       }
+
       if (spec.yamlOutFolder.isDefined) {
         if (!spec.skipGeneration) {
           createFolder("YAML", spec.yamlOutFolder.get)
@@ -168,7 +174,7 @@ package object generatorTools {
                    cppNnType: Option[String],
                    cppNnCheckExpression: Option[String],
                    cppUseWideStrings: Boolean,
-  cppDefaultContructor: Boolean,
+                   cppDefaultConstructor: Boolean,
                    jniOutFolder: Option[File],
                    jniHeaderOutFolder: Option[File],
                    jniIncludePrefix: String,
@@ -214,7 +220,9 @@ package object generatorTools {
                    pyImportPrefix: String,
                    swiftIdentStyle: SwiftIdentStyle,
                    swiftOutFolder: Option[File],
-                   swiftGeneratedHeader: Option[String])
+                   swiftGeneratedHeader: Option[String],
+                   swiftMarshalFileName: String,
+                   swiftMarshalFileWriter: Option[Writer])
 
   case class CppIdentStyle(ty: IdentConverter, enumType: IdentConverter, typeParam: IdentConverter,
                            method: IdentConverter, field: IdentConverter, local: IdentConverter,
@@ -258,22 +266,22 @@ package object generatorTools {
   case class DeclRef(decl: String, namespace: Option[String]) extends SymbolReference
 
   object IdentStyle {
-    val camelUpper = (s: String) => s.split('_').map(firstUpper).mkString
-    val camelLower = (s: String) => {
+    val camelUpper: String => String = (s: String) => s.split('_').map(firstUpper).mkString
+    val camelLower: String => String = (s: String) => {
       val parts = s.split('_')
       parts.head + parts.tail.map(firstUpper).mkString
     }
-    val underLower = (s: String) => s
-    val underUpper = (s: String) => s.split('_').map(firstUpper).mkString("_")
-    val underCaps = (s: String) => s.toUpperCase
-    val prefix = (prefix: String, suffix: IdentConverter) => (s: String) => prefix + suffix(s)
+    val underLower: String => String = (s: String) => s
+    val underUpper: String => String = (s: String) => s.split('_').map(firstUpper).mkString("_")
+    val underCaps: String => String = (s: String) => s.toUpperCase
+    val prefix: (String, IdentConverter) => String => String = (prefix: String, suffix: IdentConverter) => (s: String) => prefix + suffix(s)
 
-    val javaDefault = JavaIdentStyle(camelUpper, camelUpper, camelLower, camelLower, camelLower, underCaps, underCaps)
-    val cppDefault = CppIdentStyle(camelUpper, camelUpper, camelUpper, underLower, underLower, underLower, underCaps, underCaps)
-    val objcDefault = ObjcIdentStyle(camelUpper, camelUpper, camelLower, camelLower, camelLower, camelUpper, camelUpper)
-    val pythonDefault = PythonIdentStyle(underLower, camelUpper, underLower, underLower, underLower, underLower, underUpper, underCaps)
+    val javaDefault: JavaIdentStyle = JavaIdentStyle(camelUpper, camelUpper, camelLower, camelLower, camelLower, underCaps, underCaps)
+    val cppDefault: CppIdentStyle = CppIdentStyle(camelUpper, camelUpper, camelUpper, underLower, underLower, underLower, underCaps, underCaps)
+    val objcDefault: ObjcIdentStyle = ObjcIdentStyle(camelUpper, camelUpper, camelLower, camelLower, camelLower, camelUpper, camelUpper)
+    val pythonDefault: PythonIdentStyle = PythonIdentStyle(underLower, camelUpper, underLower, underLower, underLower, underLower, underUpper, underCaps)
 
-    val swiftDefault = SwiftIdentStyle(
+    val swiftDefault: SwiftIdentStyle = SwiftIdentStyle(
       ty = camelUpper,
       typeParam = camelUpper,
       method = camelLower,
@@ -290,7 +298,7 @@ package object generatorTools {
       "FOO_BAR" -> underCaps)
 
     def infer(input: String): Option[IdentConverter] = {
-      styles.foreach((e) => {
+      styles.foreach(e => {
         val (str, func) = e
         if (input endsWith str) {
           val diff = input.length - str.length
@@ -307,8 +315,8 @@ package object generatorTools {
   }
 
   object JavaAccessModifier extends Enumeration {
-    val Public = Value("public")
-    val Package = Value("package")
+    val Public: JavaAccessModifier.Value = Value("public")
+    val Package: JavaAccessModifier.Value = Value("package")
 
     def getCodeGenerationString(javaAccessModifier: JavaAccessModifier.Value): String = {
       javaAccessModifier match {
@@ -316,9 +324,7 @@ package object generatorTools {
         case Package => "/*package*/ "
       }
     }
-
   }
-
 }
 
 object Generator {

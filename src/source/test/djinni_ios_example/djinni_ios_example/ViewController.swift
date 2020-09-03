@@ -13,7 +13,7 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         let r = MyRecord.init(test: 1, test1: 1, test2: [1], test3: "a", test31: "a",
                               test4: Date(),
                               test41: Date(),
@@ -22,14 +22,18 @@ class ViewController: UIViewController {
                               test7: [],
                               test8: [:],
                               test9: Rc.init(a: 1),
-                              test10: nil,
+                              test10: nil, test101: [],
                               test11: MyEnum.a,
-                              test12: [:], test13: MyEnum.b)
+                              test12: [:], test13: nil,
+                              test14: 1,
+                              test15: [MyEnum.a],
+                              test16: [MyEnum.b],
+                              test17: [
+                                MyEnum.a : 1
+                              ])
         
-        
-        let e: MyEnum = Hello.create()!.sayHi()
-        
-        print("\(e.rawValue)")
+        let rc = Hello.create()!.print(r)
+        print("\(rc == r)")
         
         
     }

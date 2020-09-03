@@ -21,7 +21,9 @@ import java.io._
 import djinni.ast._
 import djinni.generatorTools._
 
-class SwiftBridgingHeaderGenerator(spec: Spec) extends Generator(spec) {
+import scala.io.Source
+
+class SwiftSupportingFilesGenerator(spec: Spec) extends Generator(spec) {
   val marshal = new ObjcMarshal(spec)
 
   override def generateEnum(origin: String, ident: Ident, doc: Doc, e: Enum, deprecated: scala.Option[Deprecated]) {
@@ -42,7 +44,7 @@ class SwiftBridgingHeaderGenerator(spec: Spec) extends Generator(spec) {
   }
 }
 
-object SwiftBridgingHeaderGenerator {
+object SwiftSupportingFilesGenerator {
 
   val bridgingHeaderName: String => String = (s: String) => s.split('-').mkString("_")
   val bridgingHeaderVariables: String => String = (s: String) => s.split('-').mkString("")
@@ -62,5 +64,15 @@ object SwiftBridgingHeaderGenerator {
     writer.write("FOUNDATION_EXPORT double " + bridgingHeaderVarName + "VersionNumber;\n\n")
     writer.write("//! Project version string for " + bridgingHeaderVarName + ".\n")
     writer.write("FOUNDATION_EXPORT const unsigned char " + bridgingHeaderVarName + "VersionString[];\n\n")
+  }
+
+  def generateSwiftMarshal(name: String, writer: Writer): Unit = {
+//    val swiftMarshalTemplate = new File("../support-lib/swift", "DJIMarshal+Swift.swift")
+//    val source = Source.fromFile(swiftMarshalTemplate)
+//
+//    source.foreach(x => writer.write(x))
+//
+//    writer.close()
+//    source.close()
   }
 }

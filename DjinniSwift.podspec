@@ -1,5 +1,5 @@
 Pod::Spec.new do |s|
-    s.name             = 'Djinni'
+    s.name             = 'DjinniSwift'
     s.version          = '4.4.1'
     s.summary          = 'Djinni is a tool for generating cross-language type declarations and interface bindings.'
     s.description      = <<-DESC
@@ -15,33 +15,12 @@ Pod::Spec.new do |s|
     
     s.source           = { :git => 'https://github.com/hiennguyenle/djinni.git', :tag => "#{s.version}" }
     
-    s.module_name = 'Djinni'
-    s.requires_arc = true
-    s.library = 'c++'
-    
-    s.dependency 'DjinniSwift', "#{s.version}"
+    s.module_name = 'DjinniSwift'
     
     s.ios.deployment_target  = '9.0'
     s.osx.deployment_target  = '10.10'
-    s.pod_target_xcconfig = {
-      'DEFINES_MODULE' => 'YES',
-      'CLANG_CXX_LANGUAGE_STANDARD' => 'c++17'
-    }
-    
-    s.pod_target_xcconfig = {
-        'HEADER_SEARCH_PATHS' => [
-            'support-lib/objc'
-        ],
-        'USER_HEADER_SEARCH_PATHS' => [
-            'support-lib/extension/json/nlohmann'
-        ]
-    }
     
     s.source_files         = [
-        "support-lib/extension/json/nlohmann/json.hpp",
-        "support-lib/extension/json/objc/DJIMarshal+Json.h",
-        "support-lib/objc/*.{h,mm}",
-        "support-lib/proxy_cache_impl.hpp",
-        "support-lib/proxy_cache_interface.hpp"
+        "support-lib/swift/*.swift"
     ]
 end
