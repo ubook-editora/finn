@@ -177,6 +177,7 @@ class SwiftMarshal(spec: Spec) extends Marshal(spec) {
       val base: String = tm.base match {
         case d: MDef => d.defType match {
           case DEnum => s"Enum<${idSwift.ty(d.name)}>"
+          case DRecord => s"${idSwift.ty(d.name)}"
           case _ => throw new AssertionError("unreachable")
         }
         case e: MExtern => e.objcpp.translator
