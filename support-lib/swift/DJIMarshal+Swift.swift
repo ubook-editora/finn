@@ -165,6 +165,34 @@ public struct I64 : DjinniRepresentable {
     }
 }
 
+public struct F32 : DjinniRepresentable {
+    public typealias Swift = Float32
+    public typealias Objc = NSNumber
+    
+    public static func toObjc(e: Swift) -> NSNumber {
+        return NSNumber.init(value: e)
+    }
+    
+    public static func toObjc(e: Swift?) -> NSNumber? {
+        if let unwrapped = e {
+            return NSNumber.init(value: unwrapped)
+        }
+        
+        return nil
+    }
+    
+    public static func fromObjc(e: NSNumber) -> Swift {
+        return Swift.init(e.floatValue)
+    }
+    
+    public static func fromObjc(e: NSNumber?) -> Swift? {
+        if let unwrapped = e {
+            return Swift.init(unwrapped.floatValue)
+        }
+        return nil
+    }
+}
+
 public struct List<T : DjinniRepresentable> {
     public typealias ObjcType = T.Objc
     public typealias SwiftType = T.Swift
@@ -207,29 +235,42 @@ public struct SetHelper<T : DjinniRepresentable> {
     }
 }
 
-public struct Map<K: DjinniRepresentable, V: DjinniRepresentable> {
-    public typealias KeyObjcType = K.Objc
-    public typealias KeySwiftType = K.Swift
-    
-    public typealias ValueObjcType = V.Objc
-    public typealias ValueSwiftType = V.Swift
-    
-    public typealias Swift = Dictionary<KeySwiftType, ValueSwiftType>
-    public typealias Objc = Dictionary<KeyObjcType, ValueSwiftType>
-    
-    public static func toObjc(e: Swift) -> Objc {
-        var result = Objc.init()
+public struct Map<K, V> {}
+
+public extension Map where K : DjinniRepresentable, V: DjinniRepresentable {
+    static func toObjc(e: Dictionary<K.Swift, V.Swift>) -> Dictionary<K.Objc,  V.Swift> {
+        var result = Dictionary<K.Objc,  V.Swift>.init()
         
-        e.forEach { (key: KeySwiftType, value: ValueSwiftType) in
+        e.forEach { (key: K.Swift, value: V.Swift) in
             result[K.toObjc(e: key)] = value
         }
         
         return result
     }
     
-    public static func fromObjc(e: Objc) -> Swift {
-        var result = Swift.init()
-        e.forEach { (key: KeyObjcType, value: ValueSwiftType) in
+    static func fromObjc(e: Dictionary<K.Objc,  V.Swift>) -> Dictionary<K.Swift,  V.Swift> {
+        var result = Dictionary<K.Swift,  V.Swift>.init()
+        e.forEach { (key: K.Objc, value: V.Swift) in
+            result[K.fromObjc(e: key)] = value
+        }
+        return result
+    }
+}
+
+public extension Map where K : DjinniRepresentable, V : NSObject {
+    static func toObjc(e: Dictionary<K.Swift, V>) -> Dictionary<K.Objc,  V> {
+        var result = Dictionary<K.Objc,  V>.init()
+        
+        e.forEach { (key: K.Swift, value: V) in
+            result[K.toObjc(e: key)] = value
+        }
+        
+        return result
+    }
+    
+    static func fromObjc(e: Dictionary<K.Objc,  V>) -> Dictionary<K.Swift,  V> {
+        var result = Dictionary<K.Swift,  V>.init()
+        e.forEach { (key: K.Objc, value: V) in
             result[K.fromObjc(e: key)] = value
         }
         return result

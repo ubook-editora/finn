@@ -54,32 +54,32 @@ class SwiftGenerator(spec: Spec) extends ObjcGenerator(spec) {
     })
   }
 
-  override def generateEnum(origin: String, ident: Ident, doc: Doc, e: Enum, deprecated: Option[Deprecated]): Unit = {
-    var header: mutable.Set[String] = mutable.TreeSet[String]()
-    header.add("import Foundation")
-
-    val self = marshal.typename(ident, e)
-    var shift = 0
-    writeSwiftFile(ident, origin = origin, header, w => {
-      writeDoc(w, doc)
-      marshal.deprecatedAnnotation(deprecated).foreach(w.wl)
-      w.w(s"@objc public enum $self: NSInteger ").braced {
-        for (o <- normalEnumOptions(e)) {
-          writeDoc(w, o.doc)
-          if (o.value != None) {
-            val constValue = o.value match {
-              case Some(i) => i
-            }
-            shift = constValue.toString.toInt;
-          } else {
-            shift = shift + 1;
-          }
-
-          w.wl((s"case ${idSwift.`enum`(o.ident)} = $shift"))
-        }
-      }
-    })
-  }
+//  override def generateEnum(origin: String, ident: Ident, doc: Doc, e: Enum, deprecated: Option[Deprecated]): Unit = {
+//    var header: mutable.Set[String] = mutable.TreeSet[String]()
+//    header.add("import Foundation")
+//
+//    val self = marshal.typename(ident, e)
+//    var shift = 0
+//    writeSwiftFile(ident, origin = origin, header, w => {
+//      writeDoc(w, doc)
+//      marshal.deprecatedAnnotation(deprecated).foreach(w.wl)
+//      w.w(s"@objc public enum $self: NSInteger ").braced {
+//        for (o <- normalEnumOptions(e)) {
+//          writeDoc(w, o.doc)
+//          if (o.value != None) {
+//            val constValue = o.value match {
+//              case Some(i) => i
+//            }
+//            shift = constValue.toString.toInt;
+//          } else {
+//            shift = shift + 1;
+//          }
+//
+//          w.wl((s"case ${idSwift.`enum`(o.ident)} = $shift"))
+//        }
+//      }
+//    })
+//  }
 
 
 
@@ -241,11 +241,13 @@ class SwiftGenerator(spec: Spec) extends ObjcGenerator(spec) {
     val refs = new SwiftObjcRefs()
 
     val self = marshal.typename(ident, i)
-    refs.header.add("#import <Foundation/Foundation.h>")
+    refs.header.add("!#import <Foundation/Foundation.h>")
+
     i.methods.foreach(m => {
       m.params.foreach(p => refs.find(p.ty))
       m.ret.foreach(refs.find)
     })
+
     i.consts.foreach(c => {
       refs.find(c.ty)
     })
