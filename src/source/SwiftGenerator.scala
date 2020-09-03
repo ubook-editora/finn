@@ -53,11 +53,6 @@ class SwiftGenerator(spec: Spec) extends ObjcGenerator(spec) {
       f(w)
     })
   }
-//  @objc public enum MyEnum: NSInteger {
-//    case hien = 10
-//    case a = 20
-//    case b = 30
-//  }
 
   override def generateEnum(origin: String, ident: Ident, doc: Doc, e: Enum, deprecated: Option[Deprecated]): Unit = {
     var header: mutable.Set[String] = mutable.TreeSet[String]()
@@ -86,9 +81,12 @@ class SwiftGenerator(spec: Spec) extends ObjcGenerator(spec) {
     })
   }
 
+
+
   override def generateRecord(origin: String, ident: Ident, doc: Doc, params: Seq[TypeParam], r: Record, deprecated: Option[Deprecated], idl: Seq[TypeDecl]): Unit = {
     var header: mutable.Set[String] = mutable.TreeSet[String]()
     header.add("import Foundation")
+    header.add("import DjinniSwift")
 
     val superRecord = getSuperRecord(idl, r)
     val superFields: Seq[Field] = superRecord match {
@@ -108,8 +106,6 @@ class SwiftGenerator(spec: Spec) extends ObjcGenerator(spec) {
     writeSwiftFile(ident, origin = origin, header, w => {
       writeDoc(w, doc)
       swiftMarshal.deprecatedAnnotation(deprecated).foreach(w.wl)
-
-      var optionalFields: mutable.ListBuffer[Field] = mutable.ListBuffer[Field]()
 
       w.w(s"@objc public class $className : $superClass").braced {
         // ----------- GENERATE FIELDS
@@ -160,10 +156,8 @@ class SwiftGenerator(spec: Spec) extends ObjcGenerator(spec) {
         }
 
         w.w(s"extension $className ").braced {
-
           val fields = superFields ++ r.fields
-
-          var needWriteForceCastConstructor = true
+          val needWriteForceCastConstructor = true
           for (f <- fields) {
             // wrapper init
             w.wl(swiftObsoleted)
@@ -175,7 +169,8 @@ class SwiftGenerator(spec: Spec) extends ObjcGenerator(spec) {
             w.w(s"@objc public var __djinni__objc_$name: ${swiftBridgingType.wrapper}").braced {
               w.w("get").braced {
                 if (swiftBridgingType.downcast)
-                  w.wl(s"return $name${swiftBridgingType.typeCastingOperator}${swiftBridgingType.wrapper}")
+//                  w.wl(s"return $name${swiftBridgingType.typeCastingOperator}${swiftBridgingType.wrapper}")
+                  w.wl(s"return ${swiftMarshal.toObjc(f.ty.resolved, name)}")
                 else
                   w.wl(s"return $name")
               }
@@ -196,7 +191,7 @@ class SwiftGenerator(spec: Spec) extends ObjcGenerator(spec) {
                   val swiftBridgingType = swiftMarshal.getSwiftBridgingType(f.ty.resolved)
                   val name = idSwift.field(f.ident)
                   if (swiftBridgingType.downcast) {
-                    (name, s"$name as! ${swiftBridgingType.swift}")
+                    (name, swiftMarshal.fromObjc(f.ty.resolved, name))
                   } else
                     (name, name)
                 }).braced
@@ -224,19 +219,17 @@ class SwiftGenerator(spec: Spec) extends ObjcGenerator(spec) {
     }
 
     def find(m: Meta): Unit = for (r <- marshal.references(m)) r match {
-      case ImportRef(arg) => {
+      case ImportRef(arg) =>
         m match {
           case MDef(name, numParams, defType, body) => defType match {
             case DRecord => header.add(s"@class ${marshal.typename(name)};")
-            case DEnum => {
+            case DEnum =>
               val enumName = marshal.typename(name)
               header.add(s"typedef enum $enumName: NSInteger $enumName;")
-            }
             case _ => header.add("#import " + arg)
           }
           case _ => header.add("#import " + arg)
         }
-      }
       case DeclRef(decl, _) => header.add(decl)
     }
   }

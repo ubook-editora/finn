@@ -1,18 +1,21 @@
 PODS:
-  - Djinni (4.4.1):
-    - Djinni/objc (= 4.4.1)
-  - Djinni/objc (4.4.1)
+  - Djinni (4.4.1)
+  - DjinniSwift (4.4.1)
 
 DEPENDENCIES:
   - Djinni (from `../../../../Djinni.podspec`)
+  - DjinniSwift (from `../../../../DjinniSwift.podspec`)
 
 EXTERNAL SOURCES:
   Djinni:
     :path: "../../../../Djinni.podspec"
+  DjinniSwift:
+    :path: "../../../../DjinniSwift.podspec"
 
 SPEC CHECKSUMS:
-  Djinni: de170220fcf453440e0fa7c71582040aa095591d
+  Djinni: 8ca75973f83c8c781c31ede5d02e40832680d96c
+  DjinniSwift: 1462fb3b703c9da09ff64262c2655dbf6e0fa59f
 
-PODFILE CHECKSUM: 3904d1eaa13fdd571b5e42f7c7fcf95951c912af
+PODFILE CHECKSUM: d2da17a5560622f8fd60509f837e1477670d428f
 
 COCOAPODS: 1.9.3

@@ -100,7 +100,7 @@ object Main {
     var swiftIdentStyle = IdentStyle.swiftDefault
     var swiftOutFolder: Option[File] = None
     var swiftGeneratedHeader: Option[String] = None
-
+    var swiftMarshalFileName: String = "DJIMarshal+Swift"
 
     val argParser: OptionParser[Unit] = new scopt.OptionParser[Unit]("djinni") {
 
@@ -235,6 +235,9 @@ object Main {
 
       opt[String]("swift-framework").valueName("<swift-framework>").foreach(x => swiftFrameworkName = Some(x))
         .text("The swift framework name (Generator disabled if unspecified).")
+
+      opt[String]("swift-marshal-file-name").valueName("<swift-marshal-file-name>").foreach(x => swiftMarshalFileName = x)
+        .text("The swift marshal file name (Generator disabled if unspecified).")
 
       note("")
       opt[File]("yaml-out").valueName("<out-folder>").foreach(x => yamlOutFolder = Some(x))
@@ -410,6 +413,7 @@ object Main {
     } else {
       None
     }
+
     val objcSwiftBridgingHeaderWriter = if (swiftFrameworkName.isDefined && (objcOutFolder.isDefined || swiftOutFolder.isDefined)) {
       val path = if(objcOutFolder.isDefined) {
         objcOutFolder.get.getPath
@@ -424,6 +428,21 @@ object Main {
         createFolder("output file list", objcSwiftBridgingHeaderFile.getParentFile)
       Some(new BufferedWriter(new FileWriter(objcSwiftBridgingHeaderFile)))
     } else None
+
+    val swiftMarshalFileWriter = {
+      val path = if(objcOutFolder.isDefined) {
+        objcOutFolder.get.getPath
+      } else if (swiftOutFolder.isDefined) {
+        swiftOutFolder.get.getPath
+      } else {
+        throw new AssertionError("unexpected behavior here?")
+      }
+
+      val swiftMarshalFile = new File(path, swiftMarshalFileName + ".swift")
+      if (swiftMarshalFile.getParentFile != null)
+        createFolder("output file list", swiftMarshalFile.getParentFile)
+      Some(new BufferedWriter(new FileWriter(swiftMarshalFile)))
+    }
 
     val outSpec = Spec(
       javaOutFolder,
@@ -497,7 +516,9 @@ object Main {
       pyImportPrefix,
       swiftIdentStyle,
       swiftOutFolder,
-      swiftGeneratedHeader
+      swiftGeneratedHeader,
+      swiftMarshalFileName,
+      swiftMarshalFileWriter
     )
 
     try {
