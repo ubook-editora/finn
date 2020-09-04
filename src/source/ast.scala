@@ -5,7 +5,7 @@
   * you may not use this file except in compliance with the License.
   * You may obtain a copy of the License at
   *
-  *    http://www.apache.org/licenses/LICENSE-2.0
+  * http://www.apache.org/licenses/LICENSE-2.0
   *
   * Unless required by applicable law or agreed to in writing, software
   * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,6 +17,8 @@
 package djinni.ast
 
 import java.io.File
+
+import djinni.ast.Enum.SpecialFlag.SpecialFlag
 import djinni.ast.Record.DerivingType.DerivingType
 import djinni.meta.MExpr
 import djinni.syntax.Loc
@@ -26,11 +28,15 @@ case class IdlFile(imports: Seq[FileRef], typeDecls: Seq[TypeDecl])
 abstract sealed class FileRef {
   val file: File
 }
+
 case class IdlFileRef(override val file: File) extends FileRef
+
 case class ExternFileRef(override val file: File) extends FileRef
 
 case class Ident(name: String, file: File, loc: Loc)
+
 class ConstRef(ident: Ident) extends Ident(ident.name, ident.file, ident.loc)
+
 class EnumValue(val ty: Ident, ident: Ident) extends Ident(ident.name, ident.file, ident.loc)
 
 case class TypeParam(ident: Ident)
@@ -45,7 +51,9 @@ sealed abstract class TypeDecl {
   val body: TypeDef
   val origin: String
 }
+
 case class InternTypeDecl(override val ident: Ident, override val params: Seq[TypeParam], override val body: TypeDef, doc: Doc, override val origin: String, deprecated: scala.Option[Deprecated]) extends TypeDecl
+
 case class ExternTypeDecl(override val ident: Ident, override val params: Seq[TypeParam], override val body: TypeDef, properties: Map[String, Any], override val origin: String) extends TypeDecl
 
 case class Ext(java: Boolean, cpp: Boolean, objc: Boolean, py: Boolean) {
@@ -55,8 +63,9 @@ case class Ext(java: Boolean, cpp: Boolean, objc: Boolean, py: Boolean) {
 }
 
 case class TypeRef(expr: TypeExpr) {
-  var resolved: MExpr = null
+  var resolved: MExpr = _
 }
+
 case class TypeExpr(ident: Ident, args: Seq[TypeExpr])
 
 sealed abstract class TypeDef
@@ -64,28 +73,40 @@ sealed abstract class TypeDef
 case class Const(ident: Ident, ty: TypeRef, value: Any, doc: Doc)
 
 case class Enum(options: Seq[Enum.Option], flags: Boolean) extends TypeDef
+
 object Enum {
+
+  case class Option(ident: Ident, doc: Doc, specialFlag: scala.Option[SpecialFlag], value: Any, deprecated: scala.Option[Deprecated])
+
+
   object SpecialFlag extends Enumeration {
     type SpecialFlag = Value
     val NoFlags, AllFlags = Value
   }
-  import SpecialFlag._
-  case class Option(ident: Ident, doc: Doc, specialFlag: scala.Option[SpecialFlag], value: Any, deprecated: scala.Option[Deprecated])
+
 }
 
 case class Record(ext: Ext, fields: Seq[Field], consts: Seq[Const], derivingTypes: Set[DerivingType], baseRecord: scala.Option[String]) extends TypeDef
+
 object Record {
+
   object DerivingType extends Enumeration {
     type DerivingType = Value
     val Eq, Ord, AndroidParcelable = Value
   }
+
 }
 
 case class Interface(ext: Ext, methods: Seq[Interface.Method], consts: Seq[Const]) extends TypeDef
+
 object Interface {
-  case class Method(ident: Ident, params: Seq[Field], ret: Option[TypeRef], doc: Doc, static: Boolean, const: Boolean, deprecated: Option[Deprecated])
+  case class Method(ident: Ident, params: Seq[Field], ret: Option[TypeRef], doc: Doc,
+                    static: Boolean, const: Boolean, deprecated: Option[Deprecated])
 }
 
 case class Field(ident: Ident, ty: TypeRef, doc: Doc, modifiable: Boolean)
 
 case class SuperRecord(ident: Ident, record: Record, fields: Seq[Field])
+
+case class SwiftBridgingType(wrapper: String, swift: String, downcast: Boolean = false,
+                             typeCastingOperator: String = " as! ")

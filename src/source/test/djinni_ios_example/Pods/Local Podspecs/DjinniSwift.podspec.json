@@ -1,0 +1,25 @@
+{
+  "name": "DjinniSwift",
+  "version": "4.4.1",
+  "summary": "Djinni is a tool for generating cross-language type declarations and interface bindings.",
+  "description": "Djinni is a tool for generating cross-language type declarations and interface bindings.\nIt's designed to connect C++ with either Java or Objective-C. Python support is experimental. \nFor more information see README.Python.md",
+  "homepage": "https://github.com/hiennguyenle/djinni",
+  "license": {
+    "type": "MIT"
+  },
+  "authors": {
+    "Hien Nguyen": "hien.nguyenle.it@gmail.com"
+  },
+  "source": {
+    "git": "https://github.com/hiennguyenle/djinni.git",
+    "tag": "4.4.1"
+  },
+  "module_name": "DjinniSwift",
+  "platforms": {
+    "ios": "9.0",
+    "osx": "10.10"
+  },
+  "source_files": [
+    "support-lib/swift/*.swift"
+  ]
+}

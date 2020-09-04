@@ -10,9 +10,9 @@ class ObjcMarshal(spec: Spec) extends Marshal(spec) {
     val (name, _) = toObjcType(tm)
     name
   }
-  override def typename(name: String, ty: TypeDef): String = idObjc.ty(name)
 
   override def fqTypename(tm: MExpr): String = typename(tm)
+
   def fqTypename(name: String, ty: TypeDef): String = typename(name, ty)
 
   def nullability(tm: MExpr): Option[String] = {
@@ -21,7 +21,7 @@ class ObjcMarshal(spec: Spec) extends Marshal(spec) {
     val interfaceNullity = if (spec.cppNnType.nonEmpty) nonnull else nullable
     tm.base match {
       case MOptional => nullable
-      case MPrimitive(_,_,_,_,_,_,_,_) => None
+      case MPrimitive(_, _, _, _, _, _, _, _, _) => None
       case d: MDef => d.defType match {
         case DEnum => None
         case DInterface => interfaceNullity
@@ -30,7 +30,7 @@ class ObjcMarshal(spec: Spec) extends Marshal(spec) {
       case e: MExtern => e.defType match {
         case DEnum => None
         case DInterface => interfaceNullity
-        case DRecord => if(e.objc.pointer) nonnull else None
+        case DRecord => if (e.objc.pointer) nonnull else None
       }
       case _ => nonnull
     }
@@ -39,15 +39,19 @@ class ObjcMarshal(spec: Spec) extends Marshal(spec) {
   override def paramType(tm: MExpr): String = {
     nullability(tm).fold("")(_ + " ") + toObjcParamType(tm)
   }
+
   override def fqParamType(tm: MExpr): String = paramType(tm)
 
   override def returnType(ret: Option[TypeRef]): String = ret.fold("void")((t: TypeRef) => nullability(t.resolved).fold("")(_ + " ") + toObjcParamType(t.resolved))
+
   override def fqReturnType(ret: Option[TypeRef]): String = returnType(ret)
 
   override def fieldType(tm: MExpr): String = toObjcParamType(tm)
+
   override def fqFieldType(tm: MExpr): String = toObjcParamType(tm)
 
   override def toCpp(tm: MExpr, expr: String): String = throw new AssertionError("direct objc to cpp conversion not possible")
+
   override def fromCpp(tm: MExpr, expr: String): String = throw new AssertionError("direct cpp to objc conversion not possible")
 
   def references(m: Meta, exclude: String = ""): Seq[SymbolReference] = m match {
@@ -73,27 +77,36 @@ class ObjcMarshal(spec: Spec) extends Marshal(spec) {
     case p: MParam => List()
   }
 
-  def headerName(ident: String) = idObjc.ty(ident) + "." + spec.objcHeaderExt
-  def include(ident: String) = q(spec.objcIncludePrefix + headerName(ident))
+  def headerName(ident: String): String = idObjc.ty(ident) + "." + spec.objcHeaderExt
 
-  def isPointer(td: TypeDecl) = td.body match {
+  def include(ident: String): String = q(spec.objcIncludePrefix + headerName(ident))
+
+  def isPointer(td: TypeDecl): Boolean = td.body match {
     case i: Interface => true
     case r: Record => true
     case e: Enum => false
   }
 
-  def boxedTypename(td: TypeDecl) = td.body match {
+  def boxedTypename(td: TypeDecl): String = td.body match {
     case i: Interface => typename(td.ident, i)
     case r: Record => typename(td.ident, r)
     case e: Enum => "NSNumber"
   }
 
+  def typename(name: String): String = idObjc.ty(name)
+
+  override def typename(name: String, ty: TypeDef): String = idObjc.ty(name)
+
   // Return value: (Type_Name, Is_Class_Or_Not)
-  def toObjcType(ty: TypeRef): (String, Boolean) = toObjcType(ty.resolved, false)
+  def toObjcType(ty: TypeRef): (String, Boolean) = toObjcType(ty.resolved, needRef = false)
+
   def toObjcType(ty: TypeRef, needRef: Boolean): (String, Boolean) = toObjcType(ty.resolved, needRef)
-  def toObjcType(tm: MExpr): (String, Boolean) = toObjcType(tm, false)
+
+  def toObjcType(tm: MExpr): (String, Boolean) = toObjcType(tm, needRef = false)
+
   def toObjcType(tm: MExpr, needRef: Boolean): (String, Boolean) = {
     def args(tm: MExpr) = if (tm.args.isEmpty) "" else tm.args.map(toBoxedParamType).mkString("<", ", ", ">")
+
     def f(tm: MExpr, needRef: Boolean): (String, Boolean) = {
       tm.base match {
         case MOptional =>
@@ -102,7 +115,7 @@ class ObjcMarshal(spec: Spec) extends Marshal(spec) {
           val arg = tm.args.head
           arg.base match {
             case MOptional => throw new AssertionError("nested optional?")
-            case m => f(arg, true)
+            case m => f(arg, needRef = true)
           }
         case o =>
           val base = o match {
@@ -126,25 +139,26 @@ class ObjcMarshal(spec: Spec) extends Marshal(spec) {
                   (s"id<${idObjc.ty(d.name)}>", false)
             }
             case e: MExtern => e.body match {
-              case i: Interface => if(i.ext.objc) (s"id<${e.objc.typename}>", false) else (e.objc.typename, true)
-              case _ => if(needRef) (e.objc.boxed, true) else (e.objc.typename, e.objc.pointer)
+              case i: Interface => if (i.ext.objc) (s"id<${e.objc.typename}>", false) else (e.objc.typename, true)
+              case _ => if (needRef) (e.objc.boxed, true) else (e.objc.typename, e.objc.pointer)
             }
             case p: MParam => throw new AssertionError("Parameter should not happen at Obj-C top level")
           }
           base
       }
     }
+
     f(tm, needRef)
   }
 
   def toBoxedParamType(tm: MExpr): String = {
     val (name, needRef) = toObjcType(tm, true)
-    name + (if(needRef) " *" else "")
+    name + (if (needRef) " *" else "")
   }
 
   def toObjcParamType(tm: MExpr): String = {
     val (name, needRef) = toObjcType(tm)
-    name + (if(needRef) " *" else "")
+    name + (if (needRef) " *" else "")
   }
 
   /**
@@ -153,8 +167,8 @@ class ObjcMarshal(spec: Spec) extends Marshal(spec) {
     * We can use global variables for constants which are safe to create during static init, which are numbers
     * strings, and optional strings. Anything else needs to be a class method.
     */
-  def canBeConstVariable(c:Const): Boolean = c.ty.resolved.base match {
-    case MPrimitive(_,_,_,_,_,_,_,_) => true
+  def canBeConstVariable(c: Const): Boolean = c.ty.resolved.base match {
+    case MPrimitive(_, _, _, _, _, _, _, _, _) => true
     case MString => true
     case MOptional =>
       assert(c.ty.resolved.args.size == 1)

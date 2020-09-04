@@ -5,7 +5,7 @@
   * you may not use this file except in compliance with the License.
   * You may obtain a copy of the License at
   *
-  *    http://www.apache.org/licenses/LICENSE-2.0
+  * http://www.apache.org/licenses/LICENSE-2.0
   *
   * Unless required by applicable law or agreed to in writing, software
   * distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,30 +16,14 @@
 
 package djinni
 
-import djinni.ast.Record.DerivingType
 import djinni.ast._
 import djinni.generatorTools._
 import djinni.meta._
-import djinni.syntax.Error
 import djinni.writer.IndentWriter
-
-import scala.collection.mutable
-import scala.collection.parallel.immutable
 
 abstract class BaseObjcGenerator(spec: Spec) extends Generator(spec) {
 
   val marshal = new ObjcMarshal(spec)
-
-  object ObjcConstantType extends Enumeration {
-    val ConstVariable, ConstMethod = Value
-  }
-
-  def writeObjcConstVariableDecl(w: IndentWriter, c: Const, s: String): Unit = {
-    val nullability = marshal.nullability(c.ty.resolved).fold("")(" __" + _)
-    val td = marshal.fqFieldType(c.ty) + nullability
-    // MBinary | MList | MSet | MMap are not allowed for constants.
-    w.w(s"${td} const $s${idObjc.const(c.ident)}")
-  }
 
   /**
     * Gererate the definition of Objc constants.
@@ -58,9 +42,9 @@ abstract class BaseObjcGenerator(spec: Spec) extends Generator(spec) {
       case b: Boolean => w.w(boxedPrimitive(ty) + (if (b) "YES" else "NO"))
       case s: String => w.w("@" + s)
       case e: EnumValue => w.w(marshal.typename(ty) + idObjc.enum(e.name))
-      case v: ConstRef => w.w(selfName + idObjc.const (v.name))
+      case v: ConstRef => w.w(selfName + idObjc.const(v.name))
       case z: Map[_, _] => { // Value is record
-      val recordMdef = ty.resolved.base.asInstanceOf[MDef]
+        val recordMdef = ty.resolved.base.asInstanceOf[MDef]
         val record = recordMdef.body.asInstanceOf[Record]
         val vMap = z.asInstanceOf[Map[String, Any]]
         val head = record.fields.head
@@ -83,7 +67,7 @@ abstract class BaseObjcGenerator(spec: Spec) extends Generator(spec) {
       val nullability = marshal.nullability(c.ty.resolved).fold("")(" __" + _)
       val ret = marshal.fqFieldType(c.ty) + nullability
       val decl = s"$label ($ret)${idObjc.method(c.ident)}"
-      writeAlignedObjcCall(w, decl, List(), "", p => ("",""))
+      writeAlignedObjcCall(w, decl, List(), "", p => ("", ""))
       w.wl
 
       w.braced {
@@ -112,6 +96,17 @@ abstract class BaseObjcGenerator(spec: Spec) extends Generator(spec) {
         }
       }
     }
+  }
+
+  def writeObjcConstVariableDecl(w: IndentWriter, c: Const, s: String): Unit = {
+    val nullability = marshal.nullability(c.ty.resolved).fold("")(" __" + _)
+    val td = marshal.fqFieldType(c.ty) + nullability
+    // MBinary | MList | MSet | MMap are not allowed for constants.
+    w.w(s"${td} const $s${idObjc.const(c.ident)}")
+  }
+
+  object ObjcConstantType extends Enumeration {
+    val ConstVariable, ConstMethod = Value
   }
 }
 
