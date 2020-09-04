@@ -7,62 +7,54 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0EE0BF38A77247F49E961C53669E485F /* Djinni-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 0AC973AFABD11FE6E4536B01E38CBB93 /* Djinni-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		10637574FEEDED13B4744AC678E5DE6F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCC5EDC90A8D8894E617BA6B284A902F /* Foundation.framework */; };
-		139490B6CEA924032747F5B263488A79 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCC5EDC90A8D8894E617BA6B284A902F /* Foundation.framework */; };
-		2348A12DC116C14E7122BA321017D574 /* DjinniSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C3B5675EF5754639567A63BF61173C3 /* DjinniSwift.framework */; };
+		04BC1FD39022EDCB6CC0E513CAE56A7A /* Djinni-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 855F87984C6FCAEC65F5BB0C36CBFF64 /* Djinni-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0F0E08512301AC102254E3AA5085BC3C /* DJIError.mm in Sources */ = {isa = PBXBuildFile; fileRef = 451A626C5FED74AD4ECD6BBC635A5322 /* DJIError.mm */; };
+		10637574FEEDED13B4744AC678E5DE6F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3212113385A8FBBDB272BD23C409FF61 /* Foundation.framework */; };
+		132A2C6EB2DF42AFDB78D4CBD0B0EA8E /* DJIProxyCaches.mm in Sources */ = {isa = PBXBuildFile; fileRef = 45F6DA4A5A0DBFEE5B4703969DB7B185 /* DJIProxyCaches.mm */; };
+		210C91F9143EA7C8AE2A06BB0161382D /* DjinniSwift-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 91615C942D082A3281C86F3EF9F89EF0 /* DjinniSwift-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2248CF739D5B2A9FACA838C32235A588 /* proxy_cache_impl.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 2FDBCA2E1F70B5B6D30DA8F783B4421A /* proxy_cache_impl.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
+		26875756E217462B3629AA81075D2619 /* json.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 6CDAD69A2B2E56C17CEACC2029640231 /* json.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
 		29E152ABB841CE7B713DAC4BBB1C2BAA /* Pods-DjinniExample-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = F9CC2B705E5E164266CD3E7DFBB16FBF /* Pods-DjinniExample-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		2BC68D82E084E52E02D737F50CF1D54D /* proxy_cache_interface.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 2D60DC2440652821375007CED9DDA061 /* proxy_cache_interface.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
-		4BA7633D7BEC278E410DB2B59E0CD17C /* DJIMarshal+Json.h in Headers */ = {isa = PBXBuildFile; fileRef = 78D2B3B9A25F0DE90B76BF00A4055E89 /* DJIMarshal+Json.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2B4E35DF9AC5540BB277A9BA4904FDC5 /* DJICppWrapperCache+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 7A986956DD2E68A76FBD69731D5C6AE3 /* DJICppWrapperCache+Private.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		502DB76D5C50F9173EA8F1BA06D6FEA6 /* Pods-djinni_ios_example-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = F5500168263528DC37AE399E98FE5D38 /* Pods-djinni_ios_example-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		589073F12E422B427B028F9A6E1147DF /* DJIError.mm in Sources */ = {isa = PBXBuildFile; fileRef = DEC359F9BAFE0E530454EEA21461C152 /* DJIError.mm */; };
 		5F68737B6EEA3CD468E490E83ABBBBB7 /* Pods-DjinniExample-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 0998C3CDBCF7FE9122232307BC02F46F /* Pods-DjinniExample-dummy.m */; };
-		6ABC71361B6D1354D9E75624870957AB /* DjinniSwift-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 289DBC2344A87434E8FDCBC699E76CCC /* DjinniSwift-dummy.m */; };
-		6D84B032F9264CAD947A830347F420CC /* proxy_cache_impl.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 6DFE53BA653BE0307CD2FC766BD78405 /* proxy_cache_impl.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
-		6FAE256DCB3CEA7D69BBA05370CCE24D /* DJIMarshal+Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17DA9DE4906BFA8F4F7FDCCBFC3B8D58 /* DJIMarshal+Swift.swift */; };
-		789738377F17F55F30DB710F5CC69207 /* Djinni-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 114BBDED5C81D4CBB772ADD788E6E8A3 /* Djinni-dummy.m */; };
-		8573EC3BEFB2A4F8A8668150C2941267 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCC5EDC90A8D8894E617BA6B284A902F /* Foundation.framework */; };
-		993DFAD1D208E7A85CAB8E570ECB679E /* DJICppWrapperCache+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = D2B6D85EECC6063E3BC7206E88B5F956 /* DJICppWrapperCache+Private.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6AB3C065A5750594A51DFA58369CF3CF /* proxy_cache_interface.hpp in Headers */ = {isa = PBXBuildFile; fileRef = A398C669255B1B1ED8527B5227D00D10 /* proxy_cache_interface.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
+		8168EC16B3F14E8F682C3C10A2CE7A86 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3212113385A8FBBDB272BD23C409FF61 /* Foundation.framework */; };
+		81A1C084BFE8157BA0C2540ADC21C77A /* Djinni-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = DC3D66E11CC2FC60DA5AE49447CBB0C3 /* Djinni-dummy.m */; };
+		846AC75F4E21F27658876251D876D62A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3212113385A8FBBDB272BD23C409FF61 /* Foundation.framework */; };
+		8E96CBFABD8289BCC5D2CE07796E8DC6 /* DjinniSwift-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 61303D2203BD1BD7CF15BE8195CD341B /* DjinniSwift-dummy.m */; };
+		9870E1A39750253D7B37B13F0725EA4D /* DJIObjcWrapperCache+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = DFCCE81F10D76010F2D3E271787CF7D7 /* DJIObjcWrapperCache+Private.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		99CADE40F6118ED458684D29940AFA41 /* Pods-djinni_ios_example-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 090AC2360EFD4025E28F212D6230E5B6 /* Pods-djinni_ios_example-dummy.m */; };
-		ACBDDB51479BE5FCE17E5589DE24DCA9 /* DJIError.h in Headers */ = {isa = PBXBuildFile; fileRef = 20566B20B41753385E8C20F42A316D8B /* DJIError.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C103639C8EDA8EFF1333BD91E6A3958C /* DJIProxyCaches.mm in Sources */ = {isa = PBXBuildFile; fileRef = FE76F1A56AB0423619EB57456DE7623E /* DJIProxyCaches.mm */; };
-		CCD87FEBA4A5B0D3F6F1DDCE44A777D5 /* DJIMarshal+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 097111766E5E71967555F7D1C5DF1576 /* DJIMarshal+Private.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		DC189B6AAF1B45F1F60C1E99243C2BD2 /* json.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 37DE71D377D2149CDC1DCC9F7C551339 /* json.hpp */; settings = {ATTRIBUTES = (Public, ); }; };
-		DD28BAD706D03BE756E74B26EB8B719B /* DjinniSwift-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = F73218B430AAC3F3F258E48D9CB82B5A /* DjinniSwift-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		EA42F0163379EA656776F04E546E2B22 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCC5EDC90A8D8894E617BA6B284A902F /* Foundation.framework */; };
-		EACA99386817CFBEE0924DCC97460E1E /* DJIObjcWrapperCache+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 228B278B1D68869AC105EB8820A9B4F5 /* DJIObjcWrapperCache+Private.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BAEEAB5F152EAE2031E47E8AD66901C2 /* DJIMarshal+Swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8641B7F9970534A13AB3285AC3A8BF89 /* DJIMarshal+Swift.swift */; };
+		D15E21B94BAFC0070869B36365085296 /* DJIError.h in Headers */ = {isa = PBXBuildFile; fileRef = 32F02E0FF3A7452B3D515D568D91FFF5 /* DJIError.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D377103E25FC45CA3B126F4DAF82958E /* DJIMarshal+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = F297EE4126899A2F849F2D707149DCF3 /* DJIMarshal+Private.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E27A79239F1A8E6AA443C7CA51A2C11E /* DJIMarshal+Json.h in Headers */ = {isa = PBXBuildFile; fileRef = 9D3C012315CF958DF53003CF978E6438 /* DJIMarshal+Json.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EA42F0163379EA656776F04E546E2B22 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3212113385A8FBBDB272BD23C409FF61 /* Foundation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		32B375B88FBA0F4FD91BDD4D65F32252 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 5F0975E1247DDAF9DF20B1B1BBA21A90;
-			remoteInfo = DjinniSwift;
-		};
-		64208FF13F60E09512A7A34F81AF8796 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 5F0975E1247DDAF9DF20B1B1BBA21A90;
-			remoteInfo = DjinniSwift;
-		};
-		652B747FB097A81564FEB737514D044E /* PBXContainerItemProxy */ = {
+		0946A380EE2BEC229E9F52BEC773C98B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 06EF5F6224459E555FE36B8611FD3FAB;
 			remoteInfo = Djinni;
 		};
-		A9E8A0878152E701415F78664B999D3F /* PBXContainerItemProxy */ = {
+		A332A604D773FD04BE7DF1345DF73943 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5F0975E1247DDAF9DF20B1B1BBA21A90;
+			remoteInfo = DjinniSwift;
+		};
+		D9B5802D216E4EFBD3B016C5502A768A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 06EF5F6224459E555FE36B8611FD3FAB;
 			remoteInfo = Djinni;
 		};
-		E8FD5F5BB8E85243FC47775CC7A2DF9D /* PBXContainerItemProxy */ = {
+		DEFF5B24FD58A88C8AFF8F3D13D2B31B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
@@ -72,56 +64,56 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		03F2D874B6499B32AEAB71BFB48B7D04 /* DjinniSwift-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "DjinniSwift-Info.plist"; sourceTree = "<group>"; };
+		03289CAF5171575723FBD66663F6B1C3 /* DjinniSwift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = DjinniSwift.release.xcconfig; sourceTree = "<group>"; };
+		04DC0780A33053ED86F6039FF7D4783F /* Djinni.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Djinni.release.xcconfig; sourceTree = "<group>"; };
+		08379AB7BBB121D1D2E55F26250AF621 /* DjinniSwift-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "DjinniSwift-Info.plist"; sourceTree = "<group>"; };
 		090AC2360EFD4025E28F212D6230E5B6 /* Pods-djinni_ios_example-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-djinni_ios_example-dummy.m"; sourceTree = "<group>"; };
-		097111766E5E71967555F7D1C5DF1576 /* DJIMarshal+Private.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "DJIMarshal+Private.h"; sourceTree = "<group>"; };
 		0998C3CDBCF7FE9122232307BC02F46F /* Pods-DjinniExample-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-DjinniExample-dummy.m"; sourceTree = "<group>"; };
-		0AC973AFABD11FE6E4536B01E38CBB93 /* Djinni-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Djinni-umbrella.h"; sourceTree = "<group>"; };
-		114BBDED5C81D4CBB772ADD788E6E8A3 /* Djinni-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Djinni-dummy.m"; sourceTree = "<group>"; };
-		1288572234383FC5D4CBC8CB985C6F58 /* DjinniSwift.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = DjinniSwift.modulemap; sourceTree = "<group>"; };
+		0A0CA81DE69D988C45CBC1A28F1C9CE4 /* Djinni.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Djinni.debug.xcconfig; sourceTree = "<group>"; };
 		1482C9ECBE116FE25E3AB0101530CE47 /* Djinni.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Djinni.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		17DA9DE4906BFA8F4F7FDCCBFC3B8D58 /* DJIMarshal+Swift.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "DJIMarshal+Swift.swift"; path = "support-lib/swift/DJIMarshal+Swift.swift"; sourceTree = "<group>"; };
-		18DA0E566B9D011AE5B18D3D9109AF2B /* DjinniSwift-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "DjinniSwift-prefix.pch"; sourceTree = "<group>"; };
-		1BA6A70E433C4E81C2E30E14FBA37CE6 /* Djinni.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = Djinni.modulemap; sourceTree = "<group>"; };
 		1D8C521C47774A7A15C1B95DBD703515 /* Pods-djinni_ios_example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-djinni_ios_example.release.xcconfig"; sourceTree = "<group>"; };
 		1EC2525C3DC75DC45542BCBCDD0A4027 /* Pods-DjinniExample-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-DjinniExample-acknowledgements.plist"; sourceTree = "<group>"; };
-		20566B20B41753385E8C20F42A316D8B /* DJIError.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = DJIError.h; sourceTree = "<group>"; };
-		206B659AC3FCA630D2A0FBA419DEA138 /* Djinni.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Djinni.debug.xcconfig; sourceTree = "<group>"; };
-		228B278B1D68869AC105EB8820A9B4F5 /* DJIObjcWrapperCache+Private.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "DJIObjcWrapperCache+Private.h"; sourceTree = "<group>"; };
-		289DBC2344A87434E8FDCBC699E76CCC /* DjinniSwift-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "DjinniSwift-dummy.m"; sourceTree = "<group>"; };
-		2C3B5675EF5754639567A63BF61173C3 /* DjinniSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DjinniSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		2D60DC2440652821375007CED9DDA061 /* proxy_cache_interface.hpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.h; name = proxy_cache_interface.hpp; path = "support-lib/proxy_cache_interface.hpp"; sourceTree = "<group>"; };
-		37DE71D377D2149CDC1DCC9F7C551339 /* json.hpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.h; path = json.hpp; sourceTree = "<group>"; };
-		3D364B204D4F33DBE5D82C0B156161E0 /* Djinni.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Djinni.release.xcconfig; sourceTree = "<group>"; };
+		209DC808467581B7655B73FE30BB3C59 /* Djinni.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; path = Djinni.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		2FDBCA2E1F70B5B6D30DA8F783B4421A /* proxy_cache_impl.hpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.h; name = proxy_cache_impl.hpp; path = "support-lib/proxy_cache_impl.hpp"; sourceTree = "<group>"; };
+		3212113385A8FBBDB272BD23C409FF61 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.2.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		32F02E0FF3A7452B3D515D568D91FFF5 /* DJIError.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = DJIError.h; sourceTree = "<group>"; };
+		362153D3BC2D30E4616245D42C299B30 /* Djinni.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = Djinni.modulemap; sourceTree = "<group>"; };
 		414FBC0F4AD2254DE97B9DBCEB8D5DBE /* Pods-djinni_ios_example.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-djinni_ios_example.modulemap"; sourceTree = "<group>"; };
-		4CEC70B9B1EEA6E6421E10712B2E6813 /* DjinniSwift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = DjinniSwift.release.xcconfig; sourceTree = "<group>"; };
+		451A626C5FED74AD4ECD6BBC635A5322 /* DJIError.mm */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.objcpp; path = DJIError.mm; sourceTree = "<group>"; };
+		45F6DA4A5A0DBFEE5B4703969DB7B185 /* DJIProxyCaches.mm */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.objcpp; path = DJIProxyCaches.mm; sourceTree = "<group>"; };
+		4AD9B36BDCA4048CF564176EFBC99D68 /* DjinniSwift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = DjinniSwift.debug.xcconfig; sourceTree = "<group>"; };
+		61303D2203BD1BD7CF15BE8195CD341B /* DjinniSwift-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "DjinniSwift-dummy.m"; sourceTree = "<group>"; };
 		6A30BAB9D3D4CAA078148EF4CAE00ACD /* Pods-DjinniExample-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-DjinniExample-acknowledgements.markdown"; sourceTree = "<group>"; };
-		6A40C06D5059F5201556BEF720F85E11 /* Djinni.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; path = Djinni.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		6B6D769D9346C6A35901E5173F11DAE0 /* Pods-DjinniExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-DjinniExample.release.xcconfig"; sourceTree = "<group>"; };
-		6DFE53BA653BE0307CD2FC766BD78405 /* proxy_cache_impl.hpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.h; name = proxy_cache_impl.hpp; path = "support-lib/proxy_cache_impl.hpp"; sourceTree = "<group>"; };
-		719B73D8CEA4EA0F5384B28DCCA49B63 /* Djinni-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Djinni-prefix.pch"; sourceTree = "<group>"; };
-		78D2B3B9A25F0DE90B76BF00A4055E89 /* DJIMarshal+Json.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "DJIMarshal+Json.h"; sourceTree = "<group>"; };
+		6CDAD69A2B2E56C17CEACC2029640231 /* json.hpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.h; path = json.hpp; sourceTree = "<group>"; };
+		781CFDE2E05E10AD6356502803626E4E /* DjinniSwift.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = DjinniSwift.modulemap; sourceTree = "<group>"; };
+		782841699405E98F00C5C7C9E018C0E5 /* DjinniSwift.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; path = DjinniSwift.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		7A986956DD2E68A76FBD69731D5C6AE3 /* DJICppWrapperCache+Private.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "DJICppWrapperCache+Private.h"; sourceTree = "<group>"; };
+		855F87984C6FCAEC65F5BB0C36CBFF64 /* Djinni-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Djinni-umbrella.h"; sourceTree = "<group>"; };
+		8641B7F9970534A13AB3285AC3A8BF89 /* DJIMarshal+Swift.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "DJIMarshal+Swift.swift"; path = "support-lib/swift/DJIMarshal+Swift.swift"; sourceTree = "<group>"; };
+		91615C942D082A3281C86F3EF9F89EF0 /* DjinniSwift-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "DjinniSwift-umbrella.h"; sourceTree = "<group>"; };
 		97E7B6DEC4762329F89C33CEE1EC72A3 /* Pods-djinni_ios_example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-djinni_ios_example.debug.xcconfig"; sourceTree = "<group>"; };
 		9B1E1E3CFC4E7FB76BE267770B1558B3 /* Pods-DjinniExample-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-DjinniExample-Info.plist"; sourceTree = "<group>"; };
+		9D3C012315CF958DF53003CF978E6438 /* DJIMarshal+Json.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "DJIMarshal+Json.h"; sourceTree = "<group>"; };
 		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		A398C669255B1B1ED8527B5227D00D10 /* proxy_cache_interface.hpp */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.h; name = proxy_cache_interface.hpp; path = "support-lib/proxy_cache_interface.hpp"; sourceTree = "<group>"; };
 		AE9B3551685BD391113B0626D7BBDA12 /* Pods-djinni_ios_example-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-djinni_ios_example-acknowledgements.markdown"; sourceTree = "<group>"; };
 		B498080523A8BB16E22754A4DE097BAC /* Pods_djinni_ios_example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_djinni_ios_example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C1BBE5B232318AAB5EC91B9B98EA0E99 /* Pods_DjinniExample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DjinniExample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C50F9612A872ACFACE6863CB37B621FF /* Pods-DjinniExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-DjinniExample.debug.xcconfig"; sourceTree = "<group>"; };
-		C7F1686ABC58F4ED464B4384A8407C1D /* DjinniSwift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = DjinniSwift.debug.xcconfig; sourceTree = "<group>"; };
-		CCC5EDC90A8D8894E617BA6B284A902F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.2.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
-		D2B6D85EECC6063E3BC7206E88B5F956 /* DJICppWrapperCache+Private.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "DJICppWrapperCache+Private.h"; sourceTree = "<group>"; };
+		D36BA8322056F7465FA64B7D148F621E /* DjinniSwift-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "DjinniSwift-prefix.pch"; sourceTree = "<group>"; };
 		DBC145CB369A23037CE27D65C9E2F271 /* Pods-djinni_ios_example-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-djinni_ios_example-frameworks.sh"; sourceTree = "<group>"; };
-		DC6FC14B89EF48F35345481D510DB78D /* Djinni-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Djinni-Info.plist"; sourceTree = "<group>"; };
-		DEC359F9BAFE0E530454EEA21461C152 /* DJIError.mm */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.objcpp; path = DJIError.mm; sourceTree = "<group>"; };
+		DC3D66E11CC2FC60DA5AE49447CBB0C3 /* Djinni-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Djinni-dummy.m"; sourceTree = "<group>"; };
+		DFCCE81F10D76010F2D3E271787CF7D7 /* DJIObjcWrapperCache+Private.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "DJIObjcWrapperCache+Private.h"; sourceTree = "<group>"; };
 		E02A8908CA9C7C9B2F424C15DCF1B3E3 /* Pods-djinni_ios_example-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-djinni_ios_example-acknowledgements.plist"; sourceTree = "<group>"; };
 		F11B861337BF0A18D9B440560693C975 /* Pods-DjinniExample.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-DjinniExample.modulemap"; sourceTree = "<group>"; };
+		F297EE4126899A2F849F2D707149DCF3 /* DJIMarshal+Private.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "DJIMarshal+Private.h"; sourceTree = "<group>"; };
 		F3101557E997C364C5C961FA7C00E0D5 /* Pods-djinni_ios_example-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-djinni_ios_example-Info.plist"; sourceTree = "<group>"; };
 		F5500168263528DC37AE399E98FE5D38 /* Pods-djinni_ios_example-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-djinni_ios_example-umbrella.h"; sourceTree = "<group>"; };
-		F73218B430AAC3F3F258E48D9CB82B5A /* DjinniSwift-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "DjinniSwift-umbrella.h"; sourceTree = "<group>"; };
+		F7ABC3784414D25E00806850BCCA1BFA /* Djinni-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Djinni-prefix.pch"; sourceTree = "<group>"; };
 		F93114D32297071E930D04643F64157F /* DjinniSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DjinniSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F9CC2B705E5E164266CD3E7DFBB16FBF /* Pods-DjinniExample-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-DjinniExample-umbrella.h"; sourceTree = "<group>"; };
-		FE76F1A56AB0423619EB57456DE7623E /* DJIProxyCaches.mm */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.objcpp; path = DJIProxyCaches.mm; sourceTree = "<group>"; };
+		FEB31B35AC577D4870A0CA31B635A6DF /* Djinni-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Djinni-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,20 +125,19 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		66D1C7B817CBC3495F190989064EBB30 /* Frameworks */ = {
+		938047829EF452ECB9E65B8B1C0564FB /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2348A12DC116C14E7122BA321017D574 /* DjinniSwift.framework in Frameworks */,
-				139490B6CEA924032747F5B263488A79 /* Foundation.framework in Frameworks */,
+				8168EC16B3F14E8F682C3C10A2CE7A86 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		866C5306E0CC6C5E07B9D67856389295 /* Frameworks */ = {
+		BE7E55D26456A0A1B077B97DE3D4E5C2 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8573EC3BEFB2A4F8A8668150C2941267 /* Foundation.framework in Frameworks */,
+				846AC75F4E21F27658876251D876D62A /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -161,35 +152,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		075D0F08205B3EA6AC6CE920DAA6BE62 /* objc */ = {
-			isa = PBXGroup;
-			children = (
-				D2B6D85EECC6063E3BC7206E88B5F956 /* DJICppWrapperCache+Private.h */,
-				20566B20B41753385E8C20F42A316D8B /* DJIError.h */,
-				DEC359F9BAFE0E530454EEA21461C152 /* DJIError.mm */,
-				097111766E5E71967555F7D1C5DF1576 /* DJIMarshal+Private.h */,
-				228B278B1D68869AC105EB8820A9B4F5 /* DJIObjcWrapperCache+Private.h */,
-				FE76F1A56AB0423619EB57456DE7623E /* DJIProxyCaches.mm */,
-			);
-			name = objc;
-			path = "support-lib/objc";
-			sourceTree = "<group>";
-		};
-		124B01F07B2A5B830993E41BC9F4CBC2 /* Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				1288572234383FC5D4CBC8CB985C6F58 /* DjinniSwift.modulemap */,
-				289DBC2344A87434E8FDCBC699E76CCC /* DjinniSwift-dummy.m */,
-				03F2D874B6499B32AEAB71BFB48B7D04 /* DjinniSwift-Info.plist */,
-				18DA0E566B9D011AE5B18D3D9109AF2B /* DjinniSwift-prefix.pch */,
-				F73218B430AAC3F3F258E48D9CB82B5A /* DjinniSwift-umbrella.h */,
-				C7F1686ABC58F4ED464B4384A8407C1D /* DjinniSwift.debug.xcconfig */,
-				4CEC70B9B1EEA6E6421E10712B2E6813 /* DjinniSwift.release.xcconfig */,
-			);
-			name = "Support Files";
-			path = "../Target Support Files/DjinniSwift";
-			sourceTree = "<group>";
-		};
 		17FAEEB8C30F4BB58E7B258D42181ABE /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -210,29 +172,57 @@
 			name = "Targets Support Files";
 			sourceTree = "<group>";
 		};
-		1BD63714EFC528771A01C6E010E4CE46 /* iOS */ = {
+		420CEF61E24253362F85AF899B0EB626 /* Djinni */ = {
 			isa = PBXGroup;
 			children = (
-				CCC5EDC90A8D8894E617BA6B284A902F /* Foundation.framework */,
+				2FDBCA2E1F70B5B6D30DA8F783B4421A /* proxy_cache_impl.hpp */,
+				A398C669255B1B1ED8527B5227D00D10 /* proxy_cache_interface.hpp */,
+				BABC237D35D06A71C2707B753A057E45 /* extension */,
+				727D9652AF3C44316A8239B6A813977F /* objc */,
+				8995E3639DF09158442A2AC1804B8DB3 /* Pod */,
+				B7A0BA5E05A55F15B73599BA3987EA45 /* Support Files */,
 			);
-			name = iOS;
+			name = Djinni;
+			path = ../../../../..;
 			sourceTree = "<group>";
 		};
-		1C0F37B87FE95EB97839AD4B967311C7 /* Frameworks */ = {
+		4E40A50F0FA202138EAF64532B6436F0 /* json */ = {
 			isa = PBXGroup;
 			children = (
-				2C3B5675EF5754639567A63BF61173C3 /* DjinniSwift.framework */,
-				1BD63714EFC528771A01C6E010E4CE46 /* iOS */,
+				BF6CFF72B92FF633EEFDEFEBDA427307 /* nlohmann */,
+				57F40A942BC8A6C8D35A332B5989B1A7 /* objc */,
 			);
-			name = Frameworks;
+			path = json;
 			sourceTree = "<group>";
 		};
-		539544EF373D53878C2786744E3F610C /* objc */ = {
+		57F40A942BC8A6C8D35A332B5989B1A7 /* objc */ = {
 			isa = PBXGroup;
 			children = (
-				78D2B3B9A25F0DE90B76BF00A4055E89 /* DJIMarshal+Json.h */,
+				9D3C012315CF958DF53003CF978E6438 /* DJIMarshal+Json.h */,
 			);
 			path = objc;
+			sourceTree = "<group>";
+		};
+		727D9652AF3C44316A8239B6A813977F /* objc */ = {
+			isa = PBXGroup;
+			children = (
+				7A986956DD2E68A76FBD69731D5C6AE3 /* DJICppWrapperCache+Private.h */,
+				32F02E0FF3A7452B3D515D568D91FFF5 /* DJIError.h */,
+				451A626C5FED74AD4ECD6BBC635A5322 /* DJIError.mm */,
+				F297EE4126899A2F849F2D707149DCF3 /* DJIMarshal+Private.h */,
+				DFCCE81F10D76010F2D3E271787CF7D7 /* DJIObjcWrapperCache+Private.h */,
+				45F6DA4A5A0DBFEE5B4703969DB7B185 /* DJIProxyCaches.mm */,
+			);
+			name = objc;
+			path = "support-lib/objc";
+			sourceTree = "<group>";
+		};
+		8995E3639DF09158442A2AC1804B8DB3 /* Pod */ = {
+			isa = PBXGroup;
+			children = (
+				209DC808467581B7655B73FE30BB3C59 /* Djinni.podspec */,
+			);
+			name = Pod;
 			sourceTree = "<group>";
 		};
 		8EA62AFDEBBF7FA2571615DF095709C9 /* Pods-djinni_ios_example */ = {
@@ -252,88 +242,86 @@
 			path = "Target Support Files/Pods-djinni_ios_example";
 			sourceTree = "<group>";
 		};
-		99ED9A83621D4F536A8BF8A045701325 /* Pod */ = {
+		9B6D4743B6AE9128FA0A725C9CC08263 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				6A40C06D5059F5201556BEF720F85E11 /* Djinni.podspec */,
+				781CFDE2E05E10AD6356502803626E4E /* DjinniSwift.modulemap */,
+				61303D2203BD1BD7CF15BE8195CD341B /* DjinniSwift-dummy.m */,
+				08379AB7BBB121D1D2E55F26250AF621 /* DjinniSwift-Info.plist */,
+				D36BA8322056F7465FA64B7D148F621E /* DjinniSwift-prefix.pch */,
+				91615C942D082A3281C86F3EF9F89EF0 /* DjinniSwift-umbrella.h */,
+				4AD9B36BDCA4048CF564176EFBC99D68 /* DjinniSwift.debug.xcconfig */,
+				03289CAF5171575723FBD66663F6B1C3 /* DjinniSwift.release.xcconfig */,
 			);
-			name = Pod;
+			name = "Support Files";
+			path = "src/source/test/djinni_ios_example/Pods/Target Support Files/DjinniSwift";
 			sourceTree = "<group>";
 		};
-		B16B2999D1FDE7546BD7899076A6674C /* json */ = {
+		B7A0BA5E05A55F15B73599BA3987EA45 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				E2AE3239A8AD7D20A7535FBF4887C235 /* nlohmann */,
-				539544EF373D53878C2786744E3F610C /* objc */,
-			);
-			path = json;
-			sourceTree = "<group>";
-		};
-		B2BC5EC875AAB5E02CC15E917D604D54 /* DjinniSwift */ = {
-			isa = PBXGroup;
-			children = (
-				17DA9DE4906BFA8F4F7FDCCBFC3B8D58 /* DJIMarshal+Swift.swift */,
-				124B01F07B2A5B830993E41BC9F4CBC2 /* Support Files */,
-			);
-			path = DjinniSwift;
-			sourceTree = "<group>";
-		};
-		BB3BF6163D7DABE54A2470920F8B5129 /* Development Pods */ = {
-			isa = PBXGroup;
-			children = (
-				E051B1FF0AF53AA39DB6863528CAB034 /* Djinni */,
-			);
-			name = "Development Pods";
-			sourceTree = "<group>";
-		};
-		C4FFB8F30CB889EDDC58588965B4DD5F /* Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				1BA6A70E433C4E81C2E30E14FBA37CE6 /* Djinni.modulemap */,
-				114BBDED5C81D4CBB772ADD788E6E8A3 /* Djinni-dummy.m */,
-				DC6FC14B89EF48F35345481D510DB78D /* Djinni-Info.plist */,
-				719B73D8CEA4EA0F5384B28DCCA49B63 /* Djinni-prefix.pch */,
-				0AC973AFABD11FE6E4536B01E38CBB93 /* Djinni-umbrella.h */,
-				206B659AC3FCA630D2A0FBA419DEA138 /* Djinni.debug.xcconfig */,
-				3D364B204D4F33DBE5D82C0B156161E0 /* Djinni.release.xcconfig */,
+				362153D3BC2D30E4616245D42C299B30 /* Djinni.modulemap */,
+				DC3D66E11CC2FC60DA5AE49447CBB0C3 /* Djinni-dummy.m */,
+				FEB31B35AC577D4870A0CA31B635A6DF /* Djinni-Info.plist */,
+				F7ABC3784414D25E00806850BCCA1BFA /* Djinni-prefix.pch */,
+				855F87984C6FCAEC65F5BB0C36CBFF64 /* Djinni-umbrella.h */,
+				0A0CA81DE69D988C45CBC1A28F1C9CE4 /* Djinni.debug.xcconfig */,
+				04DC0780A33053ED86F6039FF7D4783F /* Djinni.release.xcconfig */,
 			);
 			name = "Support Files";
 			path = "src/source/test/djinni_ios_example/Pods/Target Support Files/Djinni";
+			sourceTree = "<group>";
+		};
+		BABC237D35D06A71C2707B753A057E45 /* extension */ = {
+			isa = PBXGroup;
+			children = (
+				4E40A50F0FA202138EAF64532B6436F0 /* json */,
+			);
+			name = extension;
+			path = "support-lib/extension";
+			sourceTree = "<group>";
+		};
+		BF6CFF72B92FF633EEFDEFEBDA427307 /* nlohmann */ = {
+			isa = PBXGroup;
+			children = (
+				6CDAD69A2B2E56C17CEACC2029640231 /* json.hpp */,
+			);
+			path = nlohmann;
+			sourceTree = "<group>";
+		};
+		C0834CEBB1379A84116EF29F93051C60 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				3212113385A8FBBDB272BD23C409FF61 /* Foundation.framework */,
+			);
+			name = iOS;
 			sourceTree = "<group>";
 		};
 		CF1408CF629C7361332E53B88F7BD30C = {
 			isa = PBXGroup;
 			children = (
 				9D940727FF8FB9C785EB98E56350EF41 /* Podfile */,
-				BB3BF6163D7DABE54A2470920F8B5129 /* Development Pods */,
-				1C0F37B87FE95EB97839AD4B967311C7 /* Frameworks */,
-				EF5882372AA94107226D9BB60D5874F7 /* Pods */,
+				E83FCF0D03E69F13AF3EFCB97E9517CB /* Development Pods */,
+				D210D550F4EA176C3123ED886F8F87F5 /* Frameworks */,
 				17FAEEB8C30F4BB58E7B258D42181ABE /* Products */,
 				19F7D0887F0DE99F798734D58E6B2AAB /* Targets Support Files */,
 			);
 			sourceTree = "<group>";
 		};
-		DA7C576FD8F5D67F7FD5A89CD48989D3 /* extension */ = {
+		D210D550F4EA176C3123ED886F8F87F5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				B16B2999D1FDE7546BD7899076A6674C /* json */,
+				C0834CEBB1379A84116EF29F93051C60 /* iOS */,
 			);
-			name = extension;
-			path = "support-lib/extension";
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		E051B1FF0AF53AA39DB6863528CAB034 /* Djinni */ = {
+		DD3540D4DB18ACD00900F6101A8D495B /* Pod */ = {
 			isa = PBXGroup;
 			children = (
-				6DFE53BA653BE0307CD2FC766BD78405 /* proxy_cache_impl.hpp */,
-				2D60DC2440652821375007CED9DDA061 /* proxy_cache_interface.hpp */,
-				DA7C576FD8F5D67F7FD5A89CD48989D3 /* extension */,
-				075D0F08205B3EA6AC6CE920DAA6BE62 /* objc */,
-				99ED9A83621D4F536A8BF8A045701325 /* Pod */,
-				C4FFB8F30CB889EDDC58588965B4DD5F /* Support Files */,
+				782841699405E98F00C5C7C9E018C0E5 /* DjinniSwift.podspec */,
 			);
-			name = Djinni;
-			path = ../../../../..;
+			name = Pod;
 			sourceTree = "<group>";
 		};
 		E25F5BB391057852EF2B4DA4F72ADF55 /* Pods-DjinniExample */ = {
@@ -352,20 +340,24 @@
 			path = "Target Support Files/Pods-DjinniExample";
 			sourceTree = "<group>";
 		};
-		E2AE3239A8AD7D20A7535FBF4887C235 /* nlohmann */ = {
+		E83FCF0D03E69F13AF3EFCB97E9517CB /* Development Pods */ = {
 			isa = PBXGroup;
 			children = (
-				37DE71D377D2149CDC1DCC9F7C551339 /* json.hpp */,
+				420CEF61E24253362F85AF899B0EB626 /* Djinni */,
+				F1370476A7AFB51585EEBFAFE9CBE925 /* DjinniSwift */,
 			);
-			path = nlohmann;
+			name = "Development Pods";
 			sourceTree = "<group>";
 		};
-		EF5882372AA94107226D9BB60D5874F7 /* Pods */ = {
+		F1370476A7AFB51585EEBFAFE9CBE925 /* DjinniSwift */ = {
 			isa = PBXGroup;
 			children = (
-				B2BC5EC875AAB5E02CC15E917D604D54 /* DjinniSwift */,
+				8641B7F9970534A13AB3285AC3A8BF89 /* DJIMarshal+Swift.swift */,
+				DD3540D4DB18ACD00900F6101A8D495B /* Pod */,
+				9B6D4743B6AE9128FA0A725C9CC08263 /* Support Files */,
 			);
-			name = Pods;
+			name = DjinniSwift;
+			path = ../../../../..;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -379,27 +371,19 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		11B6155EFE9B56474B713CE1942EB5AF /* Headers */ = {
+		2FD5682E9B53B0539A98F26690AB412B /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DD28BAD706D03BE756E74B26EB8B719B /* DjinniSwift-umbrella.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		7B73495C5278EA9313E4AB436F06FE7C /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				993DFAD1D208E7A85CAB8E570ECB679E /* DJICppWrapperCache+Private.h in Headers */,
-				ACBDDB51479BE5FCE17E5589DE24DCA9 /* DJIError.h in Headers */,
-				4BA7633D7BEC278E410DB2B59E0CD17C /* DJIMarshal+Json.h in Headers */,
-				CCD87FEBA4A5B0D3F6F1DDCE44A777D5 /* DJIMarshal+Private.h in Headers */,
-				0EE0BF38A77247F49E961C53669E485F /* Djinni-umbrella.h in Headers */,
-				EACA99386817CFBEE0924DCC97460E1E /* DJIObjcWrapperCache+Private.h in Headers */,
-				DC189B6AAF1B45F1F60C1E99243C2BD2 /* json.hpp in Headers */,
-				6D84B032F9264CAD947A830347F420CC /* proxy_cache_impl.hpp in Headers */,
-				2BC68D82E084E52E02D737F50CF1D54D /* proxy_cache_interface.hpp in Headers */,
+				2B4E35DF9AC5540BB277A9BA4904FDC5 /* DJICppWrapperCache+Private.h in Headers */,
+				D15E21B94BAFC0070869B36365085296 /* DJIError.h in Headers */,
+				E27A79239F1A8E6AA443C7CA51A2C11E /* DJIMarshal+Json.h in Headers */,
+				D377103E25FC45CA3B126F4DAF82958E /* DJIMarshal+Private.h in Headers */,
+				04BC1FD39022EDCB6CC0E513CAE56A7A /* Djinni-umbrella.h in Headers */,
+				9870E1A39750253D7B37B13F0725EA4D /* DJIObjcWrapperCache+Private.h in Headers */,
+				26875756E217462B3629AA81075D2619 /* json.hpp in Headers */,
+				2248CF739D5B2A9FACA838C32235A588 /* proxy_cache_impl.hpp in Headers */,
+				6AB3C065A5750594A51DFA58369CF3CF /* proxy_cache_interface.hpp in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -411,22 +395,29 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B20C508BA893D09A97CE37B6078D6DBC /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				210C91F9143EA7C8AE2A06BB0161382D /* DjinniSwift-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
 		06EF5F6224459E555FE36B8611FD3FAB /* Djinni */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 7283500F62AED403A3F77FBCECF12891 /* Build configuration list for PBXNativeTarget "Djinni" */;
+			buildConfigurationList = 09DFEC0F9CD3764012C216E0C99C875A /* Build configuration list for PBXNativeTarget "Djinni" */;
 			buildPhases = (
-				7B73495C5278EA9313E4AB436F06FE7C /* Headers */,
-				1227AC28B7C75479861018AB1738520B /* Sources */,
-				66D1C7B817CBC3495F190989064EBB30 /* Frameworks */,
-				23B1051683FD932DC9CB0E8F0240B95A /* Resources */,
+				2FD5682E9B53B0539A98F26690AB412B /* Headers */,
+				6C56A1C7AB4AF3BCE64B672741212319 /* Sources */,
+				938047829EF452ECB9E65B8B1C0564FB /* Frameworks */,
+				7A80B14A41983DC6230EBBB836ACFCDE /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				2477D1E51B90552B04B18B4AF9C273CC /* PBXTargetDependency */,
 			);
 			name = Djinni;
 			productName = Djinni;
@@ -445,8 +436,8 @@
 			buildRules = (
 			);
 			dependencies = (
-				B976D6D3E0881137179E4E13120F217C /* PBXTargetDependency */,
-				AE81B55CF06EDEDB38B364974283FDDE /* PBXTargetDependency */,
+				52406D01ABCDBD442C2CCC4CA0D73CB2 /* PBXTargetDependency */,
+				2DA41ADC99ACEDD1324A0ACBB5A473FC /* PBXTargetDependency */,
 			);
 			name = "Pods-djinni_ios_example";
 			productName = "Pods-djinni_ios_example";
@@ -465,8 +456,8 @@
 			buildRules = (
 			);
 			dependencies = (
-				90CDFDD10D885ADA026E38BB235188A6 /* PBXTargetDependency */,
-				F2324D6EA1E0D4EBE71AB4C12E7A6964 /* PBXTargetDependency */,
+				C35D7C92CF9F28DC6F216596F4341C51 /* PBXTargetDependency */,
+				1447829156667D147162C0E0C319CC7D /* PBXTargetDependency */,
 			);
 			name = "Pods-DjinniExample";
 			productName = "Pods-DjinniExample";
@@ -475,12 +466,12 @@
 		};
 		5F0975E1247DDAF9DF20B1B1BBA21A90 /* DjinniSwift */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = F13055530F3F0A03CCFED07ACDD6D565 /* Build configuration list for PBXNativeTarget "DjinniSwift" */;
+			buildConfigurationList = 5A2BDCE435741AEA10A38829B7EF5F36 /* Build configuration list for PBXNativeTarget "DjinniSwift" */;
 			buildPhases = (
-				11B6155EFE9B56474B713CE1942EB5AF /* Headers */,
-				266A39B7BC3B49AF7E0930B169E63851 /* Sources */,
-				866C5306E0CC6C5E07B9D67856389295 /* Frameworks */,
-				CD371689D120DB6E1CA19E36FA05C2B4 /* Resources */,
+				B20C508BA893D09A97CE37B6078D6DBC /* Headers */,
+				567E547414FFD00F2AE46B95E79FC71E /* Sources */,
+				BE7E55D26456A0A1B077B97DE3D4E5C2 /* Frameworks */,
+				486FC23BE7AB3884FFC171C0E10BD46F /* Resources */,
 			);
 			buildRules = (
 			);
@@ -522,13 +513,6 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		23B1051683FD932DC9CB0E8F0240B95A /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		328F5E6E876AD2BF0A4B72F8E123F0A2 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -536,7 +520,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		CD371689D120DB6E1CA19E36FA05C2B4 /* Resources */ = {
+		486FC23BE7AB3884FFC171C0E10BD46F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7A80B14A41983DC6230EBBB836ACFCDE /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -553,25 +544,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		1227AC28B7C75479861018AB1738520B /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				589073F12E422B427B028F9A6E1147DF /* DJIError.mm in Sources */,
-				789738377F17F55F30DB710F5CC69207 /* Djinni-dummy.m in Sources */,
-				C103639C8EDA8EFF1333BD91E6A3958C /* DJIProxyCaches.mm in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		266A39B7BC3B49AF7E0930B169E63851 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				6FAE256DCB3CEA7D69BBA05370CCE24D /* DJIMarshal+Swift.swift in Sources */,
-				6ABC71361B6D1354D9E75624870957AB /* DjinniSwift-dummy.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		33E41FA4D874CFC521A15AA262401D16 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -588,45 +560,58 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		567E547414FFD00F2AE46B95E79FC71E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BAEEAB5F152EAE2031E47E8AD66901C2 /* DJIMarshal+Swift.swift in Sources */,
+				8E96CBFABD8289BCC5D2CE07796E8DC6 /* DjinniSwift-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6C56A1C7AB4AF3BCE64B672741212319 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0F0E08512301AC102254E3AA5085BC3C /* DJIError.mm in Sources */,
+				81A1C084BFE8157BA0C2540ADC21C77A /* Djinni-dummy.m in Sources */,
+				132A2C6EB2DF42AFDB78D4CBD0B0EA8E /* DJIProxyCaches.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		2477D1E51B90552B04B18B4AF9C273CC /* PBXTargetDependency */ = {
+		1447829156667D147162C0E0C319CC7D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = DjinniSwift;
 			target = 5F0975E1247DDAF9DF20B1B1BBA21A90 /* DjinniSwift */;
-			targetProxy = 32B375B88FBA0F4FD91BDD4D65F32252 /* PBXContainerItemProxy */;
+			targetProxy = DEFF5B24FD58A88C8AFF8F3D13D2B31B /* PBXContainerItemProxy */;
 		};
-		90CDFDD10D885ADA026E38BB235188A6 /* PBXTargetDependency */ = {
+		2DA41ADC99ACEDD1324A0ACBB5A473FC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = DjinniSwift;
+			target = 5F0975E1247DDAF9DF20B1B1BBA21A90 /* DjinniSwift */;
+			targetProxy = A332A604D773FD04BE7DF1345DF73943 /* PBXContainerItemProxy */;
+		};
+		52406D01ABCDBD442C2CCC4CA0D73CB2 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = Djinni;
 			target = 06EF5F6224459E555FE36B8611FD3FAB /* Djinni */;
-			targetProxy = A9E8A0878152E701415F78664B999D3F /* PBXContainerItemProxy */;
+			targetProxy = 0946A380EE2BEC229E9F52BEC773C98B /* PBXContainerItemProxy */;
 		};
-		AE81B55CF06EDEDB38B364974283FDDE /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = DjinniSwift;
-			target = 5F0975E1247DDAF9DF20B1B1BBA21A90 /* DjinniSwift */;
-			targetProxy = 64208FF13F60E09512A7A34F81AF8796 /* PBXContainerItemProxy */;
-		};
-		B976D6D3E0881137179E4E13120F217C /* PBXTargetDependency */ = {
+		C35D7C92CF9F28DC6F216596F4341C51 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = Djinni;
 			target = 06EF5F6224459E555FE36B8611FD3FAB /* Djinni */;
-			targetProxy = 652B747FB097A81564FEB737514D044E /* PBXContainerItemProxy */;
-		};
-		F2324D6EA1E0D4EBE71AB4C12E7A6964 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = DjinniSwift;
-			target = 5F0975E1247DDAF9DF20B1B1BBA21A90 /* DjinniSwift */;
-			targetProxy = E8FD5F5BB8E85243FC47775CC7A2DF9D /* PBXContainerItemProxy */;
+			targetProxy = D9B5802D216E4EFBD3B016C5502A768A /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		233022F110FC3F31AC22205AE342F911 /* Release */ = {
+		2AD099CFF81B7276C044D746D229D145 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4CEC70B9B1EEA6E6421E10712B2E6813 /* DjinniSwift.release.xcconfig */;
+			baseConfigurationReference = 4AD9B36BDCA4048CF564176EFBC99D68 /* DjinniSwift.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -654,17 +639,53 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		398908CB4ACC8FDAC1E8B958FFB10A82 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 04DC0780A33053ED86F6039FF7D4783F /* Djinni.release.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/Djinni/Djinni-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/Djinni/Djinni-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MODULEMAP_FILE = "Target Support Files/Djinni/Djinni.modulemap";
+				PRODUCT_MODULE_NAME = Djinni;
+				PRODUCT_NAME = Djinni;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
 			name = Release;
 		};
-		3D916A6CB7B656CA28BA1CEA56B715B2 /* Debug */ = {
+		5A0D626C2482B429647729EECB46E0A4 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 97E7B6DEC4762329F89C33CEE1EC72A3 /* Pods-djinni_ios_example.debug.xcconfig */;
+			baseConfigurationReference = 1D8C521C47774A7A15C1B95DBD703515 /* Pods-djinni_ios_example.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
@@ -676,7 +697,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = "Target Support Files/Pods-djinni_ios_example/Pods-djinni_ios_example-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -692,50 +713,15 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		4B33BB4E2FD32D74F80AB1171CA8017D /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3D364B204D4F33DBE5D82C0B156161E0 /* Djinni.release.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/Djinni/Djinni-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/Djinni/Djinni-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MODULEMAP_FILE = "Target Support Files/Djinni/Djinni.modulemap";
-				PRODUCT_MODULE_NAME = Djinni;
-				PRODUCT_NAME = Djinni;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
 			name = Release;
 		};
-		6EDFA0059AF6393220B13FACC9AFB2CD /* Debug */ = {
+		7C9A73F85145C4860F6711DDA8EF277E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 206B659AC3FCA630D2A0FBA419DEA138 /* Djinni.debug.xcconfig */;
+			baseConfigurationReference = 0A0CA81DE69D988C45CBC1A28F1C9CE4 /* Djinni.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -768,10 +754,12 @@
 			};
 			name = Debug;
 		};
-		72332AC97F4C55FE7A6452EAF44A8DD1 /* Debug */ = {
+		7F63986FF82497415CAAD82EEFBA04EE /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C7F1686ABC58F4ED464B4384A8407C1D /* DjinniSwift.debug.xcconfig */;
+			baseConfigurationReference = C50F9612A872ACFACE6863CB37B621FF /* Pods-DjinniExample.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
@@ -781,90 +769,30 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/DjinniSwift/DjinniSwift-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/DjinniSwift/DjinniSwift-Info.plist";
+				INFOPLIST_FILE = "Target Support Files/Pods-DjinniExample/Pods-DjinniExample-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MODULEMAP_FILE = "Target Support Files/DjinniSwift/DjinniSwift.modulemap";
-				PRODUCT_MODULE_NAME = DjinniSwift;
-				PRODUCT_NAME = DjinniSwift;
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-DjinniExample/Pods-DjinniExample.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
 			name = Debug;
 		};
-		8F17DC3A99F99FBAD606CE6963886315 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_NS_ASSERTIONS = NO;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"POD_CONFIGURATION_RELEASE=1",
-					"$(inherited)",
-				);
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				MTL_FAST_MATH = YES;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRIP_INSTALLED_PRODUCT = NO;
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
-				SWIFT_VERSION = 5.0;
-				SYMROOT = "${SRCROOT}/../build";
-			};
-			name = Release;
-		};
-		916E0404255105F480DC4950B7625F7A /* Debug */ = {
+		939F1A8F6BCEB7F9F64D9EEE50CAE014 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -916,7 +844,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -929,11 +857,12 @@
 			};
 			name = Debug;
 		};
-		AAE7A7C016F5737CE3B56BF4650DB085 /* Release */ = {
+		B2B98E1497A1FB365A1B1178EB0D7EA5 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1D8C521C47774A7A15C1B95DBD703515 /* Pods-djinni_ios_example.release.xcconfig */;
+			baseConfigurationReference = 97E7B6DEC4762329F89C33CEE1EC72A3 /* Pods-djinni_ios_example.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
@@ -945,7 +874,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = "Target Support Files/Pods-djinni_ios_example/Pods-djinni_ios_example-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -961,17 +890,78 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
+			name = Debug;
+		};
+		ECB437504DF805BD96CAABF97400B526 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"POD_CONFIGURATION_RELEASE=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRIP_INSTALLED_PRODUCT = NO;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				SYMROOT = "${SRCROOT}/../build";
+			};
 			name = Release;
 		};
-		C02F7073177F59B8147B8908CB915AC7 /* Debug */ = {
+		F8BCC5C5E576B2D7D3EB94D6D768A45D /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C50F9612A872ACFACE6863CB37B621FF /* Pods-DjinniExample.debug.xcconfig */;
+			baseConfigurationReference = 6B6D769D9346C6A35901E5173F11DAE0 /* Pods-DjinniExample.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
@@ -983,7 +973,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = "Target Support Files/Pods-DjinniExample/Pods-DjinniExample-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -999,16 +989,16 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
-			name = Debug;
+			name = Release;
 		};
-		DF4D38A237D163A8B8933CD0468ADEF7 /* Release */ = {
+		F9957A7525512921BE9638177125B7A3 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6B6D769D9346C6A35901E5173F11DAE0 /* Pods-DjinniExample.release.xcconfig */;
+			baseConfigurationReference = 03289CAF5171575723FBD66663F6B1C3 /* DjinniSwift.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
@@ -1018,7 +1008,8 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "Target Support Files/Pods-DjinniExample/Pods-DjinniExample-Info.plist";
+				GCC_PREFIX_HEADER = "Target Support Files/DjinniSwift/DjinniSwift-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/DjinniSwift/DjinniSwift-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1026,15 +1017,13 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-DjinniExample/Pods-DjinniExample.modulemap";
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				MODULEMAP_FILE = "Target Support Files/DjinniSwift/DjinniSwift.modulemap";
+				PRODUCT_MODULE_NAME = DjinniSwift;
+				PRODUCT_NAME = DjinniSwift;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1045,11 +1034,20 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		09DFEC0F9CD3764012C216E0C99C875A /* Build configuration list for PBXNativeTarget "Djinni" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7C9A73F85145C4860F6711DDA8EF277E /* Debug */,
+				398908CB4ACC8FDAC1E8B958FFB10A82 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		4084A4D6293967D0E6CE009B89C98E2C /* Build configuration list for PBXNativeTarget "Pods-djinni_ios_example" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				3D916A6CB7B656CA28BA1CEA56B715B2 /* Debug */,
-				AAE7A7C016F5737CE3B56BF4650DB085 /* Release */,
+				B2B98E1497A1FB365A1B1178EB0D7EA5 /* Debug */,
+				5A0D626C2482B429647729EECB46E0A4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -1057,17 +1055,17 @@
 		4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				916E0404255105F480DC4950B7625F7A /* Debug */,
-				8F17DC3A99F99FBAD606CE6963886315 /* Release */,
+				939F1A8F6BCEB7F9F64D9EEE50CAE014 /* Debug */,
+				ECB437504DF805BD96CAABF97400B526 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		7283500F62AED403A3F77FBCECF12891 /* Build configuration list for PBXNativeTarget "Djinni" */ = {
+		5A2BDCE435741AEA10A38829B7EF5F36 /* Build configuration list for PBXNativeTarget "DjinniSwift" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				6EDFA0059AF6393220B13FACC9AFB2CD /* Debug */,
-				4B33BB4E2FD32D74F80AB1171CA8017D /* Release */,
+				2AD099CFF81B7276C044D746D229D145 /* Debug */,
+				F9957A7525512921BE9638177125B7A3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -1075,17 +1073,8 @@
 		7F80079F9AF65E081086942900721CD2 /* Build configuration list for PBXNativeTarget "Pods-DjinniExample" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				C02F7073177F59B8147B8908CB915AC7 /* Debug */,
-				DF4D38A237D163A8B8933CD0468ADEF7 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		F13055530F3F0A03CCFED07ACDD6D565 /* Build configuration list for PBXNativeTarget "DjinniSwift" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				72332AC97F4C55FE7A6452EAF44A8DD1 /* Debug */,
-				233022F110FC3F31AC22205AE342F911 /* Release */,
+				7F63986FF82497415CAAD82EEFBA04EE /* Debug */,
+				F8BCC5C5E576B2D7D3EB94D6D768A45D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

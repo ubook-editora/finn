@@ -1,23 +1,21 @@
 PODS:
-  - Djinni (4.5.0-beta.1):
-    - DjinniSwift (= 4.5.0-beta.1)
-  - DjinniSwift (4.5.0-beta.1)
+  - Djinni (4.4.1)
+  - DjinniSwift (4.4.1)
 
 DEPENDENCIES:
   - Djinni (from `../../../../Djinni.podspec`)
-
-SPEC REPOS:
-  "git@bitbucket.org:misfitwearablesinc/misfit-podspecs.git":
-    - DjinniSwift
+  - DjinniSwift (from `../../../../DjinniSwift.podspec`)
 
 EXTERNAL SOURCES:
   Djinni:
     :path: "../../../../Djinni.podspec"
+  DjinniSwift:
+    :path: "../../../../DjinniSwift.podspec"
 
 SPEC CHECKSUMS:
-  Djinni: 6e8d15cad4cdcf90b4c25df09419635c35becfc4
-  DjinniSwift: 4e78b5faa745ee82f055886620b6095e28e58d77
+  Djinni: 8ca75973f83c8c781c31ede5d02e40832680d96c
+  DjinniSwift: 1462fb3b703c9da09ff64262c2655dbf6e0fa59f
 
-PODFILE CHECKSUM: 0c3b2d2cacd31520e5f04f4e8ee4cd0e9ee0e4c0
+PODFILE CHECKSUM: d2da17a5560622f8fd60509f837e1477670d428f
 
 COCOAPODS: 1.9.3

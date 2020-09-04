@@ -103,7 +103,6 @@ object Main {
     var swiftMarshalFileName: String = "DJIMarshal+Swift"
 
     val argParser: OptionParser[Unit] = new scopt.OptionParser[Unit]("djinni") {
-
       def identStyle(optionName: String, update: IdentConverter => Unit): OptionDef[String, Unit] = {
         opt[String](optionName).valueName("...").foreach(spec =>
           IdentStyle.infer(spec) match {
@@ -112,7 +111,6 @@ object Main {
           }
         )
       }
-
       override def showUsageOnError = false
 
       help("help")
