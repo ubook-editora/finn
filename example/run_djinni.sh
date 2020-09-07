@@ -27,6 +27,8 @@ java_out="$base_dir/generated-src/java/com/dropbox/textsort"
 objc_out="$base_dir/generated-src/objc"
 py_out="$base_dir/generated-src/python"
 cffi_out="$base_dir/generated-src/cffi"
+swift_out="$base_dir/generated-src/swift"
+
 cwrapper_out="$base_dir/generated-src/cwrapper"
 
 java_package="com.dropbox.textsort"
@@ -42,7 +44,7 @@ elif [ $# -eq 1 ]; then
         echo "Unexpected argument: \"$command\"." 1>&2
         exit 1
     fi
-    for dir in "$temp_out" "$cpp_out" "$jni_out" "$java_out" "$objc_out" "$py_out" "$cffi_out" "$cwrapper_out"; do
+    for dir in "$temp_out" "$cpp_out" "$jni_out" "$java_out" "$objc_out" "$py_out" "$cffi_out" "$cwrapper_out" "$swift_out"; do
         if [ -e "$dir" ]; then
             echo "Deleting \"$dir\"..."
             rm -r "$dir"
@@ -92,18 +94,17 @@ if [ $already_generated -eq 0 ]; then
         --cpp-out "$temp_out/cpp" \
         --cpp-namespace textsort \
         --ident-cpp-enum-type foo_bar \
-        --cpp-optional-template std::experimental::optional \
-        --cpp-optional-header "<experimental/optional>" \
+        --cpp-optional-template std::optional \
+        --cpp-optional-header "<optional>" \
         \
         --jni-out "$temp_out/jni" \
         --ident-jni-class NativeFooBar \
         --ident-jni-file NativeFooBar \
         \
-        --objc-out "$temp_out/objc" \
+        --swift-out "$temp_out/swift" \
+        --swift-generated-header "<DjinniExample/DjinniExample-Swift.h>" \
+        --swift-framework "DjinniExample" \
         --objcpp-out "$temp_out/objc" \
-        --objc-type-prefix TXS \
-        --objc-swift-bridging-header "TextSort-Bridging-Header" \
-        --objc-support-swift-name true \
         \
         --py-out "$temp_out/python" \
         --pycffi-package-name PyCFFIlib \
@@ -132,7 +133,9 @@ mirror "jni" "$temp_out/jni" "$jni_out"
 mirror "objc" "$temp_out/objc" "$objc_out"
 mirror "py" "$temp_out/python" "$py_out"
 mirror "cffi" "$temp_out/cffi" "$cffi_out"
+
 mirror "cwrapper" "$temp_out/cwrapper" "$cwrapper_out"
+mirror "swift" "$temp_out/swift" "$swift_out"
 
 # Take new dependencies file only after all build steps have completed.
 if [ -f "$deps_file.tmp" ] && [ "$deps_file.tmp" -nt "$deps_file" ]; then

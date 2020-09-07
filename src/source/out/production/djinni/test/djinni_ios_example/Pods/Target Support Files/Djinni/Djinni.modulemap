@@ -1,6 +1,0 @@
-framework module Djinni {
-  umbrella header "Djinni-umbrella.h"
-
-  export *
-  module * { export * }
-}

@@ -38,7 +38,7 @@ object Main {
     var cppNnType: Option[String] = None
     var cppNnCheckExpression: Option[String] = None
     var cppUseWideStrings: Boolean = false
-    var cppDefaultContructor: Boolean = false
+    var cppDefaultConstructor: Boolean = false
     var javaOutFolder: Option[File] = None
     var javaPackage: Option[String] = None
     var javaClassAccessModifier: JavaAccessModifier.Value = JavaAccessModifier.Public
@@ -166,7 +166,7 @@ object Main {
         .text("The expression to use for building non-nullable pointers")
       opt[Boolean]("cpp-use-wide-strings").valueName("<true/false>").foreach(x => cppUseWideStrings = x)
         .text("Use wide strings in C++ code (default: false)")
-      opt[Boolean]( "cpp-default-constructor").valueName("<true/false>").foreach(x => cppDefaultContructor = x)
+      opt[Boolean]( "cpp-default-constructor").valueName("<true/false>").foreach(x => cppDefaultConstructor = x)
         .text("Generate record with default contructor in C++ code (default: false)")        
       note("")
       opt[File]("jni-out").valueName("<out-folder>").foreach(x => jniOutFolder = Some(x))
@@ -198,8 +198,7 @@ object Main {
 
       opt[String]("objc-include-prefix").valueName("<prefix>").foreach(objcIncludePrefix = _)
         .text("The prefix for #import of header files from Objective-C files.")
-//      opt[String]("objc-swift-bridging-header").valueName("<name>").foreach(x => swiftFrameworkName = Some(x))
-//        .text("The name of Objective-C Bridging Header used in XCode's Swift projects.")
+
       opt[Boolean]("objc-closed-enums").valueName("<true/false>").foreach(x => objcClosedEnums = x)
         .text("All generated Objective-C enums will be NS_CLOSED_ENUM (default: false). ")
 
@@ -223,7 +222,6 @@ object Main {
       opt[String]("objc-base-lib-include-prefix").valueName("...").foreach(x => objcBaseLibIncludePrefix = x)
         .text("The Objective-C++ base library's include path, relative to the Objective-C++ classes.")
       note("")
-
 
       opt[File]("swift-out").valueName("<out-folder>").foreach(x => swiftOutFolder = Some(x))
         .text("The output folder for Swift files (Generator disabled if unspecified).")
@@ -378,7 +376,7 @@ object Main {
       None
     }
     val idl = try {
-      (new Parser(idlIncludePaths)).parseFile(idlFile, inFileListWriter)
+      (Parser(idlIncludePaths)).parseFile(idlFile, inFileListWriter)
     }
     catch {
       case ex@(_: FileNotFoundException | _: IOException) =>
@@ -468,7 +466,7 @@ object Main {
       cppNnType,
       cppNnCheckExpression,
       cppUseWideStrings,
-      cppDefaultContructor,
+      cppDefaultConstructor,
       jniOutFolder,
       jniHeaderOutFolder,
       jniIncludePrefix,

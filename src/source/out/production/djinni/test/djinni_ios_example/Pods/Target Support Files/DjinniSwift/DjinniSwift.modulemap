@@ -1,6 +1,0 @@
-framework module DjinniSwift {
-  umbrella header "DjinniSwift-umbrella.h"
-
-  export *
-  module * { export * }
-}
