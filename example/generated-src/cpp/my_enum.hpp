@@ -9,8 +9,8 @@ namespace cpp_generated {
 
 enum class MyEnum : int {
     HIEN  = 1,
-    A ,
-    B ,
+    WORKOUT ,
+    RUNNING ,
 };
 
 }  // namespace cpp_generated

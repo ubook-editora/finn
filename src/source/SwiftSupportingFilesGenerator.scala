@@ -65,14 +65,4 @@ object SwiftSupportingFilesGenerator {
     writer.write("//! Project version string for " + bridgingHeaderVarName + ".\n")
     writer.write("FOUNDATION_EXPORT const unsigned char " + bridgingHeaderVarName + "VersionString[];\n\n")
   }
-
-  def generateSwiftMarshal(name: String, writer: Writer): Unit = {
-//    val swiftMarshalTemplate = new File("../support-lib/swift", "DJIMarshal+Swift.swift")
-//    val source = Source.fromFile(swiftMarshalTemplate)
-//
-//    source.foreach(x => writer.write(x))
-//
-//    writer.close()
-//    source.close()
-  }
 }

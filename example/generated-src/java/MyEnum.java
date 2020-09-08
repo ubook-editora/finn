@@ -8,8 +8,8 @@ import androidx.annotation.Nullable;
 
 public enum MyEnum {
     HIEN(1),
-    A(2),
-    B(3),
+    WORKOUT(2),
+    RUNNING(3),
     ;
     private final int value;
     private MyEnum(int value) {

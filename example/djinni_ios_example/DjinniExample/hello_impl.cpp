@@ -19,7 +19,7 @@ std::shared_ptr<cpp_generated::Hello> cpp_generated::Hello::create() {
 }
 
 cpp_generated::MyEnum HelloImpl::say_hi() {
-    return cpp_generated::MyEnum::A;
+    return cpp_generated::MyEnum::WORKOUT;
 }
 
 cpp_generated::MyRecord HelloImpl::print(const cpp_generated::MyRecord & rc) {

@@ -11,5 +11,5 @@ from enum import IntEnum, unique
 @unique
 class MyEnum(IntEnum):
     Hien = 1
-    A = 2
-    B = 3
+    Workout = 2
+    Running = 3

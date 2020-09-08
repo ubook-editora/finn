@@ -23,13 +23,13 @@ class ViewController: UIViewController {
                               test8: [:],
                               test9: Rc.init(a: 1),
                               test10: nil, test101: [],
-                              test11: MyEnum.A,
+                              test11: MyEnum.hien,
                               test13: nil,
                               test14: 1,
-                              test15: [MyEnum.A],
-                              test16: [MyEnum.A],
+                              test15: [MyEnum.workout],
+                              test16: [MyEnum.workout],
                               test17: [
-                                MyEnum.A : 1
+                                MyEnum.workout : 1
                               ])
         
         let rc = Hello.create().print(r)

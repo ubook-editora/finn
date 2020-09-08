@@ -3,9 +3,9 @@
 
 #import <Foundation/Foundation.h>
 
-typedef NS_ENUM(NSInteger, MyEnum)
+typedef NS_CLOSED_ENUM(NSInteger, MyEnum)
 {
     MyEnumHien  = 1,
-    MyEnumA ,
-    MyEnumB ,
+    MyEnumWorkout ,
+    MyEnumRunning ,
 } NS_SWIFT_NAME(MyEnum);

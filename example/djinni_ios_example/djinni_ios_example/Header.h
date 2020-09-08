@@ -9,6 +9,6 @@
 #ifndef Header_h
 #define Header_h
 
-#import <DjinniExample/Hello.h>
+//#import <DjinniExample/Hello.h>
 
 #endif /* Header_h */

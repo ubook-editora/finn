@@ -1,7 +1,7 @@
 my_enum = enum {
     hien = 1;
-    a;
-    b;
+    workout;
+    running;
 }
 
 rc = record {

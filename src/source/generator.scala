@@ -88,11 +88,7 @@ package object generatorTools {
       if (spec.objcSwiftBridgingHeaderWriter.isDefined) {
         SwiftSupportingFilesGenerator.writeAutogenerationWarning(spec.objcSwiftBridgingHeaderName.get, spec.objcSwiftBridgingHeaderWriter.get)
         SwiftSupportingFilesGenerator.writeBridgingVars(spec.objcSwiftBridgingHeaderName.get, spec.objcSwiftBridgingHeaderWriter.get)
-
-        SwiftSupportingFilesGenerator.generateSwiftMarshal(spec.swiftMarshalFileName, spec.swiftMarshalFileWriter.get)
-
         val generator = new SwiftSupportingFilesGenerator(spec)
-
         generator.generate(idl)
       }
 
@@ -220,9 +216,7 @@ package object generatorTools {
                    pyImportPrefix: String,
                    swiftIdentStyle: SwiftIdentStyle,
                    swiftOutFolder: Option[File],
-                   swiftGeneratedHeader: Option[String],
-                   swiftMarshalFileName: String,
-                   swiftMarshalFileWriter: Option[Writer])
+                   swiftGeneratedHeader: Option[String])
 
   case class CppIdentStyle(ty: IdentConverter, enumType: IdentConverter, typeParam: IdentConverter,
                            method: IdentConverter, field: IdentConverter, local: IdentConverter,
