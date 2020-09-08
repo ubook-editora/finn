@@ -12,14 +12,3 @@ import Foundation
         self.a = a
     }
 }
-extension Rc  {
-    @available(swift, obsoleted: 1.0)
-    @objc public var __djinni__objc_a: Int32 {
-        get {
-            return a
-        }
-    }
-    @available(swift, obsoleted: 1.0)
-    @objc public static func `init`(a: Int32) -> Rc {
-        return Rc.init(a: a)}
-}

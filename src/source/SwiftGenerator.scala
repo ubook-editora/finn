@@ -54,35 +54,6 @@ class SwiftGenerator(spec: Spec) extends ObjcGenerator(spec) {
     })
   }
 
-//  override def generateEnum(origin: String, ident: Ident, doc: Doc, e: Enum, deprecated: Option[Deprecated]): Unit = {
-//    var header: mutable.Set[String] = mutable.TreeSet[String]()
-//    header.add("import Foundation")
-//
-//    val self = marshal.typename(ident, e)
-//    var shift = 0
-//    writeSwiftFile(ident, origin = origin, header, w => {
-//      writeDoc(w, doc)
-//      marshal.deprecatedAnnotation(deprecated).foreach(w.wl)
-//      w.w(s"@objc public enum $self: NSInteger ").braced {
-//        for (o <- normalEnumOptions(e)) {
-//          writeDoc(w, o.doc)
-//          if (o.value != None) {
-//            val constValue = o.value match {
-//              case Some(i) => i
-//            }
-//            shift = constValue.toString.toInt;
-//          } else {
-//            shift = shift + 1;
-//          }
-//
-//          w.wl((s"case ${idSwift.`enum`(o.ident)} = $shift"))
-//        }
-//      }
-//    })
-//  }
-
-
-
   override def generateRecord(origin: String, ident: Ident, doc: Doc, params: Seq[TypeParam], r: Record, deprecated: Option[Deprecated], idl: Seq[TypeDecl]): Unit = {
     var header: mutable.Set[String] = mutable.TreeSet[String]()
     header.add("import Foundation")
@@ -149,27 +120,18 @@ class SwiftGenerator(spec: Spec) extends ObjcGenerator(spec) {
       }
 
       // ----------- GENERATE SWIFT/OBJC WRAPPER
-      def writeSwiftExtension(): Unit = {
-
-        def swiftObsoleted: String = {
-          "@available(swift, obsoleted: 1.0)"
-        }
-
+      def writeSwiftExtension(fields: Seq[Field], className: String, w: IndentWriter): Unit = {
+        def swiftObsoleted: String = "@available(swift, obsoleted: 1.0)"
         w.w(s"extension $className ").braced {
-          val fields = superFields ++ r.fields
           val needWriteForceCastConstructor = true
           for (f <- fields) {
             // wrapper init
             w.wl(swiftObsoleted)
-
             val swiftBridgingType = swiftMarshal.getSwiftBridgingType(f.ty.resolved)
-
             val name = idSwift.field(f.ident)
-
             w.w(s"@objc public var __djinni__objc_$name: ${swiftBridgingType.wrapper}").braced {
               w.w("get").braced {
                 if (swiftBridgingType.downcast)
-//                  w.wl(s"return $name${swiftBridgingType.typeCastingOperator}${swiftBridgingType.wrapper}")
                   w.wl(s"return ${swiftMarshal.toObjc(f.ty.resolved, name)}")
                 else
                   w.wl(s"return $name")
@@ -186,8 +148,7 @@ class SwiftGenerator(spec: Spec) extends ObjcGenerator(spec) {
               (name, s"${swiftBridgingType.wrapper}")
             }).braced {
               if (fields.nonEmpty) {
-                val decl = s"return ${className}.init("
-                writeAlignedSwiftCall(w, decl, fields, ")", f => {
+                writeAlignedSwiftCall(w, s"return ${className}.init(", fields, ")", f => {
                   val swiftBridgingType = swiftMarshal.getSwiftBridgingType(f.ty.resolved)
                   val name = idSwift.field(f.ident)
                   if (swiftBridgingType.downcast) {
@@ -201,7 +162,9 @@ class SwiftGenerator(spec: Spec) extends ObjcGenerator(spec) {
         }
       }
 
-      writeSwiftExtension()
+      writeSwiftFile(s"$className+Internal", origin = origin, header, w => {
+        writeSwiftExtension(fields = superFields ++ r.fields, className = className, w = w)
+      })
     })
   }
 
@@ -241,7 +204,6 @@ class SwiftGenerator(spec: Spec) extends ObjcGenerator(spec) {
     val refs = new SwiftObjcRefs()
 
     val self = marshal.typename(ident, i)
-    refs.header.add("!#import <Foundation/Foundation.h>")
 
     i.methods.foreach(m => {
       m.params.foreach(p => refs.find(p.ty))

@@ -43,8 +43,6 @@ public class MyRecord {
 
     /*package*/ final MyEnum mTest11;
 
-    /*package*/ final org.json.JSONObject mTest12;
-
     /*package*/ final MyEnum mTest13;
 
     /*package*/ final Short mTest14;
@@ -71,7 +69,6 @@ public class MyRecord {
             @Nullable Rc test10,
             @NonNull ArrayList<Rc> test101,
             @NonNull MyEnum test11,
-            @NonNull org.json.JSONObject test12,
             @Nullable MyEnum test13,
             @Nullable Short test14,
             @NonNull ArrayList<MyEnum> test15,
@@ -92,7 +89,6 @@ public class MyRecord {
         this.mTest10 = test10;
         this.mTest101 = test101;
         this.mTest11 = test11;
-        this.mTest12 = test12;
         this.mTest13 = test13;
         this.mTest14 = test14;
         this.mTest15 = test15;
@@ -174,11 +170,6 @@ public class MyRecord {
         return mTest11;
     }
 
-    @NonNull
-    public org.json.JSONObject getTest12() {
-        return mTest12;
-    }
-
     @Nullable
     public MyEnum getTest13() {
         return mTest13;
@@ -222,7 +213,6 @@ public class MyRecord {
                 "," + "mTest10=" + mTest10 +
                 "," + "mTest101=" + mTest101 +
                 "," + "mTest11=" + mTest11 +
-                "," + "mTest12=" + mTest12 +
                 "," + "mTest13=" + mTest13 +
                 "," + "mTest14=" + mTest14 +
                 "," + "mTest15=" + mTest15 +

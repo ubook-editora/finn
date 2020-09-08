@@ -123,21 +123,21 @@ void my_record_add_callback_get_my_record_f15(int( * ptr)(DjinniRecordHandle *))
     s_py_callback_my_record_get_my_record_f15 = ptr;
 }
 
-static DjinniString * ( * s_py_callback_my_record_get_my_record_f16)(DjinniRecordHandle *);
+static int ( * s_py_callback_my_record_get_my_record_f16)(DjinniRecordHandle *);
 
-void my_record_add_callback_get_my_record_f16(DjinniString *( * ptr)(DjinniRecordHandle *)) {
+void my_record_add_callback_get_my_record_f16(int( * ptr)(DjinniRecordHandle *)) {
     s_py_callback_my_record_get_my_record_f16 = ptr;
 }
 
-static int ( * s_py_callback_my_record_get_my_record_f17)(DjinniRecordHandle *);
+static DjinniBoxedI16 * ( * s_py_callback_my_record_get_my_record_f17)(DjinniRecordHandle *);
 
-void my_record_add_callback_get_my_record_f17(int( * ptr)(DjinniRecordHandle *)) {
+void my_record_add_callback_get_my_record_f17(DjinniBoxedI16 *( * ptr)(DjinniRecordHandle *)) {
     s_py_callback_my_record_get_my_record_f17 = ptr;
 }
 
-static DjinniBoxedI16 * ( * s_py_callback_my_record_get_my_record_f18)(DjinniRecordHandle *);
+static DjinniObjectHandle * ( * s_py_callback_my_record_get_my_record_f18)(DjinniRecordHandle *);
 
-void my_record_add_callback_get_my_record_f18(DjinniBoxedI16 *( * ptr)(DjinniRecordHandle *)) {
+void my_record_add_callback_get_my_record_f18(DjinniObjectHandle *( * ptr)(DjinniRecordHandle *)) {
     s_py_callback_my_record_get_my_record_f18 = ptr;
 }
 
@@ -153,15 +153,9 @@ void my_record_add_callback_get_my_record_f20(DjinniObjectHandle *( * ptr)(Djinn
     s_py_callback_my_record_get_my_record_f20 = ptr;
 }
 
-static DjinniObjectHandle * ( * s_py_callback_my_record_get_my_record_f21)(DjinniRecordHandle *);
+static DjinniRecordHandle * ( * s_py_callback_my_record_python_create_my_record)(int32_t, DjinniBoxedI32 *, DjinniObjectHandle *, DjinniString *, DjinniString *, uint64_t, DjinniBoxedDate *, DjinniBinary *, DjinniObjectHandle *, DjinniObjectHandle *, DjinniObjectHandle *, DjinniRecordHandle *, DjinniOptionalRecordHandle *, DjinniObjectHandle *, int, int, DjinniBoxedI16 *, DjinniObjectHandle *, DjinniObjectHandle *, DjinniObjectHandle *);
 
-void my_record_add_callback_get_my_record_f21(DjinniObjectHandle *( * ptr)(DjinniRecordHandle *)) {
-    s_py_callback_my_record_get_my_record_f21 = ptr;
-}
-
-static DjinniRecordHandle * ( * s_py_callback_my_record_python_create_my_record)(int32_t, DjinniBoxedI32 *, DjinniObjectHandle *, DjinniString *, DjinniString *, uint64_t, DjinniBoxedDate *, DjinniBinary *, DjinniObjectHandle *, DjinniObjectHandle *, DjinniObjectHandle *, DjinniRecordHandle *, DjinniOptionalRecordHandle *, DjinniObjectHandle *, int, DjinniString *, int, DjinniBoxedI16 *, DjinniObjectHandle *, DjinniObjectHandle *, DjinniObjectHandle *);
-
-void my_record_add_callback_python_create_my_record(DjinniRecordHandle *( * ptr)(int32_t, DjinniBoxedI32 *, DjinniObjectHandle *, DjinniString *, DjinniString *, uint64_t, DjinniBoxedDate *, DjinniBinary *, DjinniObjectHandle *, DjinniObjectHandle *, DjinniObjectHandle *, DjinniRecordHandle *, DjinniOptionalRecordHandle *, DjinniObjectHandle *, int, DjinniString *, int, DjinniBoxedI16 *, DjinniObjectHandle *, DjinniObjectHandle *, DjinniObjectHandle *)) {
+void my_record_add_callback_python_create_my_record(DjinniRecordHandle *( * ptr)(int32_t, DjinniBoxedI32 *, DjinniObjectHandle *, DjinniString *, DjinniString *, uint64_t, DjinniBoxedDate *, DjinniBinary *, DjinniObjectHandle *, DjinniObjectHandle *, DjinniObjectHandle *, DjinniRecordHandle *, DjinniOptionalRecordHandle *, DjinniObjectHandle *, int, int, DjinniBoxedI16 *, DjinniObjectHandle *, DjinniObjectHandle *, DjinniObjectHandle *)) {
     s_py_callback_my_record_python_create_my_record = ptr;
 }
 
@@ -200,7 +194,6 @@ djinni::Handle<DjinniRecordHandle> DjinniMyRecord::fromCpp(const ::cpp_generated
             _field_test10.release(),
             _field_test10_1.release(),
             int32_from_enum_my_enum(dr.test11),
-            DjinniJson::fromCpp(dr.test12),
             int32_from_enum_my_enum(dr.test13),
             _field_test14.release(),
             _field_test15.release(),
@@ -223,10 +216,10 @@ djinni::Handle<DjinniRecordHandle> DjinniMyRecord::fromCpp(const ::cpp_generated
     djinni::Handle<DjinniRecordHandle> _field_test9(s_py_callback_my_record_get_my_record_f12(dh.get()), rc___delete);
     djinni::Handle<DjinniOptionalRecordHandle> _field_test10(s_py_callback_my_record_get_my_record_f13(dh.get()), optional_rc___delete);
     djinni::Handle<DjinniObjectHandle> _field_test10_1(s_py_callback_my_record_get_my_record_f14(dh.get()), list_record_rc___delete);
-    std::unique_ptr<DjinniBoxedI16> _field_test14(s_py_callback_my_record_get_my_record_f18(dh.get()));
-    djinni::Handle<DjinniObjectHandle> _field_test15(s_py_callback_my_record_get_my_record_f19(dh.get()), list_enum_my_enum___delete);
-    djinni::Handle<DjinniObjectHandle> _field_test16(s_py_callback_my_record_get_my_record_f20(dh.get()), set_enum_my_enum___delete);
-    djinni::Handle<DjinniObjectHandle> _field_test17(s_py_callback_my_record_get_my_record_f21(dh.get()), map_enum_my_enum_int16_t___delete);
+    std::unique_ptr<DjinniBoxedI16> _field_test14(s_py_callback_my_record_get_my_record_f17(dh.get()));
+    djinni::Handle<DjinniObjectHandle> _field_test15(s_py_callback_my_record_get_my_record_f18(dh.get()), list_enum_my_enum___delete);
+    djinni::Handle<DjinniObjectHandle> _field_test16(s_py_callback_my_record_get_my_record_f19(dh.get()), set_enum_my_enum___delete);
+    djinni::Handle<DjinniObjectHandle> _field_test17(s_py_callback_my_record_get_my_record_f20(dh.get()), map_enum_my_enum_int16_t___delete);
 
     auto _aux = ::cpp_generated::MyRecord(
         s_py_callback_my_record_get_my_record_f1(dh.get()),
@@ -244,8 +237,7 @@ djinni::Handle<DjinniRecordHandle> DjinniMyRecord::fromCpp(const ::cpp_generated
         DjinniRc::toCpp(std::move( _field_test10)),
         DjinniListRecordRc::toCpp(std::move( _field_test10_1)),
         static_cast<::cpp_generated::MyEnum>(s_py_callback_my_record_get_my_record_f15(dh.get())),
-        DjinniJson::toCpp(s_py_callback_my_record_get_my_record_f16(dh.get())),
-        get_boxed_enum_my_enum_from_int32(s_py_callback_my_record_get_my_record_f17(dh.get())),
+        get_boxed_enum_my_enum_from_int32(s_py_callback_my_record_get_my_record_f16(dh.get())),
         DjinniBoxedI16::toCpp(std::move( _field_test14)),
         DjinniListEnumMyEnum::toCpp(std::move( _field_test15)),
         DjinniSetEnumMyEnum::toCpp(std::move( _field_test16)),

@@ -25,7 +25,7 @@ private:
     friend ::djinni::JniClass<NativeMyRecord>;
 
     const ::djinni::GlobalRef<jclass> clazz { ::djinni::jniFindClass("demo/auto/gen/MyRecord") };
-    const jmethodID jconstructor { ::djinni::jniGetMethodID(clazz.get(), "<init>", "(ILjava/lang/Integer;Ljava/util/ArrayList;Ljava/lang/String;Ljava/lang/String;Ljava/util/Date;Ljava/util/Date;[BLjava/util/ArrayList;Ljava/util/HashSet;Ljava/util/HashMap;Ldemo/auto/gen/Rc;Ldemo/auto/gen/Rc;Ljava/util/ArrayList;Ldemo/auto/gen/MyEnum;Lorg/json/JSONObject;Ldemo/auto/gen/MyEnum;Ljava/lang/Short;Ljava/util/ArrayList;Ljava/util/HashSet;Ljava/util/HashMap;)V") };
+    const jmethodID jconstructor { ::djinni::jniGetMethodID(clazz.get(), "<init>", "(ILjava/lang/Integer;Ljava/util/ArrayList;Ljava/lang/String;Ljava/lang/String;Ljava/util/Date;Ljava/util/Date;[BLjava/util/ArrayList;Ljava/util/HashSet;Ljava/util/HashMap;Ldemo/auto/gen/Rc;Ldemo/auto/gen/Rc;Ljava/util/ArrayList;Ldemo/auto/gen/MyEnum;Ldemo/auto/gen/MyEnum;Ljava/lang/Short;Ljava/util/ArrayList;Ljava/util/HashSet;Ljava/util/HashMap;)V") };
     const jfieldID field_mTest { ::djinni::jniGetFieldID(clazz.get(), "mTest", "I") };
     const jfieldID field_mTest1 { ::djinni::jniGetFieldID(clazz.get(), "mTest1", "Ljava/lang/Integer;") };
     const jfieldID field_mTest2 { ::djinni::jniGetFieldID(clazz.get(), "mTest2", "Ljava/util/ArrayList;") };
@@ -41,7 +41,6 @@ private:
     const jfieldID field_mTest10 { ::djinni::jniGetFieldID(clazz.get(), "mTest10", "Ldemo/auto/gen/Rc;") };
     const jfieldID field_mTest101 { ::djinni::jniGetFieldID(clazz.get(), "mTest101", "Ljava/util/ArrayList;") };
     const jfieldID field_mTest11 { ::djinni::jniGetFieldID(clazz.get(), "mTest11", "Ldemo/auto/gen/MyEnum;") };
-    const jfieldID field_mTest12 { ::djinni::jniGetFieldID(clazz.get(), "mTest12", "Lorg/json/JSONObject;") };
     const jfieldID field_mTest13 { ::djinni::jniGetFieldID(clazz.get(), "mTest13", "Ldemo/auto/gen/MyEnum;") };
     const jfieldID field_mTest14 { ::djinni::jniGetFieldID(clazz.get(), "mTest14", "Ljava/lang/Short;") };
     const jfieldID field_mTest15 { ::djinni::jniGetFieldID(clazz.get(), "mTest15", "Ljava/util/ArrayList;") };

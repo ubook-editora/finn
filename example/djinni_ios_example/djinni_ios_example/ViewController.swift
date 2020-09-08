@@ -23,16 +23,16 @@ class ViewController: UIViewController {
                               test8: [:],
                               test9: Rc.init(a: 1),
                               test10: nil, test101: [],
-                              test11: MyEnum.a,
-                              test12: [:], test13: nil,
+                              test11: MyEnum.A,
+                              test13: nil,
                               test14: 1,
-                              test15: [MyEnum.a],
-                              test16: [MyEnum.b],
+                              test15: [MyEnum.A],
+                              test16: [MyEnum.A],
                               test17: [
-                                MyEnum.a : 1
+                                MyEnum.A : 1
                               ])
         
-        let rc = Hello.create()!.print(r)
+        let rc = Hello.create().print(r)
         print("\(rc == r)")
         
         

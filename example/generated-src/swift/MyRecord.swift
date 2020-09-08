@@ -36,8 +36,6 @@ import Foundation
 
     public let test11 : MyEnum
 
-    public let test12 : Dictionary<String, Any>
-
     public let test13 : MyEnum?
 
     public let test14 : Int16?
@@ -63,7 +61,6 @@ import Foundation
                 test10: Rc?,
                 test101: Array<Rc>,
                 test11: MyEnum,
-                test12: Dictionary<String, Any>,
                 test13: MyEnum?,
                 test14: Int16?,
                 test15: Array<MyEnum>,
@@ -84,182 +81,10 @@ import Foundation
         self.test10 = test10
         self.test101 = test101
         self.test11 = test11
-        self.test12 = test12
         self.test13 = test13
         self.test14 = test14
         self.test15 = test15
         self.test16 = test16
         self.test17 = test17
     }
-}
-extension MyRecord  {
-    @available(swift, obsoleted: 1.0)
-    @objc public var __djinni__objc_test: Int32 {
-        get {
-            return test
-        }
-    }
-    @available(swift, obsoleted: 1.0)
-    @objc public var __djinni__objc_test1: NSNumber? {
-        get {
-            return DjinniSwift.I32.toObjc(e: test1)
-        }
-    }
-    @available(swift, obsoleted: 1.0)
-    @objc public var __djinni__objc_test2: Array<Int32> {
-        get {
-            return test2
-        }
-    }
-    @available(swift, obsoleted: 1.0)
-    @objc public var __djinni__objc_test3: String {
-        get {
-            return test3
-        }
-    }
-    @available(swift, obsoleted: 1.0)
-    @objc public var __djinni__objc_test31: String? {
-        get {
-            return test31
-        }
-    }
-    @available(swift, obsoleted: 1.0)
-    @objc public var __djinni__objc_test4: Date {
-        get {
-            return test4
-        }
-    }
-    @available(swift, obsoleted: 1.0)
-    @objc public var __djinni__objc_test41: Date? {
-        get {
-            return test41
-        }
-    }
-    @available(swift, obsoleted: 1.0)
-    @objc public var __djinni__objc_test5: Data {
-        get {
-            return test5
-        }
-    }
-    @available(swift, obsoleted: 1.0)
-    @objc public var __djinni__objc_test6: Array<Data> {
-        get {
-            return test6
-        }
-    }
-    @available(swift, obsoleted: 1.0)
-    @objc public var __djinni__objc_test7: Set<Int32> {
-        get {
-            return test7
-        }
-    }
-    @available(swift, obsoleted: 1.0)
-    @objc public var __djinni__objc_test8: Dictionary<Int32, String> {
-        get {
-            return test8
-        }
-    }
-    @available(swift, obsoleted: 1.0)
-    @objc public var __djinni__objc_test9: Rc {
-        get {
-            return test9
-        }
-    }
-    @available(swift, obsoleted: 1.0)
-    @objc public var __djinni__objc_test10: Rc? {
-        get {
-            return test10
-        }
-    }
-    @available(swift, obsoleted: 1.0)
-    @objc public var __djinni__objc_test101: Array<Rc> {
-        get {
-            return test101
-        }
-    }
-    @available(swift, obsoleted: 1.0)
-    @objc public var __djinni__objc_test11: MyEnum {
-        get {
-            return test11
-        }
-    }
-    @available(swift, obsoleted: 1.0)
-    @objc public var __djinni__objc_test12: Dictionary<String, Any> {
-        get {
-            return test12
-        }
-    }
-    @available(swift, obsoleted: 1.0)
-    @objc public var __djinni__objc_test13: NSNumber? {
-        get {
-            return DjinniSwift.Enum<MyEnum>.toObjc(e: test13)
-        }
-    }
-    @available(swift, obsoleted: 1.0)
-    @objc public var __djinni__objc_test14: NSNumber? {
-        get {
-            return DjinniSwift.I16.toObjc(e: test14)
-        }
-    }
-    @available(swift, obsoleted: 1.0)
-    @objc public var __djinni__objc_test15: Array<NSNumber> {
-        get {
-            return List<DjinniSwift.Enum<MyEnum>>.toObjc(e: test15)
-        }
-    }
-    @available(swift, obsoleted: 1.0)
-    @objc public var __djinni__objc_test16: Set<NSNumber> {
-        get {
-            return SetHelper<DjinniSwift.Enum<MyEnum>>.toObjc(e: test16)
-        }
-    }
-    @available(swift, obsoleted: 1.0)
-    @objc public var __djinni__objc_test17: Dictionary<NSNumber, Int16> {
-        get {
-            return DjinniSwift.Map<DjinniSwift.Enum<MyEnum>, DjinniSwift.I16>.toObjc(e: test17)
-        }
-    }
-    @available(swift, obsoleted: 1.0)
-    @objc public static func `init`(test: Int32,
-                                    test1: NSNumber?,
-                                    test2: Array<Int32>,
-                                    test3: String,
-                                    test31: String?,
-                                    test4: Date,
-                                    test41: Date?,
-                                    test5: Data,
-                                    test6: Array<Data>,
-                                    test7: Set<Int32>,
-                                    test8: Dictionary<Int32, String>,
-                                    test9: Rc,
-                                    test10: Rc?,
-                                    test101: Array<Rc>,
-                                    test11: MyEnum,
-                                    test12: Dictionary<String, Any>,
-                                    test13: NSNumber?,
-                                    test14: NSNumber?,
-                                    test15: Array<NSNumber>,
-                                    test16: Set<NSNumber>,
-                                    test17: Dictionary<NSNumber, Int16>) -> MyRecord {
-        return MyRecord.init(test: test,
-                             test1: DjinniSwift.I32.fromObjc(e: test1),
-                             test2: test2,
-                             test3: test3,
-                             test31: test31,
-                             test4: test4,
-                             test41: test41,
-                             test5: test5,
-                             test6: test6,
-                             test7: test7,
-                             test8: test8,
-                             test9: test9,
-                             test10: test10,
-                             test101: test101,
-                             test11: test11,
-                             test12: test12,
-                             test13: DjinniSwift.Enum<MyEnum>.fromObjc(e: test13),
-                             test14: DjinniSwift.I16.fromObjc(e: test14),
-                             test15: List<DjinniSwift.Enum<MyEnum>>.fromObjc(e: test15),
-                             test16: SetHelper<DjinniSwift.Enum<MyEnum>>.fromObjc(e: test16),
-                             test17: DjinniSwift.Map<DjinniSwift.Enum<MyEnum>, DjinniSwift.I16>.fromObjc(e: test17))}
 }

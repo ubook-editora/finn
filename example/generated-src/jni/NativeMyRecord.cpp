@@ -31,7 +31,6 @@ auto NativeMyRecord::fromCpp(JNIEnv* jniEnv, const CppType& c) -> ::djinni::Loca
                                                            ::djinni::get(::djinni::Optional<std::optional, ::djinni_generated::NativeRc>::fromCpp(jniEnv, c.test10)),
                                                            ::djinni::get(::djinni::List<::djinni_generated::NativeRc>::fromCpp(jniEnv, c.test10_1)),
                                                            ::djinni::get(::djinni_generated::NativeMyEnum::fromCpp(jniEnv, c.test11)),
-                                                           ::djinni::get(::djinni::Json::fromCpp(jniEnv, c.test12)),
                                                            ::djinni::get(::djinni::Optional<std::optional, ::djinni_generated::NativeMyEnum>::fromCpp(jniEnv, c.test13)),
                                                            ::djinni::get(::djinni::Optional<std::optional, ::djinni::I16>::fromCpp(jniEnv, c.test14)),
                                                            ::djinni::get(::djinni::List<::djinni_generated::NativeMyEnum>::fromCpp(jniEnv, c.test15)),
@@ -42,7 +41,7 @@ auto NativeMyRecord::fromCpp(JNIEnv* jniEnv, const CppType& c) -> ::djinni::Loca
 }
 
 auto NativeMyRecord::toCpp(JNIEnv* jniEnv, JniType j) -> CppType {
-    ::djinni::JniLocalScope jscope(jniEnv, 22);
+    ::djinni::JniLocalScope jscope(jniEnv, 21);
     assert(j != nullptr);
     const auto& data = ::djinni::JniClass<NativeMyRecord>::get();
     return {::djinni::I32::toCpp(jniEnv, jniEnv->GetIntField(j, data.field_mTest)),
@@ -60,7 +59,6 @@ auto NativeMyRecord::toCpp(JNIEnv* jniEnv, JniType j) -> CppType {
             ::djinni::Optional<std::optional, ::djinni_generated::NativeRc>::toCpp(jniEnv, jniEnv->GetObjectField(j, data.field_mTest10)),
             ::djinni::List<::djinni_generated::NativeRc>::toCpp(jniEnv, jniEnv->GetObjectField(j, data.field_mTest101)),
             ::djinni_generated::NativeMyEnum::toCpp(jniEnv, jniEnv->GetObjectField(j, data.field_mTest11)),
-            ::djinni::Json::toCpp(jniEnv, jniEnv->GetObjectField(j, data.field_mTest12)),
             ::djinni::Optional<std::optional, ::djinni_generated::NativeMyEnum>::toCpp(jniEnv, jniEnv->GetObjectField(j, data.field_mTest13)),
             ::djinni::Optional<std::optional, ::djinni::I16>::toCpp(jniEnv, jniEnv->GetObjectField(j, data.field_mTest14)),
             ::djinni::List<::djinni_generated::NativeMyEnum>::toCpp(jniEnv, jniEnv->GetObjectField(j, data.field_mTest15)),

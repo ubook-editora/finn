@@ -7,7 +7,6 @@
 #include "rc.hpp"
 #include <chrono>
 #include <cstdint>
-#include <nlohmann/json.hpp>
 #include <optional>
 #include <string>
 #include <unordered_map>
@@ -33,7 +32,6 @@ struct  MyRecord {
     std::optional<Rc> test10;
     std::vector<Rc> test10_1;
     MyEnum test11;
-    nlohmann::json test12;
     std::optional<MyEnum> test13;
     std::optional<int16_t> test14;
     std::vector<MyEnum> test15;
@@ -55,7 +53,6 @@ struct  MyRecord {
              std::optional<Rc> test10_,
              std::vector<Rc> test10_1_,
              MyEnum test11_,
-             nlohmann::json test12_,
              std::optional<MyEnum> test13_,
              std::optional<int16_t> test14_,
              std::vector<MyEnum> test15_,
@@ -76,7 +73,6 @@ struct  MyRecord {
     , test10(std::move(test10_))
     , test10_1(std::move(test10_1_))
     , test11(std::move(test11_))
-    , test12(std::move(test12_))
     , test13(std::move(test13_))
     , test14(std::move(test14_))
     , test15(std::move(test15_))

@@ -341,7 +341,6 @@ class ObjcppGenerator(spec: Spec) extends BaseObjcGenerator(spec) {
     val cppSelf = cppMarshal.fqTypename(ident, r)
 
     if (spec.swiftGeneratedHeader.isDefined) {
-      refs.privHeader.add(s"!#import <UIKit/UIKit.h>") // Mus
       refs.privHeader.add(s"!#import ${spec.swiftGeneratedHeader.get}")
     } else {
       refs.privHeader.add("!#import " + q((if (r.ext.objc) spec.objcExtendedRecordIncludePrefix else spec.objcppIncludeObjcPrefix) + headerName(ident)))

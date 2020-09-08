@@ -11,18 +11,16 @@
 
 #include <stdio.h>
 #include "hello.hpp"
+#include "my_enum.hpp"
 
-namespace demo {
-
-class HelloImpl: public Hello {
+class HelloImpl: public cpp_generated::Hello {
     
 public:
     HelloImpl();
     
-    my_enum say_hi() override;
+    cpp_generated::MyEnum say_hi() override;
     
-    MyRecord print(const MyRecord & rc) override;
+    cpp_generated::MyRecord print(const cpp_generated::MyRecord & rc) override;
     
 };
-}
 #endif /* hello_impl_hpp */

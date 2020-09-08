@@ -28,7 +28,6 @@ auto MyRecordHelper::toCpp(ObjcType obj) -> CppType
             ::djinni::Optional<std::optional, ::djinni_generated::RcHelper>::toCpp(obj.__djinni__objc_test10),
             ::djinni::List<::djinni_generated::RcHelper>::toCpp(obj.__djinni__objc_test101),
             ::djinni::Enum<::cpp_generated::MyEnum, MyEnum>::toCpp(obj.__djinni__objc_test11),
-            ::djinni::Json::toCpp(obj.__djinni__objc_test12),
             ::djinni::Optional<std::optional, ::djinni::Enum<::cpp_generated::MyEnum, MyEnum>>::toCpp(obj.__djinni__objc_test13),
             ::djinni::Optional<std::optional, ::djinni::I16>::toCpp(obj.__djinni__objc_test14),
             ::djinni::List<::djinni::Enum<::cpp_generated::MyEnum, MyEnum>>::toCpp(obj.__djinni__objc_test15),
@@ -53,7 +52,6 @@ auto MyRecordHelper::fromCpp(const CppType& cpp) -> ObjcType
                            test10:(::djinni::Optional<std::optional, ::djinni_generated::RcHelper>::fromCpp(cpp.test10))
                           test101:(::djinni::List<::djinni_generated::RcHelper>::fromCpp(cpp.test10_1))
                            test11:(::djinni::Enum<::cpp_generated::MyEnum, MyEnum>::fromCpp(cpp.test11))
-                           test12:(::djinni::Json::fromCpp(cpp.test12))
                            test13:(::djinni::Optional<std::optional, ::djinni::Enum<::cpp_generated::MyEnum, MyEnum>>::fromCpp(cpp.test13))
                            test14:(::djinni::Optional<std::optional, ::djinni::I16>::fromCpp(cpp.test14))
                            test15:(::djinni::List<::djinni::Enum<::cpp_generated::MyEnum, MyEnum>>::fromCpp(cpp.test15))

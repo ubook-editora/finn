@@ -5,7 +5,6 @@
 typedef enum MyEnum: NSInteger MyEnum;
 @class MyRecord;
 @class Hello;
-#import <Foundation/Foundation.h>
 
 
 NS_SWIFT_NAME(Hello)

@@ -46,8 +46,6 @@ my_record = record {
 
     test11: my_enum;
 
-    test12: json;
-
     test13: optional<my_enum>;
 
     test14: optional<i16>;

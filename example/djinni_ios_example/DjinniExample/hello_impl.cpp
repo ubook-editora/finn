@@ -9,26 +9,19 @@
 #include "hello_impl.hpp"
 #include "my_record.hpp"
 #include <optional>
-//--cpp-namespace "demo"
 
-namespace demo {
 
 HelloImpl::HelloImpl() {
 }
 
-std::shared_ptr<Hello> Hello::create() {
+std::shared_ptr<cpp_generated::Hello> cpp_generated::Hello::create() {
     return std::make_shared<HelloImpl>();
 }
 
-my_enum HelloImpl::say_hi() {
-    return my_enum::A;
+cpp_generated::MyEnum HelloImpl::say_hi() {
+    return cpp_generated::MyEnum::A;
 }
 
-MyRecord HelloImpl::print(const MyRecord & rc) {
-    
-    
+cpp_generated::MyRecord HelloImpl::print(const cpp_generated::MyRecord & rc) {
     return rc;
-}
-
-
 }
