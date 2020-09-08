@@ -1,5 +1,5 @@
 #import <Foundation/Foundation.h>
-#include "nlohmann/json.hpp"
+#import <Djinni/json.hpp>
 
 namespace djinni {
     // For C++ <-> Objective-C

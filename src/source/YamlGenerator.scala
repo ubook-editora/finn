@@ -1,13 +1,13 @@
 package djinni
 
+import java.util.{Map => JMap}
+
 import djinni.ast._
-import djinni.ast.Record.DerivingType.DerivingType
 import djinni.generatorTools._
 import djinni.meta._
 import djinni.writer.IndentWriter
-import java.util.{Map => JMap}
+
 import scala.collection.JavaConversions._
-import scala.collection.mutable
 
 class YamlGenerator(spec: Spec) extends Generator(spec) {
 
@@ -17,7 +17,28 @@ class YamlGenerator(spec: Spec) extends Generator(spec) {
   val javaMarshal = new JavaMarshal(spec)
   val jniMarshal = new JNIMarshal(spec)
 
-  case class QuotedString(str: String) // For anything that migt require escaping
+  override def generate(idl: Seq[TypeDecl]) {
+    val internOnly = idl.collect { case itd: InternTypeDecl => itd }.sortWith(_.ident.name < _.ident.name)
+    if (spec.yamlOutFile.isDefined) {
+      writeYamlFile(internOnly)
+    } else {
+      for (td <- internOnly) {
+        writeYamlFile(td.ident, td.origin, td)
+      }
+    }
+  }
+
+  override def generateEnum(origin: String, ident: Ident, doc: Doc, e: Enum, deprecated: scala.Option[Deprecated]) {
+    // unused
+  }
+
+  override def generateInterface(origin: String, ident: Ident, doc: Doc, typeParams: Seq[TypeParam], i: Interface, deprecated: scala.Option[Deprecated]) {
+    // unused
+  }
+
+  override def generateRecord(origin: String, ident: Ident, doc: Doc, params: Seq[TypeParam], r: Record, deprecated: scala.Option[Deprecated], idl: Seq[TypeDecl]) {
+    // unused
+  }
 
   private def writeYamlFile(name: String, origin: String, f: IndentWriter => Unit): Unit = {
     createFile(spec.yamlOutFolder.get, name, out => new IndentWriter(out, "  "), w => {
@@ -32,7 +53,7 @@ class YamlGenerator(spec: Spec) extends Generator(spec) {
     writeYamlFile(spec.yamlOutFile.get, origins, w => {
       // Writing with SnakeYAML creates loads of cluttering and unnecessary tags, so write manually.
       // We're not doing anything complicated anyway and it's good to have human readable output.
-      for(td <- tds) {
+      for (td <- tds) {
         w.wl("---")
         write(w, td)
       }
@@ -42,24 +63,36 @@ class YamlGenerator(spec: Spec) extends Generator(spec) {
   private def writeYamlFile(ident: String, origin: String, td: InternTypeDecl): Unit =
     writeYamlFile(spec.yamlPrefix + ident + ".yaml", origin, w => {
       write(w, td)
-  })
+    })
 
   private def write(w: IndentWriter, td: TypeDecl) {
     write(w, preamble(td))
-    w.wl("cpp:").nested { write(w, cpp(td)) }
-    w.wl("objc:").nested { write(w, objc(td)) }
-    w.wl("objcpp:").nested { write(w, objcpp(td)) }
-    w.wl("java:").nested { write(w, java(td)) }
-    w.wl("jni:").nested { write(w, jni(td)) }
+    w.wl("cpp:").nested {
+      write(w, cpp(td))
+    }
+    w.wl("objc:").nested {
+      write(w, objc(td))
+    }
+    w.wl("objcpp:").nested {
+      write(w, objcpp(td))
+    }
+    w.wl("java:").nested {
+      write(w, java(td))
+    }
+    w.wl("jni:").nested {
+      write(w, jni(td))
+    }
   }
 
   private def write(w: IndentWriter, m: Map[String, Any]) {
-    for((k, v) <- m) {
+    for ((k, v) <- m) {
       w.w(k + ": ")
       v match {
         case s: String => write(w, s)
         case s: QuotedString => write(w, s)
-        case m: Map[_, _] => w.wl.nested { write(w, m.asInstanceOf[Map[String, Any]]) }
+        case m: Map[_, _] => w.wl.nested {
+          write(w, m.asInstanceOf[Map[String, Any]])
+        }
         case s: Seq[_] => write(w, s)
         case b: Boolean => write(w, b)
         case _ => throw new AssertionError("unexpected map value")
@@ -73,15 +106,15 @@ class YamlGenerator(spec: Spec) extends Generator(spec) {
   }
 
   private def write(w: IndentWriter, b: Boolean) {
-    w.wl(if(b) "true" else "false")
+    w.wl(if (b) "true" else "false")
   }
 
   private def write(w: IndentWriter, s: String) {
-    if(s.isEmpty) w.wl(q("")) else w.wl(s)
+    if (s.isEmpty) w.wl(q("")) else w.wl(s)
   }
 
   private def write(w: IndentWriter, s: QuotedString) {
-    if(s.str.isEmpty) w.wl(q("")) else w.wl("'" + s.str.replaceAllLiterally("'", "''") + "'")
+    if (s.str.isEmpty) w.wl(q("")) else w.wl("'" + s.str.replaceAllLiterally("'", "''") + "'")
   }
 
   private def preamble(td: TypeDecl) = Map[String, Any](
@@ -92,9 +125,10 @@ class YamlGenerator(spec: Spec) extends Generator(spec) {
   )
 
   private def typeDef(td: TypeDecl) = {
-    def ext(e: Ext): String = (if(e.cpp) " +c" else "") + (if(e.objc) " +o" else "") + (if(e.java) " +j" else "")
+    def ext(e: Ext): String = (if (e.cpp) " +c" else "") + (if (e.objc) " +o" else "") + (if (e.java) " +j" else "")
+
     def deriving(r: Record) = {
-      if(r.derivingTypes.isEmpty) {
+      if (r.derivingTypes.isEmpty) {
         ""
       } else {
         r.derivingTypes.collect {
@@ -104,6 +138,7 @@ class YamlGenerator(spec: Spec) extends Generator(spec) {
         }.mkString(" deriving(", ", ", ")")
       }
     }
+
     td.body match {
       case i: Interface => "interface" + ext(i.ext)
       case r: Record => "record" + ext(r.ext) + deriving(r)
@@ -160,28 +195,7 @@ class YamlGenerator(spec: Spec) extends Generator(spec) {
     MDef(td.ident, 0, defType, td.body)
   }
 
-  override def generate(idl: Seq[TypeDecl]) {
-    val internOnly = idl.collect { case itd: InternTypeDecl => itd }.sortWith(_.ident.name < _.ident.name)
-    if(spec.yamlOutFile.isDefined) {
-      writeYamlFile(internOnly)
-    } else {
-      for(td <- internOnly) {
-        writeYamlFile(td.ident, td.origin, td)
-      }
-    }
-  }
-
-  override def generateEnum(origin: String, ident: Ident, doc: Doc, e: Enum, deprecated: scala.Option[Deprecated]) {
-    // unused
-  }
-
-  override def generateInterface(origin: String, ident: Ident, doc: Doc, typeParams: Seq[TypeParam], i: Interface, deprecated: scala.Option[Deprecated]) {
-    // unused
-  }
-
-  override def generateRecord(origin: String, ident: Ident, doc: Doc, params: Seq[TypeParam], r: Record, deprecated: scala.Option[Deprecated], idl: Seq[TypeDecl]) {
-    // unused
-  }
+  case class QuotedString(str: String) // For anything that migt require escaping
 }
 
 object YamlGenerator {
@@ -219,7 +233,7 @@ object YamlGenerator {
   )
 
   private def nested(td: ExternTypeDecl, key: String) = {
-    td.properties.get(key).collect { case m: JMap[_, _] => m.collect { case (k: String, v: Any) => (k, v) } } getOrElse(Map[String, Any]())
+    td.properties.get(key).collect { case m: JMap[_, _] => m.collect { case (k: String, v: Any) => (k, v) } } getOrElse (Map[String, Any]())
   }
 
   private def defType(td: ExternTypeDecl) = td.body match {

@@ -5,7 +5,7 @@
   * you may not use this file except in compliance with the License.
   * You may obtain a copy of the License at
   *
-  *    http://www.apache.org/licenses/LICENSE-2.0
+  * http://www.apache.org/licenses/LICENSE-2.0
   *
   * Unless required by applicable law or agreed to in writing, software
   * distributed under the License is distributed on an "AS IS" BASIS,
@@ -32,31 +32,6 @@ class JNIGenerator(spec: Spec) extends Generator(spec) {
   val jniBaseLibFileIdentStyle = jniBaseLibClassIdentStyle
 
   val writeJniCppFile = writeCppFileGeneric(spec.jniOutFolder.get, spec.jniNamespace, spec.jniFileIdentStyle, spec.jniIncludePrefix) _
-  def writeJniHppFile(name: String, origin: String, includes: Iterable[String], fwds: Iterable[String], f: IndentWriter => Unit, f2: IndentWriter => Unit = (w => {})) =
-    writeHppFileGeneric(spec.jniHeaderOutFolder.get, spec.jniNamespace, spec.jniFileIdentStyle)(name, origin, includes, fwds, f, f2)
-
-  class JNIRefs(name: String, cppPrefixOverride: Option[String]=None) {
-    var jniHpp = mutable.TreeSet[String]()
-    var jniCpp = mutable.TreeSet[String]()
-
-    val cppPrefix = cppPrefixOverride.getOrElse(spec.jniIncludeCppPrefix)
-    jniHpp.add("#include " + q(cppPrefix + spec.cppFileIdentStyle(name) + "." + spec.cppHeaderExt))
-    jniHpp.add("#include " + q(spec.jniBaseLibIncludePrefix + "djinni_support.hpp"))
-    spec.cppNnHeader match {
-      case Some(nnHdr) => jniHpp.add("#include " + nnHdr)
-      case _ =>
-    }
-
-    def find(ty: TypeRef) { find(ty.resolved) }
-    def find(tm: MExpr) {
-      tm.args.foreach(find)
-      find(tm.base)
-    }
-    def find(m: Meta) = for(r <- jniMarshal.references(m, name)) r match {
-      case ImportRef(arg) => jniCpp.add("#include " + arg)
-      case _ =>
-    }
-  }
 
   override def generateEnum(origin: String, ident: Ident, doc: Doc, e: Enum, deprecated: scala.Option[Deprecated]) {
     val refs = new JNIRefs(ident.name)
@@ -64,7 +39,7 @@ class JNIGenerator(spec: Spec) extends Generator(spec) {
     val cppSelf = cppMarshal.fqTypename(ident, e)
 
     writeJniHppFile(ident, origin, Iterable.concat(refs.jniHpp, refs.jniCpp), Nil, w => {
-      val base = if(e.flags) "JniFlags" else "JniEnum"
+      val base = if (e.flags) "JniFlags" else "JniEnum"
       val count = normalEnumOptions(e).length
       w.w(s"class $jniHelper final : ::djinni::$base").bracedSemi {
         w.wlOutdent("public:")
@@ -73,7 +48,7 @@ class JNIGenerator(spec: Spec) extends Generator(spec) {
         w.wl
         w.wl(s"using Boxed = $jniHelper;")
         w.wl
-        if(e.flags) {
+        if (e.flags) {
           w.wl(s"static CppType toCpp(JNIEnv* jniEnv, JniType j) { return static_cast<CppType>(::djinni::JniClass<$jniHelper>::get().flags(jniEnv, j)); }")
           w.wl(s"static ::djinni::LocalRef<JniType> fromCpp(JNIEnv* jniEnv, CppType c) { return ::djinni::JniClass<$jniHelper>::get().create(jniEnv, static_cast<unsigned>(c), $count); }")
         } else {
@@ -88,6 +63,9 @@ class JNIGenerator(spec: Spec) extends Generator(spec) {
       }
     })
   }
+
+  def writeJniHppFile(name: String, origin: String, includes: Iterable[String], fwds: Iterable[String], f: IndentWriter => Unit, f2: IndentWriter => Unit = (w => {})) =
+    writeHppFileGeneric(spec.jniHeaderOutFolder.get, spec.jniNamespace, spec.jniFileIdentStyle)(name, origin, includes, fwds, f, f2)
 
   override def generateRecord(origin: String, ident: Ident, doc: Doc, params: Seq[TypeParam], r: Record, deprecated: scala.Option[Deprecated], idl: Seq[TypeDecl]) {
     val prefixOverride: Option[String] = if (r.ext.cpp) {
@@ -142,13 +120,13 @@ class JNIGenerator(spec: Spec) extends Generator(spec) {
       w.wl
 
       writeJniTypeParams(w, params)
-      w.w(s"auto $jniHelperWithParams::fromCpp(JNIEnv* jniEnv, const CppType& c) -> ::djinni::LocalRef<JniType>").braced{
+      w.w(s"auto $jniHelperWithParams::fromCpp(JNIEnv* jniEnv, const CppType& c) -> ::djinni::LocalRef<JniType>").braced {
         //w.wl(s"::${spec.jniNamespace}::JniLocalScope jscope(jniEnv, 10);")
-        if(r.fields.isEmpty) w.wl("(void)c; // Suppress warnings in release builds for empty records")
+        if (r.fields.isEmpty) w.wl("(void)c; // Suppress warnings in release builds for empty records")
         w.wl(s"const auto& data = ::djinni::JniClass<$jniHelper>::get();")
         val call = "auto r = ::djinni::LocalRef<JniType>{jniEnv->NewObject("
         w.w(call + "data.clazz.get(), data.jconstructor")
-        if(r.fields.nonEmpty) {
+        if (r.fields.nonEmpty) {
           w.wl(",")
           writeAlignedCall(w, " " * call.length(), r.fields, ")}", f => {
             val name = idCpp.field(f.ident)
@@ -167,7 +145,7 @@ class JNIGenerator(spec: Spec) extends Generator(spec) {
       w.w(s"auto $jniHelperWithParams::toCpp(JNIEnv* jniEnv, JniType j) -> CppType").braced {
         w.wl(s"::djinni::JniLocalScope jscope(jniEnv, ${r.fields.size + 1});")
         w.wl(s"assert(j != nullptr);")
-        if(r.fields.isEmpty)
+        if (r.fields.isEmpty)
           w.wl("(void)j; // Suppress warnings in release builds for empty records")
         else
           w.wl(s"const auto& data = ::djinni::JniClass<$jniHelper>::get();")
@@ -179,6 +157,7 @@ class JNIGenerator(spec: Spec) extends Generator(spec) {
         w.wl(";")
       }
     }
+
     writeJniFiles(origin, params.nonEmpty, ident, refs, writeJniPrototype, writeJniBody)
   }
 
@@ -218,6 +197,7 @@ class JNIGenerator(spec: Spec) extends Generator(spec) {
         w.wl
         if (spec.cppNnType.nonEmpty) {
           def nnCheck(expr: String): String = spec.cppNnCheckExpression.fold(expr)(check => s"$check($expr)")
+
           w.w("static CppType toCpp(JNIEnv* jniEnv, JniType j)").bracedSemi {
             w.wl(s"""DJINNI_ASSERT_MSG(j, jniEnv, "$jniSelf::fromCpp requires a non-null Java object");""")
             w.wl(s"""return ${nnCheck(s"::djinni::JniClass<$jniSelf>::get()._fromJava(jniEnv, j)")};""")
@@ -261,7 +241,7 @@ class JNIGenerator(spec: Spec) extends Generator(spec) {
 
     def writeJniBody(w: IndentWriter) {
       // Defining ctor/dtor in the cpp file reduces build times
-      val baseClassParam = if (i.ext.cpp) q(classLookup+"$CppProxy") else ""
+      val baseClassParam = if (i.ext.cpp) q(classLookup + "$CppProxy") else ""
       val jniSelfWithParams = jniSelf + typeParamsSignature(typeParams)
       writeJniTypeParams(w, typeParams)
       w.wl(s"$jniSelfWithParams::$jniSelf() : $baseType($baseClassParam) {}")
@@ -289,7 +269,7 @@ class JNIGenerator(spec: Spec) extends Generator(spec) {
             w.w(call)
             val javaMethodName = idJava.method(m.ident)
             w.w(s"Handle::get().get(), data.method_$javaMethodName")
-            if(m.params.nonEmpty){
+            if (m.params.nonEmpty) {
               w.wl(",")
               writeAlignedCall(w, " " * call.length(), m.params, ")", p => {
                 val param = jniMarshal.fromCpp(p.ty, "c_" + idCpp.local(p.ident))
@@ -323,6 +303,7 @@ class JNIGenerator(spec: Spec) extends Generator(spec) {
           .replaceAllLiterally("_", "_1")
           .replaceAllLiterally(".", "_")
         val prefix = "Java_" + classIdentMunged
+
         def nativeHook(name: String, static: Boolean, params: Iterable[Field], ret: Option[TypeRef], f: => Unit) = {
           val paramList = params.map(p => jniMarshal.paramType(p.ty) + " j_" + idJava.local(p.ident)).mkString(", ")
           val jniRetType = jniMarshal.fqReturnType(ret)
@@ -346,6 +327,7 @@ class JNIGenerator(spec: Spec) extends Generator(spec) {
             }
           }
         }
+
         nativeHook("nativeDestroy", false, Seq.empty, None, {
           w.wl(s"delete reinterpret_cast<::djinni::CppProxyHandle<$cppSelf>*>(nativeRef);")
         })
@@ -362,7 +344,7 @@ class JNIGenerator(spec: Spec) extends Generator(spec) {
                 val javaParams = m.params.map(p => javaMarshal.fqParamType(p.ty) + " " + idJava.local(p.ident))
                 val javaParamsString: String = javaParams.mkString("(", ", ", ")")
                 val functionString: String = s"${javaMarshal.fqTypename(ident, i)}#$javaMethodName$javaParamsString"
-                w.wl( s"""DJINNI_ASSERT_MSG(j_$paramName, jniEnv, "Got unexpected null parameter '$paramName' to function $functionString");""")
+                w.wl(s"""DJINNI_ASSERT_MSG(j_$paramName, jniEnv, "Got unexpected null parameter '$paramName' to function $functionString");""")
               }
             })
             val methodName = idCpp.method(m.ident)
@@ -400,9 +382,10 @@ class JNIGenerator(spec: Spec) extends Generator(spec) {
     w.wl("template " + params.map(p => "typename " + spec.jniClassIdentStyle(p.ident)).mkString("<", ", ", ">"))
   }
 
-  def typeParamsSignature(params: Seq[TypeParam]) = if(params.isEmpty) "" else params.map(p => spec.jniClassIdentStyle(p.ident)).mkString("<", ", ", ">")
+  def typeParamsSignature(params: Seq[TypeParam]) = if (params.isEmpty) "" else params.map(p => spec.jniClassIdentStyle(p.ident)).mkString("<", ", ", ">")
 
   def toJniCall(ty: TypeRef, f: String => String): String = toJniCall(ty.resolved, f, false)
+
   def toJniCall(m: MExpr, f: String => String, needRef: Boolean): String = m.base match {
     case p: MPrimitive => f(if (needRef) "Object" else IdentStyle.camelUpper(p.jName))
     case MString => "(jstring)" + f("Object")
@@ -413,4 +396,30 @@ class JNIGenerator(spec: Spec) extends Generator(spec) {
 
   def cppTypeArgs(params: Seq[TypeParam]): String =
     if (params.isEmpty) "" else params.map(p => idCpp.typeParam(p.ident)).mkString("<", ", ", ">")
+
+  class JNIRefs(name: String, cppPrefixOverride: Option[String] = None) {
+    val cppPrefix = cppPrefixOverride.getOrElse(spec.jniIncludeCppPrefix)
+    var jniHpp = mutable.TreeSet[String]()
+    var jniCpp = mutable.TreeSet[String]()
+    jniHpp.add("#include " + q(cppPrefix + spec.cppFileIdentStyle(name) + "." + spec.cppHeaderExt))
+    jniHpp.add("#include " + q(spec.jniBaseLibIncludePrefix + "djinni_support.hpp"))
+    spec.cppNnHeader match {
+      case Some(nnHdr) => jniHpp.add("#include " + nnHdr)
+      case _ =>
+    }
+
+    def find(ty: TypeRef) {
+      find(ty.resolved)
+    }
+
+    def find(tm: MExpr) {
+      tm.args.foreach(find)
+      find(tm.base)
+    }
+
+    def find(m: Meta) = for (r <- jniMarshal.references(m, name)) r match {
+      case ImportRef(arg) => jniCpp.add("#include " + arg)
+      case _ =>
+    }
+  }
 }

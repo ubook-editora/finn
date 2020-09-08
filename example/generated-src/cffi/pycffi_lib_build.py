@@ -16,7 +16,7 @@ f.close()
 
 ffi.set_source('PyCFFIlib_cffi', '''#include "clean_headers.h"''',
     runtime_library_dirs=['.'],
-    libraries=['textsort_py'])
+    libraries=['fitness_algorithm'])
 
 ffi.cdef("typedef _Bool bool;"
  + cdef_headers)
