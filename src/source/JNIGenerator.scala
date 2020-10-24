@@ -73,8 +73,15 @@ class JNIGenerator(spec: Spec) extends Generator(spec) {
     } else {
       None
     }
+
+    val superRecord = getSuperRecord(idl, r)
+    val superFields: Seq[Field] = superRecord match {
+      case None => Seq.empty
+      case Some(value) => value.fields
+    }
+    
     val refs = new JNIRefs(ident.name, prefixOverride)
-    r.fields.foreach(f => refs.find(f.ty))
+    (superFields ++ r.fields).foreach(f => refs.find(f.ty))
 
     val jniHelper = jniMarshal.helperClass(ident)
     val cppSelf = cppMarshal.fqTypename(ident, r) + cppTypeArgs(params)
@@ -99,9 +106,9 @@ class JNIGenerator(spec: Spec) extends Generator(spec) {
         w.wl
         val classLookup = q(jniMarshal.undecoratedTypename(ident, r))
         w.wl(s"const ::djinni::GlobalRef<jclass> clazz { ::djinni::jniFindClass($classLookup) };")
-        val constructorSig = q(jniMarshal.javaMethodSignature(r.fields, None))
+        val constructorSig = q(jniMarshal.javaMethodSignature(superFields ++ r.fields, None))
         w.wl(s"const jmethodID jconstructor { ::djinni::jniGetMethodID(clazz.get(), ${q("<init>")}, $constructorSig) };")
-        for (f <- r.fields) {
+        for (f <- (superFields ++ r.fields)) {
           val javaFieldName = idJava.field(f.ident)
           val javaSig = q(jniMarshal.fqTypename(f.ty))
           w.wl(s"const jfieldID field_$javaFieldName { ::djinni::jniGetFieldID(clazz.get(), ${q(javaFieldName)}, $javaSig) };")
@@ -122,13 +129,13 @@ class JNIGenerator(spec: Spec) extends Generator(spec) {
       writeJniTypeParams(w, params)
       w.w(s"auto $jniHelperWithParams::fromCpp(JNIEnv* jniEnv, const CppType& c) -> ::djinni::LocalRef<JniType>").braced {
         //w.wl(s"::${spec.jniNamespace}::JniLocalScope jscope(jniEnv, 10);")
-        if (r.fields.isEmpty) w.wl("(void)c; // Suppress warnings in release builds for empty records")
+        if ((superFields ++ r.fields).isEmpty) w.wl("(void)c; // Suppress warnings in release builds for empty records")
         w.wl(s"const auto& data = ::djinni::JniClass<$jniHelper>::get();")
         val call = "auto r = ::djinni::LocalRef<JniType>{jniEnv->NewObject("
         w.w(call + "data.clazz.get(), data.jconstructor")
-        if (r.fields.nonEmpty) {
+        if ((superFields ++ r.fields).nonEmpty) {
           w.wl(",")
-          writeAlignedCall(w, " " * call.length(), r.fields, ")}", f => {
+          writeAlignedCall(w, " " * call.length(), superFields ++ r.fields, ")}", f => {
             val name = idCpp.field(f.ident)
             val param = jniMarshal.fromCpp(f.ty, s"c.$name")
             s"::djinni::get($param)"
@@ -143,13 +150,13 @@ class JNIGenerator(spec: Spec) extends Generator(spec) {
       w.wl
       writeJniTypeParams(w, params)
       w.w(s"auto $jniHelperWithParams::toCpp(JNIEnv* jniEnv, JniType j) -> CppType").braced {
-        w.wl(s"::djinni::JniLocalScope jscope(jniEnv, ${r.fields.size + 1});")
+        w.wl(s"::djinni::JniLocalScope jscope(jniEnv, ${(superFields ++ r.fields).size + 1});")
         w.wl(s"assert(j != nullptr);")
-        if (r.fields.isEmpty)
+        if ((superFields ++ r.fields).isEmpty)
           w.wl("(void)j; // Suppress warnings in release builds for empty records")
         else
           w.wl(s"const auto& data = ::djinni::JniClass<$jniHelper>::get();")
-        writeAlignedCall(w, "return {", r.fields, "}", f => {
+        writeAlignedCall(w, "return {", superFields ++ r.fields, "}", f => {
           val fieldId = "data.field_" + idJava.field(f.ident)
           val jniFieldAccess = toJniCall(f.ty, (jt: String) => s"jniEnv->Get${jt}Field(j, $fieldId)")
           jniMarshal.toCpp(f.ty, jniFieldAccess)
