@@ -67,6 +67,24 @@ class I32 : public Primitive<I32, int32_t> {
     static Boxed::ObjcType box(CppType x) noexcept { return [NSNumber numberWithInt:static_cast<int>(x)]; }
 };
 
+class U8 : public Primitive<U8, uint8_t> {
+    friend Primitive<U8, uint8_t>;
+    static char unbox(Boxed::ObjcType x) noexcept { return [x unsignedCharValue]; }
+    static Boxed::ObjcType box(CppType x) noexcept { return [NSNumber initWithUnsignedChar:static_cast<unsigned char>(x)]; }
+};
+
+class U16 : public Primitive<U16, uint16_t> {
+    friend Primitive<U16, uint16_t>;
+    static short unbox(Boxed::ObjcType x) noexcept { return [x unsignedShortValue]; }
+    static Boxed::ObjcType box(CppType x) noexcept { return [NSNumber initWithUnsignedShort:static_cast<unsigned short>(x)]; }
+};
+
+class U32 : public Primitive<U32, uint32_t> {
+    friend Primitive<U32, uint32_t>;
+    static int unbox(Boxed::ObjcType x) noexcept { return [x unsignedIntValue]; }
+    static Boxed::ObjcType box(CppType x) noexcept { return [NSNumber initWithUnsignedInt:static_cast<unsigned int>(x)]; }
+};
+
 class I64 : public Primitive<I64, int64_t> {
     friend Primitive<I64, int64_t>;
     static long long unbox(Boxed::ObjcType x) noexcept { return [x longLongValue]; }
