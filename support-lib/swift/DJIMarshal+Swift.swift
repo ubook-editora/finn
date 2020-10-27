@@ -171,7 +171,7 @@ public struct U16 : DjinniRepresentable {
     public typealias Objc = NSNumber
     
     public static func toSwift(e: Objc) -> Swift {
-        return Swift.init(e.uint16value)
+        return Swift.init(e.uint16Value)
     }
     
     public static func toObjc(e: Swift) -> NSNumber {
@@ -187,12 +187,12 @@ public struct U16 : DjinniRepresentable {
     }
     
     public static func fromObjc(e: NSNumber) -> Swift {
-        return Swift.init(e.uint16value)
+        return Swift.init(e.uint16Value)
     }
     
     public static func fromObjc(e: NSNumber?) -> Swift? {
         if let unwrapped = e {
-            return Swift.init(unwrapped.uint16value)
+            return Swift.init(unwrapped.uint16Value)
         }
         return nil
     }
