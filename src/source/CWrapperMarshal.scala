@@ -144,7 +144,7 @@ class CWrapperMarshal(spec: Spec) extends Marshal(spec) { // modeled(pretty much
 
   def references(m: Meta, exclude: String): Seq[SymbolReference] = m match {
     case p: MPrimitive => p.idlName match {
-      case "i8" | "i16" | "i32" | "i64" => List(ImportRef("<stdint.h>" + pythonCdefIgnore))
+      case "i8" | "u8" | "i16" | "u16" | "u32" | "i32" | "i64" => List(ImportRef("<stdint.h>" + pythonCdefIgnore))
       case "bool" => List(ImportRef("<stdbool.h>" + pythonCdefIgnore))
       case _ => List()
     }

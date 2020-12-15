@@ -3,12 +3,12 @@
 
 from djinni.support import MultiSet # default imported in all files
 from djinni.exception import CPyException # default imported in all files
-from djinni.pycffi_marshal import CPyBinary, CPyBoxedDate, CPyBoxedI16, CPyBoxedI32, CPyDate, CPyEnum, CPyObject, CPyObject, CPyObjectProxy, CPyPrimitive, CPyRecord, CPyString
+from djinni.pycffi_marshal import CPyBinary, CPyBoxedDate, CPyBoxedI16, CPyBoxedU32, CPyDate, CPyEnum, CPyObject, CPyObject, CPyObjectProxy, CPyPrimitive, CPyRecord, CPyString
 
 from dh__list_binary import ListBinaryHelper
 from dh__list_enum_my_enum import ListEnumMyEnumHelper
-from dh__list_int32_t import ListInt32THelper
 from dh__list_record_rc import ListRecordRcHelper
+from dh__list_uint32_t import ListUint32THelper
 from dh__map_enum_my_enum_int16_t import MapEnumMyEnumInt16THelper
 from dh__map_enum_my_enum_int16_t import MapEnumMyEnumInt16TProxy
 from dh__map_int32_t_string import MapInt32TStringHelper
@@ -41,10 +41,10 @@ class MyRecordHelper:
             CPyException.setExceptionFromPy(_djinni_py_e)
             return ffi.NULL
 
-    @ffi.callback("struct DjinniBoxedI32 *(struct DjinniRecordHandle *)")
+    @ffi.callback("struct DjinniBoxedU32 *(struct DjinniRecordHandle *)")
     def get_my_record_f2(cself):
         try:
-            with CPyBoxedI32.fromPyOpt(CPyRecord.toPy(None, cself).test1) as py_obj:
+            with CPyBoxedU32.fromPyOpt(CPyRecord.toPy(None, cself).test1) as py_obj:
                 return py_obj.release_djinni_boxed()
         except Exception as _djinni_py_e:
             CPyException.setExceptionFromPy(_djinni_py_e)
@@ -53,7 +53,7 @@ class MyRecordHelper:
     @ffi.callback("struct DjinniObjectHandle *(struct DjinniRecordHandle *)")
     def get_my_record_f3(cself):
         try:
-            _ret = CPyObject.fromPy(ListInt32THelper.c_data_set, CPyRecord.toPy(None, cself).test2)
+            _ret = CPyObject.fromPy(ListUint32THelper.c_data_set, CPyRecord.toPy(None, cself).test2)
             assert _ret != ffi.NULL
             return _ret
         except Exception as _djinni_py_e:
@@ -225,12 +225,12 @@ class MyRecordHelper:
             CPyException.setExceptionFromPy(_djinni_py_e)
             return ffi.NULL
 
-    @ffi.callback("struct DjinniRecordHandle *(int32_t,struct DjinniBoxedI32 *,struct DjinniObjectHandle *,struct DjinniString *,struct DjinniString *,uint64_t,struct DjinniBoxedDate *,struct DjinniBinary *,struct DjinniObjectHandle *,struct DjinniObjectHandle *,struct DjinniObjectHandle *,struct DjinniRecordHandle *,struct DjinniOptionalRecordHandle *,struct DjinniObjectHandle *,int,int,struct DjinniBoxedI16 *,struct DjinniObjectHandle *,struct DjinniObjectHandle *,struct DjinniObjectHandle *)")
+    @ffi.callback("struct DjinniRecordHandle *(int32_t,struct DjinniBoxedU32 *,struct DjinniObjectHandle *,struct DjinniString *,struct DjinniString *,uint64_t,struct DjinniBoxedDate *,struct DjinniBinary *,struct DjinniObjectHandle *,struct DjinniObjectHandle *,struct DjinniObjectHandle *,struct DjinniRecordHandle *,struct DjinniOptionalRecordHandle *,struct DjinniObjectHandle *,int,int,struct DjinniBoxedI16 *,struct DjinniObjectHandle *,struct DjinniObjectHandle *,struct DjinniObjectHandle *)")
     def python_create_my_record(test,test1,test2,test3,test3_1,test4,test4_1,test5,test6,test7,test8,test9,test10,test10_1,test11,test13,test14,test15,test16,test17):
         py_rec = MyRecord(
             CPyPrimitive.toPy(test),
-            CPyBoxedI32.toPyOpt(test1),
-            CPyObject.toPy(ListInt32THelper.c_data_set, test2),
+            CPyBoxedU32.toPyOpt(test1),
+            CPyObject.toPy(ListUint32THelper.c_data_set, test2),
             CPyString.toPy(test3),
             CPyString.toPyOpt(test3_1),
             CPyDate.toPy(test4),

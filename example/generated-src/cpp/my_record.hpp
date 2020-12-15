@@ -18,8 +18,8 @@ namespace textsort {
 
 struct  MyRecord {
     int32_t test;
-    std::optional<int32_t> test1;
-    std::vector<int32_t> test2;
+    std::optional<uint32_t> test1;
+    std::vector<uint32_t> test2;
     std::string test3;
     std::optional<std::string> test3_1;
     std::chrono::system_clock::time_point test4;
@@ -39,8 +39,8 @@ struct  MyRecord {
     std::unordered_map<my_enum, int16_t> test17;
 
     MyRecord(int32_t test_,
-             std::optional<int32_t> test1_,
-             std::vector<int32_t> test2_,
+             std::optional<uint32_t> test1_,
+             std::vector<uint32_t> test2_,
              std::string test3_,
              std::optional<std::string> test3_1_,
              std::chrono::system_clock::time_point test4_,

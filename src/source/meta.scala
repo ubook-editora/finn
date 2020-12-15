@@ -22,8 +22,13 @@ import scala.collection.immutable
 
 package object meta {
 
-//  jName: String, jniName: String, cName: String, jBoxed: String, jSig: String, objcName: String, objcBoxed: String, swiftName: String
+  // MPrimitive(_idlName: String, jName: String, jniName: String, cName: String, jBoxed: String, jSig: String, objcName: String, objcBoxed: String, swiftName: String)
   val defaults: Map[String, MOpaque] = immutable.HashMap(
+
+    ("u8", MPrimitive( "u8",  "short", "jshort", "uint8_t", "Short", "S", "uint8_t", "NSNumber", "UInt8")),
+    ("u16", MPrimitive( "u16",  "int", "jint", "uint16_t", "Integer", "I", "uint16_t", "NSNumber", "UIn16")),
+    ("u32", MPrimitive( "u32",  "long", "jlong", "uint32_t", "Long", "J", "uint32_t", "NSNumber", "UInt32")),
+
     ("i8", MPrimitive(  "i8",   "byte",     "jbyte", "int8_t", "Byte", "B", "int8_t", "NSNumber", "Int8")),
     ("i16", MPrimitive( "i16",  "short",    "jshort", "int16_t", "Short", "S", "int16_t", "NSNumber", "Int16")),
     ("i32", MPrimitive( "i32",  "int",      "jint", "int32_t", "Integer", "I", "int32_t", "NSNumber", "Int32")),

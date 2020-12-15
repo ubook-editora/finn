@@ -3,12 +3,12 @@
 
 from djinni.support import MultiSet # default imported in all files
 from djinni.exception import CPyException # default imported in all files
-from djinni.pycffi_marshal import CPyBinary, CPyBoxedDate, CPyBoxedI16, CPyBoxedI32, CPyDate, CPyEnum, CPyObject, CPyObject, CPyObjectProxy, CPyPrimitive, CPyRecord, CPyString
+from djinni.pycffi_marshal import CPyBinary, CPyBoxedDate, CPyBoxedI16, CPyBoxedU32, CPyDate, CPyEnum, CPyObject, CPyObject, CPyObjectProxy, CPyPrimitive, CPyRecord, CPyString
 
 from dh__list_binary import ListBinaryHelper
 from dh__list_enum_my_enum import ListEnumMyEnumHelper
-from dh__list_int32_t import ListInt32THelper
 from dh__list_record_rc import ListRecordRcHelper
+from dh__list_uint32_t import ListUint32THelper
 from dh__map_enum_my_enum_int16_t import MapEnumMyEnumInt16THelper
 from dh__map_enum_my_enum_int16_t import MapEnumMyEnumInt16TProxy
 from dh__map_int32_t_string import MapInt32TStringHelper
@@ -30,7 +30,7 @@ class MyRecord:
     @staticmethod
     def check_c_data_set_empty():
         assert len(MyRecord.c_data_set) == 0
-        ListInt32THelper.check_c_data_set_empty()
+        ListUint32THelper.check_c_data_set_empty()
         ListBinaryHelper.check_c_data_set_empty()
         SetInt32THelper.check_c_data_set_empty()
         MapInt32TStringHelper.check_c_data_set_empty()

@@ -17,8 +17,8 @@ auto NativeMyRecord::fromCpp(JNIEnv* jniEnv, const CppType& c) -> ::djinni::Loca
     const auto& data = ::djinni::JniClass<NativeMyRecord>::get();
     auto r = ::djinni::LocalRef<JniType>{jniEnv->NewObject(data.clazz.get(), data.jconstructor,
                                                            ::djinni::get(::djinni::I32::fromCpp(jniEnv, c.test)),
-                                                           ::djinni::get(::djinni::Optional<std::optional, ::djinni::I32>::fromCpp(jniEnv, c.test1)),
-                                                           ::djinni::get(::djinni::List<::djinni::I32>::fromCpp(jniEnv, c.test2)),
+                                                           ::djinni::get(::djinni::Optional<std::optional, ::djinni::U32>::fromCpp(jniEnv, c.test1)),
+                                                           ::djinni::get(::djinni::List<::djinni::U32>::fromCpp(jniEnv, c.test2)),
                                                            ::djinni::get(::djinni::String::fromCpp(jniEnv, c.test3)),
                                                            ::djinni::get(::djinni::Optional<std::optional, ::djinni::String>::fromCpp(jniEnv, c.test3_1)),
                                                            ::djinni::get(::djinni::Date::fromCpp(jniEnv, c.test4)),
@@ -45,8 +45,8 @@ auto NativeMyRecord::toCpp(JNIEnv* jniEnv, JniType j) -> CppType {
     assert(j != nullptr);
     const auto& data = ::djinni::JniClass<NativeMyRecord>::get();
     return {::djinni::I32::toCpp(jniEnv, jniEnv->GetIntField(j, data.field_mTest)),
-            ::djinni::Optional<std::optional, ::djinni::I32>::toCpp(jniEnv, jniEnv->GetObjectField(j, data.field_mTest1)),
-            ::djinni::List<::djinni::I32>::toCpp(jniEnv, jniEnv->GetObjectField(j, data.field_mTest2)),
+            ::djinni::Optional<std::optional, ::djinni::U32>::toCpp(jniEnv, jniEnv->GetObjectField(j, data.field_mTest1)),
+            ::djinni::List<::djinni::U32>::toCpp(jniEnv, jniEnv->GetObjectField(j, data.field_mTest2)),
             ::djinni::String::toCpp(jniEnv, (jstring)jniEnv->GetObjectField(j, data.field_mTest3)),
             ::djinni::Optional<std::optional, ::djinni::String>::toCpp(jniEnv, (jstring)jniEnv->GetObjectField(j, data.field_mTest31)),
             ::djinni::Date::toCpp(jniEnv, jniEnv->GetObjectField(j, data.field_mTest4)),
