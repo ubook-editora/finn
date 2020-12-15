@@ -137,6 +137,96 @@ public class I32 : NSObject, DjinniRepresentable {
     }
 }
 
+// -
+public struct U8 : DjinniRepresentable {
+    public typealias Swift = UInt8
+    public typealias Objc = NSNumber // uint_8
+    
+    public static func toObjc(e: Swift) -> NSNumber {
+        return NSNumber.init(value: e)
+    }
+    
+    public static func toObjc(e: Swift?) -> NSNumber? {
+        if let unwrapped = e {
+            return NSNumber.init(value: unwrapped)
+        }
+        
+        return nil
+    }
+
+    public static func fromObjc(e: NSNumber) -> Swift {
+        return Swift.init(e.uint8Value)
+    }
+    
+    public static func fromObjc(e: NSNumber?) -> Swift? {
+        if let unwrapped = e {
+            return Swift.init(unwrapped.uint8Value)
+        }
+        return nil
+    }
+}
+
+public struct U16 : DjinniRepresentable {
+    public typealias Swift = UInt16
+    public typealias Objc = NSNumber
+    
+    public static func toSwift(e: Objc) -> Swift {
+        return Swift.init(e.uint16Value)
+    }
+    
+    public static func toObjc(e: Swift) -> NSNumber {
+        return NSNumber.init(value: e)
+    }
+    
+    public static func toObjc(e: Swift?) -> NSNumber? {
+        if let unwrapped = e {
+            return NSNumber.init(value: unwrapped)
+        }
+        
+        return nil
+    }
+    
+    public static func fromObjc(e: NSNumber) -> Swift {
+        return Swift.init(e.uint16Value)
+    }
+    
+    public static func fromObjc(e: NSNumber?) -> Swift? {
+        if let unwrapped = e {
+            return Swift.init(unwrapped.uint16Value)
+        }
+        return nil
+    }
+}
+
+public class U32 : NSObject, DjinniRepresentable {
+    public typealias Swift = UInt32
+    public typealias Objc = NSNumber
+    
+    public static func toObjc(e: Swift) -> NSNumber {
+        return NSNumber.init(value: e)
+    }
+    
+    public static func toObjc(e: Swift?) -> NSNumber? {
+        if let unwrapped = e {
+            return NSNumber.init(value: unwrapped)
+        }
+        
+        return nil
+    }
+    
+    public static func fromObjc(e: NSNumber) -> Swift {
+        return Swift.init(e.uint32Value)
+    }
+    
+    public static func fromObjc(e: NSNumber?) -> Swift? {
+        if let unwrapped = e {
+            return Swift.init(unwrapped.uint32Value)
+        }
+        return nil
+    }
+}
+// -
+
 public struct I64 : DjinniRepresentable {
     public typealias Swift = Int64
     public typealias Objc = NSNumber

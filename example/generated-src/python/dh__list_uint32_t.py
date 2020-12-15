@@ -8,14 +8,14 @@ from PyCFFIlib_cffi import ffi, lib
 
 from djinni import exception # this forces run of __init__.py which gives cpp option to call back into py to create exception
 
-class ListInt32THelper:
+class ListUint32THelper:
     c_data_set = MultiSet()
 
     @staticmethod
     def check_c_data_set_empty():
-        assert len(ListInt32THelper.c_data_set) == 0
+        assert len(ListUint32THelper.c_data_set) == 0
 
-    @ffi.callback("int32_t(struct DjinniObjectHandle *, size_t)")
+    @ffi.callback("uint32_t(struct DjinniObjectHandle *, size_t)")
     def __get_elem(cself, index):
         try:
             _ret = CPyPrimitive.fromPy(CPyObject.toPy(None, cself)[index])
@@ -31,25 +31,25 @@ class ListInt32THelper:
     @ffi.callback("struct DjinniObjectHandle *()")
     def __python_create():
         c_ptr = ffi.new_handle(list())
-        ListInt32THelper.c_data_set.add(c_ptr)
+        ListUint32THelper.c_data_set.add(c_ptr)
         return ffi.cast("struct DjinniObjectHandle *", c_ptr)
 
-    @ffi.callback("void(struct DjinniObjectHandle *, int32_t)")
+    @ffi.callback("void(struct DjinniObjectHandle *, uint32_t)")
     def __python_add(cself, el):
         CPyObject.toPy(None, cself).append(CPyPrimitive.toPy(el))
 
     @ffi.callback("void(struct DjinniObjectHandle * )")
     def __delete(c_ptr):
-        assert c_ptr in ListInt32THelper.c_data_set
-        ListInt32THelper.c_data_set.remove(c_ptr)
+        assert c_ptr in ListUint32THelper.c_data_set
+        ListUint32THelper.c_data_set.remove(c_ptr)
 
     @staticmethod
     def _add_callbacks():
-        lib.list_int32_t_add_callback__get_elem(ListInt32THelper.__get_elem)
-        lib.list_int32_t_add_callback___delete(ListInt32THelper.__delete)
-        lib.list_int32_t_add_callback__get_size(ListInt32THelper.__get_size)
-        lib.list_int32_t_add_callback__python_create(ListInt32THelper.__python_create)
-        lib.list_int32_t_add_callback__python_add(ListInt32THelper.__python_add)
+        lib.list_uint32_t_add_callback__get_elem(ListUint32THelper.__get_elem)
+        lib.list_uint32_t_add_callback___delete(ListUint32THelper.__delete)
+        lib.list_uint32_t_add_callback__get_size(ListUint32THelper.__get_size)
+        lib.list_uint32_t_add_callback__python_create(ListUint32THelper.__python_create)
+        lib.list_uint32_t_add_callback__python_add(ListUint32THelper.__python_add)
 
-ListInt32THelper._add_callbacks()
+ListUint32THelper._add_callbacks()
 

@@ -3,12 +3,12 @@
 
 from djinni.support import MultiSet # default imported in all files
 from djinni.exception import CPyException # default imported in all files
-from djinni.pycffi_marshal import CPyBinary, CPyBoxedDate, CPyBoxedI16, CPyBoxedI32, CPyDate, CPyEnum, CPyJson, CPyObject, CPyObject, CPyObjectProxy, CPyPrimitive, CPyRecord, CPyString
+from djinni.pycffi_marshal import CPyBinary, CPyBoxedDate, CPyBoxedI16, CPyBoxedU32, CPyDate, CPyEnum, CPyObject, CPyObject, CPyObjectProxy, CPyPrimitive, CPyRecord, CPyString
 
 from dh__list_binary import ListBinaryHelper
 from dh__list_enum_my_enum import ListEnumMyEnumHelper
-from dh__list_int32_t import ListInt32THelper
 from dh__list_record_rc import ListRecordRcHelper
+from dh__list_uint32_t import ListUint32THelper
 from dh__map_enum_my_enum_int16_t import MapEnumMyEnumInt16THelper
 from dh__map_enum_my_enum_int16_t import MapEnumMyEnumInt16TProxy
 from dh__map_int32_t_string import MapInt32TStringHelper
@@ -30,7 +30,7 @@ class MyRecord:
     @staticmethod
     def check_c_data_set_empty():
         assert len(MyRecord.c_data_set) == 0
-        ListInt32THelper.check_c_data_set_empty()
+        ListUint32THelper.check_c_data_set_empty()
         ListBinaryHelper.check_c_data_set_empty()
         SetInt32THelper.check_c_data_set_empty()
         MapInt32TStringHelper.check_c_data_set_empty()
@@ -42,7 +42,7 @@ class MyRecord:
         MapEnumMyEnumInt16THelper.check_c_data_set_empty()
 
 
-    def __init__(self, test, test1, test2, test3, test3_1, test4, test4_1, test5, test6, test7, test8, test9, test10, test10_1, test11, test12, test13, test14, test15, test16, test17):
+    def __init__(self, test, test1, test2, test3, test3_1, test4, test4_1, test5, test6, test7, test8, test9, test10, test10_1, test11, test13, test14, test15, test16, test17):
         self.test = test
         self.test1 = test1
         self.test2 = test2
@@ -58,7 +58,6 @@ class MyRecord:
         self.test10 = test10
         self.test10_1 = test10_1
         self.test11 = test11
-        self.test12 = test12
         self.test13 = test13
         self.test14 = test14
         self.test15 = test15

@@ -3,7 +3,9 @@
 
 from djinni.support import MultiSet # default imported in all files
 from djinni.exception import CPyException # default imported in all files
-from djinni.pycffi_marshal import CPyPrimitive, CPyRecord
+from djinni.pycffi_marshal import CPyBinary, CPyBoxedI32, CPyEnum, CPyPrimitive, CPyRecord
+
+from my_enum import MyEnum
 from PyCFFIlib_cffi import ffi, lib
 
 from djinni import exception # this forces run of __init__.py which gives cpp option to call back into py to create exception
@@ -14,8 +16,13 @@ class Rc:
     @staticmethod
     def check_c_data_set_empty():
         assert len(Rc.c_data_set) == 0
+        MyEnum.check_c_data_set_empty()
 
 
-    def __init__(self, a):
+    def __init__(self, a, b, c, d, e):
         self.a = a
+        self.b = b
+        self.c = c
+        self.d = d
+        self.e = e
 

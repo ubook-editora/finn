@@ -15,15 +15,15 @@ static_assert(__has_feature(objc_arc), "Djinni requires ARC to be enabled for th
 
 @interface Hello ()
 
-- (id)initWithCpp:(const std::shared_ptr<::cpp_generated::Hello>&)cppRef;
+- (id)initWithCpp:(const std::shared_ptr<::textsort::Hello>&)cppRef;
 
 @end
 
 @implementation Hello {
-    ::djinni::CppProxyCache::Handle<std::shared_ptr<::cpp_generated::Hello>> _cppRefHandle;
+    ::djinni::CppProxyCache::Handle<std::shared_ptr<::textsort::Hello>> _cppRefHandle;
 }
 
-- (id)initWithCpp:(const std::shared_ptr<::cpp_generated::Hello>&)cppRef
+- (id)initWithCpp:(const std::shared_ptr<::textsort::Hello>&)cppRef
 {
     if (self = [super init]) {
         _cppRefHandle.assign(cppRef);
@@ -31,9 +31,9 @@ static_assert(__has_feature(objc_arc), "Djinni requires ARC to be enabled for th
     return self;
 }
 
-+ (nonnull Hello *)create {
++ (nullable Hello *)create {
     try {
-        auto objcpp_result_ = ::cpp_generated::Hello::create();
+        auto objcpp_result_ = ::textsort::Hello::create();
         return ::djinni_generated::HelloHelper::fromCpp(objcpp_result_);
     } DJINNI_TRANSLATE_EXCEPTIONS()
 }
@@ -41,7 +41,7 @@ static_assert(__has_feature(objc_arc), "Djinni requires ARC to be enabled for th
 - (MyEnum)sayHi {
     try {
         auto objcpp_result_ = _cppRefHandle.get()->say_hi();
-        return ::djinni::Enum<::cpp_generated::MyEnum, MyEnum>::fromCpp(objcpp_result_);
+        return ::djinni::Enum<::textsort::my_enum, MyEnum>::fromCpp(objcpp_result_);
     } DJINNI_TRANSLATE_EXCEPTIONS()
 }
 
@@ -57,7 +57,7 @@ namespace djinni_generated {
 auto HelloHelper::toCpp(ObjcType objc) -> CppType
 {
     if (!objc) {
-        throw std::invalid_argument("HelloHelper::toCpp requires non-nil object");
+        return nullptr;
     }
     return objc->_cppRefHandle.get();
 }

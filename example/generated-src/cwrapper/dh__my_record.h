@@ -10,7 +10,7 @@ struct DjinniMyRecord;
 void my_record___delete(struct DjinniRecordHandle * );
 void optional_my_record___delete(struct DjinniOptionalRecordHandle * );
 void my_record_add_callback_get_my_record_f1(int32_t( * ptr)(struct DjinniRecordHandle *));
-void my_record_add_callback_get_my_record_f2(struct DjinniBoxedI32 *( * ptr)(struct DjinniRecordHandle *));
+void my_record_add_callback_get_my_record_f2(struct DjinniBoxedU32 *( * ptr)(struct DjinniRecordHandle *));
 void my_record_add_callback_get_my_record_f3(struct DjinniObjectHandle *( * ptr)(struct DjinniRecordHandle *));
 void my_record_add_callback_get_my_record_f4(struct DjinniString *( * ptr)(struct DjinniRecordHandle *));
 void my_record_add_callback_get_my_record_f5(struct DjinniString *( * ptr)(struct DjinniRecordHandle *));
@@ -29,5 +29,5 @@ void my_record_add_callback_get_my_record_f17(struct DjinniBoxedI16 *( * ptr)(st
 void my_record_add_callback_get_my_record_f18(struct DjinniObjectHandle *( * ptr)(struct DjinniRecordHandle *));
 void my_record_add_callback_get_my_record_f19(struct DjinniObjectHandle *( * ptr)(struct DjinniRecordHandle *));
 void my_record_add_callback_get_my_record_f20(struct DjinniObjectHandle *( * ptr)(struct DjinniRecordHandle *));
-void my_record_add_callback_python_create_my_record(struct DjinniRecordHandle *( * ptr)(int32_t, struct DjinniBoxedI32 *, struct DjinniObjectHandle *, struct DjinniString *, struct DjinniString *, uint64_t, struct DjinniBoxedDate *, struct DjinniBinary *, struct DjinniObjectHandle *, struct DjinniObjectHandle *, struct DjinniObjectHandle *, struct DjinniRecordHandle *, struct DjinniOptionalRecordHandle *, struct DjinniObjectHandle *, int, int, struct DjinniBoxedI16 *, struct DjinniObjectHandle *, struct DjinniObjectHandle *, struct DjinniObjectHandle *));
+void my_record_add_callback_python_create_my_record(struct DjinniRecordHandle *( * ptr)(int32_t, struct DjinniBoxedU32 *, struct DjinniObjectHandle *, struct DjinniString *, struct DjinniString *, uint64_t, struct DjinniBoxedDate *, struct DjinniBinary *, struct DjinniObjectHandle *, struct DjinniObjectHandle *, struct DjinniObjectHandle *, struct DjinniRecordHandle *, struct DjinniOptionalRecordHandle *, struct DjinniObjectHandle *, int, int, struct DjinniBoxedI16 *, struct DjinniObjectHandle *, struct DjinniObjectHandle *, struct DjinniObjectHandle *));
 void my_record_add_callback___delete(void( * ptr)(struct DjinniRecordHandle *));

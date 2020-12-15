@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
     s.name             = 'Djinni'
-    s.version          = '4.5.0'
+    s.version          = '4.6.0-beta.2'
     s.summary          = 'Djinni is a tool for generating cross-language type declarations and interface bindings.'
     s.description      = <<-DESC
     Djinni is a tool for generating cross-language type declarations and interface bindings.
@@ -21,7 +21,7 @@ Pod::Spec.new do |s|
     
     s.dependency 'DjinniSwift', "#{s.version}"
     
-    s.ios.deployment_target  = '9.0'
+    s.ios.deployment_target  = '12.0'
     s.osx.deployment_target  = '10.10'
         
     s.pod_target_xcconfig = {
@@ -34,7 +34,7 @@ Pod::Spec.new do |s|
     }
     
     s.source_files         = [
-        "support-lib/extension/json/nlohmann/json.hpp",
+        "support-lib/extension/json/nlohmann/*.hpp",
         "support-lib/extension/json/objc/DJIMarshal+Json.h",
         "support-lib/objc/*.{h,mm}",
         "support-lib/proxy_cache_impl.hpp",

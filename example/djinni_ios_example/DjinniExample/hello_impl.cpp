@@ -9,19 +9,27 @@
 #include "hello_impl.hpp"
 #include "my_record.hpp"
 #include <optional>
-
+//#include <rc+json.hpp>
+#include <my_record+json.hpp>
+#include "json.hpp"
+using json = nlohmann::json;
 
 HelloImpl::HelloImpl() {
 }
 
-std::shared_ptr<cpp_generated::Hello> cpp_generated::Hello::create() {
+std::shared_ptr<textsort::Hello> textsort::Hello::create() {
     return std::make_shared<HelloImpl>();
 }
 
-cpp_generated::MyEnum HelloImpl::say_hi() {
-    return cpp_generated::MyEnum::WORKOUT;
+textsort::my_enum HelloImpl::say_hi() {
+    return textsort::my_enum::WORKOUT;
 }
 
-cpp_generated::MyRecord HelloImpl::print(const cpp_generated::MyRecord & rc) {
+textsort::MyRecord HelloImpl::print(const textsort::MyRecord & rc) {
+    
+    std::string js_dump = ((json) rc).dump(2);
+    
+    printf(" : %s", js_dump.c_str());
+    
     return rc;
 }

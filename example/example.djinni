@@ -6,6 +6,10 @@ my_enum = enum {
 
 rc = record {
     a: i32;
+    b: i32;
+    c: optional<i32>;
+    d: my_enum;
+    e: binary;
 }
 
 hello = interface +c {
@@ -19,15 +23,16 @@ hello = interface +c {
 my_record = record {
     test: i32;
 
-    test1: optional<i32>;
+    test1: optional<u32>;
 
-    test2: list<i32>;
+    test2: list<u32>;
 
     test3: string;
 
     test3_1: optional<string>;
 
     test4: date;
+    
     test4_1: optional<date>;
 
     test5: binary;
