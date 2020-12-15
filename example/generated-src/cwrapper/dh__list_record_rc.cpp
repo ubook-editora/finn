@@ -57,7 +57,7 @@ void list_record_rc_add_callback__python_add(void( * ptr)(DjinniObjectHandle *, 
     s_py_callback_list_record_rc__python_add = ptr;
 }
 
-djinni::Handle<DjinniObjectHandle> DjinniListRecordRc::fromCpp(const std::vector<::cpp_generated::Rc> & dc) {
+djinni::Handle<DjinniObjectHandle> DjinniListRecordRc::fromCpp(const std::vector<::textsort::Rc> & dc) {
     djinni::Handle<DjinniObjectHandle> _handle(s_py_callback_list_record_rc__python_create(), & list_record_rc___delete);
     size_t size = dc.size();
     for (int i = 0; i < size; i++) {
@@ -68,8 +68,8 @@ djinni::Handle<DjinniObjectHandle> DjinniListRecordRc::fromCpp(const std::vector
     return _handle;
 }
 
-std::vector<::cpp_generated::Rc> DjinniListRecordRc::toCpp(djinni::Handle<DjinniObjectHandle> dh) {
-    std::vector<::cpp_generated::Rc>_ret;
+std::vector<::textsort::Rc> DjinniListRecordRc::toCpp(djinni::Handle<DjinniObjectHandle> dh) {
+    std::vector<::textsort::Rc>_ret;
     size_t size = s_py_callback_list_record_rc__get_size(dh.get());
     _ret.reserve(size);
 
@@ -80,16 +80,16 @@ std::vector<::cpp_generated::Rc> DjinniListRecordRc::toCpp(djinni::Handle<Djinni
     return _ret;
 }
 
-djinni::Handle<DjinniOptionalObjectHandle> DjinniListRecordRc::fromCpp(std::optional<std::vector<::cpp_generated::Rc>> dc) {
+djinni::Handle<DjinniOptionalObjectHandle> DjinniListRecordRc::fromCpp(std::optional<std::vector<::textsort::Rc>> dc) {
     if (dc == std::nullopt) {
         return nullptr;
     }
     return djinni::optionals::toOptionalHandle(DjinniListRecordRc::fromCpp(std::move(* dc)), optional_list_record_rc___delete);
 }
 
-std::optional<std::vector<::cpp_generated::Rc>>DjinniListRecordRc::toCpp(djinni::Handle<DjinniOptionalObjectHandle> dh) {
+std::optional<std::vector<::textsort::Rc>>DjinniListRecordRc::toCpp(djinni::Handle<DjinniOptionalObjectHandle> dh) {
      if (dh) {
-        return std::optional<std::vector<::cpp_generated::Rc>>(DjinniListRecordRc::toCpp(djinni::optionals::fromOptionalHandle(std::move(dh), list_record_rc___delete)));
+        return std::optional<std::vector<::textsort::Rc>>(DjinniListRecordRc::toCpp(djinni::optionals::fromOptionalHandle(std::move(dh), list_record_rc___delete)));
     }
     return std::nullopt;
 }

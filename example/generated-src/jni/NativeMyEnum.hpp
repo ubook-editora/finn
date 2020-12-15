@@ -10,7 +10,7 @@ namespace djinni_generated {
 
 class NativeMyEnum final : ::djinni::JniEnum {
 public:
-    using CppType = ::cpp_generated::MyEnum;
+    using CppType = ::textsort::my_enum;
     using JniType = jobject;
 
     using Boxed = NativeMyEnum;
@@ -19,7 +19,7 @@ public:
     static ::djinni::LocalRef<JniType> fromCpp(JNIEnv* jniEnv, CppType c) { return ::djinni::JniClass<NativeMyEnum>::get().create(jniEnv, static_cast<jint>(c)); }
 
 private:
-    NativeMyEnum() : JniEnum("demo/auto/gen/MyEnum") {}
+    NativeMyEnum() : JniEnum("com/dropbox/textsort/MyEnum") {}
     friend ::djinni::JniClass<NativeMyEnum>;
 };
 

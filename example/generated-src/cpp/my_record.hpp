@@ -14,7 +14,7 @@
 #include <utility>
 #include <vector>
 
-namespace cpp_generated {
+namespace textsort {
 
 struct  MyRecord {
     int32_t test;
@@ -31,12 +31,12 @@ struct  MyRecord {
     Rc test9;
     std::optional<Rc> test10;
     std::vector<Rc> test10_1;
-    MyEnum test11;
-    std::optional<MyEnum> test13;
+    my_enum test11;
+    std::optional<my_enum> test13;
     std::optional<int16_t> test14;
-    std::vector<MyEnum> test15;
-    std::unordered_set<MyEnum> test16;
-    std::unordered_map<MyEnum, int16_t> test17;
+    std::vector<my_enum> test15;
+    std::unordered_set<my_enum> test16;
+    std::unordered_map<my_enum, int16_t> test17;
 
     MyRecord(int32_t test_,
              std::optional<int32_t> test1_,
@@ -52,12 +52,12 @@ struct  MyRecord {
              Rc test9_,
              std::optional<Rc> test10_,
              std::vector<Rc> test10_1_,
-             MyEnum test11_,
-             std::optional<MyEnum> test13_,
+             my_enum test11_,
+             std::optional<my_enum> test13_,
              std::optional<int16_t> test14_,
-             std::vector<MyEnum> test15_,
-             std::unordered_set<MyEnum> test16_,
-             std::unordered_map<MyEnum, int16_t> test17_)
+             std::vector<my_enum> test15_,
+             std::unordered_set<my_enum> test16_,
+             std::unordered_map<my_enum, int16_t> test17_)
     : test(std::move(test_))
     , test1(std::move(test1_))
     , test2(std::move(test2_))
@@ -83,4 +83,4 @@ struct  MyRecord {
     MyRecord() = default;
 };
 
-}  // namespace cpp_generated
+}  // namespace textsort

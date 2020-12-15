@@ -13,14 +13,14 @@
 #include "hello.hpp"
 #include "my_enum.hpp"
 
-class HelloImpl: public cpp_generated::Hello {
+class HelloImpl: public textsort::Hello {
     
 public:
     HelloImpl();
     
-    cpp_generated::MyEnum say_hi() override;
+    textsort::my_enum say_hi() override;
     
-    cpp_generated::MyRecord print(const cpp_generated::MyRecord & rc) override;
+    textsort::MyRecord print(const textsort::MyRecord & rc) override;
     
 };
 #endif /* hello_impl_hpp */

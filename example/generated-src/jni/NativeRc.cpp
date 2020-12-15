@@ -4,6 +4,7 @@
 #include "NativeRc.hpp"  // my header
 #include "JNIMarshal+Json.h"
 #include "Marshal.hpp"
+#include "NativeMyEnum.hpp"
 
 namespace djinni_generated {
 
@@ -14,16 +15,24 @@ NativeRc::~NativeRc() = default;
 auto NativeRc::fromCpp(JNIEnv* jniEnv, const CppType& c) -> ::djinni::LocalRef<JniType> {
     const auto& data = ::djinni::JniClass<NativeRc>::get();
     auto r = ::djinni::LocalRef<JniType>{jniEnv->NewObject(data.clazz.get(), data.jconstructor,
-                                                           ::djinni::get(::djinni::I32::fromCpp(jniEnv, c.a)))};
+                                                           ::djinni::get(::djinni::I32::fromCpp(jniEnv, c.a)),
+                                                           ::djinni::get(::djinni::I32::fromCpp(jniEnv, c.b)),
+                                                           ::djinni::get(::djinni::Optional<std::optional, ::djinni::I32>::fromCpp(jniEnv, c.c)),
+                                                           ::djinni::get(::djinni_generated::NativeMyEnum::fromCpp(jniEnv, c.d)),
+                                                           ::djinni::get(::djinni::Binary::fromCpp(jniEnv, c.e)))};
     ::djinni::jniExceptionCheck(jniEnv);
     return r;
 }
 
 auto NativeRc::toCpp(JNIEnv* jniEnv, JniType j) -> CppType {
-    ::djinni::JniLocalScope jscope(jniEnv, 2);
+    ::djinni::JniLocalScope jscope(jniEnv, 6);
     assert(j != nullptr);
     const auto& data = ::djinni::JniClass<NativeRc>::get();
-    return {::djinni::I32::toCpp(jniEnv, jniEnv->GetIntField(j, data.field_mA))};
+    return {::djinni::I32::toCpp(jniEnv, jniEnv->GetIntField(j, data.field_mA)),
+            ::djinni::I32::toCpp(jniEnv, jniEnv->GetIntField(j, data.field_mB)),
+            ::djinni::Optional<std::optional, ::djinni::I32>::toCpp(jniEnv, jniEnv->GetObjectField(j, data.field_mC)),
+            ::djinni_generated::NativeMyEnum::toCpp(jniEnv, jniEnv->GetObjectField(j, data.field_mD)),
+            ::djinni::Binary::toCpp(jniEnv, (jbyteArray)jniEnv->GetObjectField(j, data.field_mE))};
 }
 
 }  // namespace djinni_generated

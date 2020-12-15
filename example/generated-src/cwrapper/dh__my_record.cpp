@@ -159,7 +159,7 @@ void my_record_add_callback_python_create_my_record(DjinniRecordHandle *( * ptr)
     s_py_callback_my_record_python_create_my_record = ptr;
 }
 
-djinni::Handle<DjinniRecordHandle> DjinniMyRecord::fromCpp(const ::cpp_generated::MyRecord& dr) {
+djinni::Handle<DjinniRecordHandle> DjinniMyRecord::fromCpp(const ::textsort::MyRecord& dr) {
     auto  _field_test1 = DjinniBoxedI32::fromCpp(dr.test1);
     auto  _field_test2 = DjinniListInt32T::fromCpp(dr.test2);
     auto  _field_test3 = DjinniString::fromCpp(dr.test3);
@@ -203,7 +203,7 @@ djinni::Handle<DjinniRecordHandle> DjinniMyRecord::fromCpp(const ::cpp_generated
     return _aux;
 }
 
-::cpp_generated::MyRecord DjinniMyRecord::toCpp(djinni::Handle<DjinniRecordHandle> dh) {
+::textsort::MyRecord DjinniMyRecord::toCpp(djinni::Handle<DjinniRecordHandle> dh) {
     std::unique_ptr<DjinniBoxedI32> _field_test1(s_py_callback_my_record_get_my_record_f2(dh.get()));
     djinni::Handle<DjinniObjectHandle> _field_test2(s_py_callback_my_record_get_my_record_f3(dh.get()), list_int32_t___delete);
     std::unique_ptr<DjinniString> _field_test3(s_py_callback_my_record_get_my_record_f4(dh.get()));
@@ -221,7 +221,7 @@ djinni::Handle<DjinniRecordHandle> DjinniMyRecord::fromCpp(const ::cpp_generated
     djinni::Handle<DjinniObjectHandle> _field_test16(s_py_callback_my_record_get_my_record_f19(dh.get()), set_enum_my_enum___delete);
     djinni::Handle<DjinniObjectHandle> _field_test17(s_py_callback_my_record_get_my_record_f20(dh.get()), map_enum_my_enum_int16_t___delete);
 
-    auto _aux = ::cpp_generated::MyRecord(
+    auto _aux = ::textsort::MyRecord(
         s_py_callback_my_record_get_my_record_f1(dh.get()),
         DjinniBoxedI32::toCpp(std::move( _field_test1)),
         DjinniListInt32T::toCpp(std::move( _field_test2)),
@@ -236,7 +236,7 @@ djinni::Handle<DjinniRecordHandle> DjinniMyRecord::fromCpp(const ::cpp_generated
         DjinniRc::toCpp(std::move( _field_test9)),
         DjinniRc::toCpp(std::move( _field_test10)),
         DjinniListRecordRc::toCpp(std::move( _field_test10_1)),
-        static_cast<::cpp_generated::MyEnum>(s_py_callback_my_record_get_my_record_f15(dh.get())),
+        static_cast<::textsort::my_enum>(s_py_callback_my_record_get_my_record_f15(dh.get())),
         get_boxed_enum_my_enum_from_int32(s_py_callback_my_record_get_my_record_f16(dh.get())),
         DjinniBoxedI16::toCpp(std::move( _field_test14)),
         DjinniListEnumMyEnum::toCpp(std::move( _field_test15)),
@@ -245,16 +245,16 @@ djinni::Handle<DjinniRecordHandle> DjinniMyRecord::fromCpp(const ::cpp_generated
     return _aux;
 }
 
-djinni::Handle<DjinniOptionalRecordHandle> DjinniMyRecord::fromCpp(std::optional<::cpp_generated::MyRecord> dc) {
+djinni::Handle<DjinniOptionalRecordHandle> DjinniMyRecord::fromCpp(std::optional<::textsort::MyRecord> dc) {
     if (dc == std::nullopt) {
         return nullptr;
     }
     return djinni::optionals::toOptionalHandle(DjinniMyRecord::fromCpp(std::move(* dc)), optional_my_record___delete);
 }
 
-std::optional<::cpp_generated::MyRecord>DjinniMyRecord::toCpp(djinni::Handle<DjinniOptionalRecordHandle> dh) {
+std::optional<::textsort::MyRecord>DjinniMyRecord::toCpp(djinni::Handle<DjinniOptionalRecordHandle> dh) {
      if (dh) {
-        return std::optional<::cpp_generated::MyRecord>(DjinniMyRecord::toCpp(djinni::optionals::fromOptionalHandle(std::move(dh), my_record___delete)));
+        return std::optional<::textsort::MyRecord>(DjinniMyRecord::toCpp(djinni::optionals::fromOptionalHandle(std::move(dh), my_record___delete)));
     }
     return std::nullopt;
 }

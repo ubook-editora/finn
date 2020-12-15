@@ -3,19 +3,35 @@
 
 #pragma once
 
+#include "my_enum.hpp"
 #include <cstdint>
+#include <optional>
+#include <string>
 #include <utility>
+#include <vector>
 
-namespace cpp_generated {
+namespace textsort {
 
 struct  Rc {
     int32_t a;
+    int32_t b;
+    std::optional<int32_t> c;
+    my_enum d;
+    std::vector<uint8_t> e;
 
-    Rc(int32_t a_)
+    Rc(int32_t a_,
+       int32_t b_,
+       std::optional<int32_t> c_,
+       my_enum d_,
+       std::vector<uint8_t> e_)
     : a(std::move(a_))
+    , b(std::move(b_))
+    , c(std::move(c_))
+    , d(std::move(d_))
+    , e(std::move(e_))
     {}
 
     Rc() = default;
 };
 
-}  // namespace cpp_generated
+}  // namespace textsort

@@ -11,7 +11,7 @@
 #include "dh__my_record.hpp"
 #include "my_enum.hpp"
 
-std::shared_ptr<::cpp_generated::Hello> DjinniWrapperHello::get(djinni::WrapperRef<DjinniWrapperHello> dw) {
+std::shared_ptr<::textsort::Hello> DjinniWrapperHello::get(djinni::WrapperRef<DjinniWrapperHello> dw) {
     if (dw) {
         return dw->wrapped_obj;
     }
@@ -27,7 +27,7 @@ void hello___wrapper_dec_ref(DjinniWrapperHello * dh) {
         delete dh;
     }
 }
-djinni::Handle<DjinniWrapperHello> DjinniWrapperHello::wrap(std::shared_ptr<::cpp_generated::Hello> obj) {
+djinni::Handle<DjinniWrapperHello> DjinniWrapperHello::wrap(std::shared_ptr<::textsort::Hello> obj) {
     if (obj)
         return djinni::Handle<DjinniWrapperHello>(new DjinniWrapperHello{ std::move(obj) }, hello___wrapper_dec_ref);
     return nullptr;
@@ -47,6 +47,6 @@ DjinniRecordHandle * cw__hello_print(DjinniWrapperHello * djinni_this, DjinniRec
 }
 DjinniWrapperHello * cw__hello_create(void) {
     try {
-        return DjinniWrapperHello::wrap(::cpp_generated::Hello::create()).release();
+        return DjinniWrapperHello::wrap(::textsort::Hello::create()).release();
     } CW_TRANSLATE_EXCEPTIONS_RETURN(0);
 }

@@ -21,8 +21,12 @@ class ViewController: UIViewController {
                               test6: [],
                               test7: [],
                               test8: [:],
-                              test9: Rc.init(a: 1),
-                              test10: nil, test101: [],
+                              test9: Rc.init(a: 1, b: 2, c: 3, d: MyEnum.workout, e: "Bob".data(using: .utf8)!),
+                              test10: nil,
+                              test101: [
+                                Rc.init(a: 1, b: 2, c: 3, d: MyEnum.workout, e: Data()),
+                                Rc.init(a: 10, b: 20, c: 30, d: MyEnum.workout, e: Data())
+                              ],
                               test11: MyEnum.hien,
                               test13: nil,
                               test14: 1,
@@ -32,7 +36,7 @@ class ViewController: UIViewController {
                                 MyEnum.workout : 1
                               ])
         
-        let rc = Hello.create().print(r)
+        let rc = Hello.create()!.print(r)
         print("\(rc == r)")
         
         

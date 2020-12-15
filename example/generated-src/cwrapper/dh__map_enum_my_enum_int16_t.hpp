@@ -16,8 +16,8 @@ extern "C" {
 }
 #endif
 struct DjinniMapEnumMyEnumInt16T {
-    static djinni::Handle<DjinniObjectHandle> fromCpp(const std::unordered_map<::cpp_generated::MyEnum, int16_t> & dc);
-    static std::unordered_map<::cpp_generated::MyEnum, int16_t> toCpp(djinni::Handle<DjinniObjectHandle> dh);
-    static djinni::Handle<DjinniOptionalObjectHandle>fromCpp(std::optional<std::unordered_map<::cpp_generated::MyEnum, int16_t>> dc);
-    static std::optional<std::unordered_map<::cpp_generated::MyEnum, int16_t>> toCpp(djinni::Handle<DjinniOptionalObjectHandle> dh);
+    static djinni::Handle<DjinniObjectHandle> fromCpp(const std::unordered_map<::textsort::my_enum, int16_t> & dc);
+    static std::unordered_map<::textsort::my_enum, int16_t> toCpp(djinni::Handle<DjinniObjectHandle> dh);
+    static djinni::Handle<DjinniOptionalObjectHandle>fromCpp(std::optional<std::unordered_map<::textsort::my_enum, int16_t>> dc);
+    static std::optional<std::unordered_map<::textsort::my_enum, int16_t>> toCpp(djinni::Handle<DjinniOptionalObjectHandle> dh);
 };

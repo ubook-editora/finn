@@ -5,9 +5,9 @@
 
 #include <memory>
 
-namespace cpp_generated {
+namespace textsort {
 
-enum class MyEnum;
+enum class my_enum;
 struct MyRecord;
 
 class Hello {
@@ -16,9 +16,9 @@ public:
 
     static std::shared_ptr<Hello> create();
 
-    virtual MyEnum say_hi() = 0;
+    virtual my_enum say_hi() = 0;
 
     virtual MyRecord print(const MyRecord & rc) = 0;
 };
 
-}  // namespace cpp_generated
+}  // namespace textsort

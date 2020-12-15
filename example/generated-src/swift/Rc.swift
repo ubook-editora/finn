@@ -8,7 +8,23 @@ import Foundation
 
     public let a : Int32
 
-    public init(a: Int32) {
+    public let b : Int32
+
+    public let c : Int32?
+
+    public let d : MyEnum
+
+    public let e : Data
+
+    public init(a: Int32,
+                b: Int32,
+                c: Int32?,
+                d: MyEnum,
+                e: Data) {
         self.a = a
+        self.b = b
+        self.c = c
+        self.d = d
+        self.e = e
     }
 }
