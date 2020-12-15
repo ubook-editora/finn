@@ -25,9 +25,9 @@ private:
     friend ::djinni::JniClass<NativeMyRecord>;
 
     const ::djinni::GlobalRef<jclass> clazz { ::djinni::jniFindClass("com/dropbox/textsort/MyRecord") };
-    const jmethodID jconstructor { ::djinni::jniGetMethodID(clazz.get(), "<init>", "(ILjava/lang/Integer;Ljava/util/ArrayList;Ljava/lang/String;Ljava/lang/String;Ljava/util/Date;Ljava/util/Date;[BLjava/util/ArrayList;Ljava/util/HashSet;Ljava/util/HashMap;Lcom/dropbox/textsort/Rc;Lcom/dropbox/textsort/Rc;Ljava/util/ArrayList;Lcom/dropbox/textsort/MyEnum;Lcom/dropbox/textsort/MyEnum;Ljava/lang/Short;Ljava/util/ArrayList;Ljava/util/HashSet;Ljava/util/HashMap;)V") };
+    const jmethodID jconstructor { ::djinni::jniGetMethodID(clazz.get(), "<init>", "(ILjava/lang/Long;Ljava/util/ArrayList;Ljava/lang/String;Ljava/lang/String;Ljava/util/Date;Ljava/util/Date;[BLjava/util/ArrayList;Ljava/util/HashSet;Ljava/util/HashMap;Lcom/dropbox/textsort/Rc;Lcom/dropbox/textsort/Rc;Ljava/util/ArrayList;Lcom/dropbox/textsort/MyEnum;Lcom/dropbox/textsort/MyEnum;Ljava/lang/Short;Ljava/util/ArrayList;Ljava/util/HashSet;Ljava/util/HashMap;)V") };
     const jfieldID field_mTest { ::djinni::jniGetFieldID(clazz.get(), "mTest", "I") };
-    const jfieldID field_mTest1 { ::djinni::jniGetFieldID(clazz.get(), "mTest1", "Ljava/lang/Integer;") };
+    const jfieldID field_mTest1 { ::djinni::jniGetFieldID(clazz.get(), "mTest1", "Ljava/lang/Long;") };
     const jfieldID field_mTest2 { ::djinni::jniGetFieldID(clazz.get(), "mTest2", "Ljava/util/ArrayList;") };
     const jfieldID field_mTest3 { ::djinni::jniGetFieldID(clazz.get(), "mTest3", "Ljava/lang/String;") };
     const jfieldID field_mTest31 { ::djinni::jniGetFieldID(clazz.get(), "mTest31", "Ljava/lang/String;") };

@@ -15,9 +15,9 @@ import javax.annotation.Nonnull;
 
     /*package*/ final int mTest;
 
-    /*package*/ final Integer mTest1;
+    /*package*/ final Long mTest1;
 
-    /*package*/ final ArrayList<Integer> mTest2;
+    /*package*/ final ArrayList<Long> mTest2;
 
     /*package*/ final String mTest3;
 
@@ -55,8 +55,8 @@ import javax.annotation.Nonnull;
 
     public MyRecord(
             int test,
-            @CheckForNull Integer test1,
-            @Nonnull ArrayList<Integer> test2,
+            @CheckForNull Long test1,
+            @Nonnull ArrayList<Long> test2,
             @Nonnull String test3,
             @CheckForNull String test31,
             @Nonnull Date test4,
@@ -101,12 +101,12 @@ import javax.annotation.Nonnull;
     }
 
     @CheckForNull
-    public Integer getTest1() {
+    public Long getTest1() {
         return mTest1;
     }
 
     @Nonnull
-    public ArrayList<Integer> getTest2() {
+    public ArrayList<Long> getTest2() {
         return mTest2;
     }
 

@@ -14,8 +14,8 @@ auto MyRecordHelper::toCpp(ObjcType obj) -> CppType
 {
     assert(obj);
     return {::djinni::I32::toCpp(obj.__djinni__objc_test),
-            ::djinni::Optional<std::optional, ::djinni::I32>::toCpp(obj.__djinni__objc_test1),
-            ::djinni::List<::djinni::I32>::toCpp(obj.__djinni__objc_test2),
+            ::djinni::Optional<std::optional, ::djinni::U32>::toCpp(obj.__djinni__objc_test1),
+            ::djinni::List<::djinni::U32>::toCpp(obj.__djinni__objc_test2),
             ::djinni::String::toCpp(obj.__djinni__objc_test3),
             ::djinni::Optional<std::optional, ::djinni::String>::toCpp(obj.__djinni__objc_test31),
             ::djinni::Date::toCpp(obj.__djinni__objc_test4),
@@ -38,8 +38,8 @@ auto MyRecordHelper::toCpp(ObjcType obj) -> CppType
 auto MyRecordHelper::fromCpp(const CppType& cpp) -> ObjcType
 {
     return [MyRecord initWithTest:(::djinni::I32::fromCpp(cpp.test))
-                            test1:(::djinni::Optional<std::optional, ::djinni::I32>::fromCpp(cpp.test1))
-                            test2:(::djinni::List<::djinni::I32>::fromCpp(cpp.test2))
+                            test1:(::djinni::Optional<std::optional, ::djinni::U32>::fromCpp(cpp.test1))
+                            test2:(::djinni::List<::djinni::U32>::fromCpp(cpp.test2))
                             test3:(::djinni::String::fromCpp(cpp.test3))
                            test31:(::djinni::Optional<std::optional, ::djinni::String>::fromCpp(cpp.test3_1))
                             test4:(::djinni::Date::fromCpp(cpp.test4))
