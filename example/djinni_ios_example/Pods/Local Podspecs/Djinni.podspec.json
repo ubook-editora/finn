@@ -1,6 +1,10 @@
 {
   "name": "Djinni",
+<<<<<<< HEAD
   "version": "4.6.0-beta.1",
+=======
+  "version": "4.5.0",
+>>>>>>> develop
   "summary": "Djinni is a tool for generating cross-language type declarations and interface bindings.",
   "description": "Djinni is a tool for generating cross-language type declarations and interface bindings.\nIt's designed to connect C++ with either Java or Objective-C. Python support is experimental. \nFor more information see README.Python.md",
   "homepage": "https://github.com/hiennguyenle/finn",
@@ -12,14 +16,22 @@
   },
   "source": {
     "git": "https://github.com/hiennguyenle/finn.git",
+<<<<<<< HEAD
     "tag": "4.6.0-beta.1"
+=======
+    "tag": "4.5.0"
+>>>>>>> develop
   },
   "module_name": "Djinni",
   "requires_arc": true,
   "libraries": "c++",
   "dependencies": {
     "DjinniSwift": [
+<<<<<<< HEAD
       "4.6.0-beta.1"
+=======
+      "4.5.0"
+>>>>>>> develop
     ]
   },
   "platforms": {
@@ -35,7 +47,7 @@
     ]
   },
   "source_files": [
-    "support-lib/extension/json/nlohmann/json.hpp",
+    "support-lib/extension/json/nlohmann/*.hpp",
     "support-lib/extension/json/objc/DJIMarshal+Json.h",
     "support-lib/objc/*.{h,mm}",
     "support-lib/proxy_cache_impl.hpp",

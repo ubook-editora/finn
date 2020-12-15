@@ -34,7 +34,7 @@ Pod::Spec.new do |s|
     }
     
     s.source_files         = [
-        "support-lib/extension/json/nlohmann/json.hpp",
+        "support-lib/extension/json/nlohmann/*.hpp",
         "support-lib/extension/json/objc/DJIMarshal+Json.h",
         "support-lib/objc/*.{h,mm}",
         "support-lib/proxy_cache_impl.hpp",

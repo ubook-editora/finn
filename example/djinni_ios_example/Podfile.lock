@@ -1,7 +1,13 @@
 PODS:
+<<<<<<< HEAD
   - Djinni (4.6.0-beta.1):
     - DjinniSwift (= 4.6.0-beta.1)
   - DjinniSwift (4.6.0-beta.1)
+=======
+  - Djinni (4.5.0):
+    - DjinniSwift (= 4.5.0)
+  - DjinniSwift (4.5.0)
+>>>>>>> develop
 
 DEPENDENCIES:
   - Djinni (from `../../Djinni.podspec`)
@@ -14,9 +20,14 @@ EXTERNAL SOURCES:
     :path: "../../DjinniSwift.podspec"
 
 SPEC CHECKSUMS:
+<<<<<<< HEAD
   Djinni: fa568b33b716e02dbef756277d370edb81725264
   DjinniSwift: f2ed5f086745f17f49d4821b8506aa7ebb4f119e
+=======
+  Djinni: c6d29ee59926340cf639f737635b4a9ae7731609
+  DjinniSwift: 2842a0931c7d1fa060b0d02caf330f401c82e0d6
+>>>>>>> develop
 
 PODFILE CHECKSUM: 8cd63a409e4f613c78eda77b49152ec7fbe962ba
 
-COCOAPODS: 1.9.3
+COCOAPODS: 1.10.0
