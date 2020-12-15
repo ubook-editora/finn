@@ -10,6 +10,7 @@
 #endif
 #endif
 
+#import "json+extension.hpp"
 #import "json.hpp"
 #import "DJIMarshal+Json.h"
 #import "DJICppWrapperCache+Private.h"

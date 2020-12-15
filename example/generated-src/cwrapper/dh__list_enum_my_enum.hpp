@@ -16,8 +16,8 @@ extern "C" {
 }
 #endif
 struct DjinniListEnumMyEnum {
-    static djinni::Handle<DjinniObjectHandle> fromCpp(const std::vector<::cpp_generated::MyEnum> & dc);
-    static std::vector<::cpp_generated::MyEnum> toCpp(djinni::Handle<DjinniObjectHandle> dh);
-    static djinni::Handle<DjinniOptionalObjectHandle>fromCpp(std::optional<std::vector<::cpp_generated::MyEnum>> dc);
-    static std::optional<std::vector<::cpp_generated::MyEnum>> toCpp(djinni::Handle<DjinniOptionalObjectHandle> dh);
+    static djinni::Handle<DjinniObjectHandle> fromCpp(const std::vector<::textsort::my_enum> & dc);
+    static std::vector<::textsort::my_enum> toCpp(djinni::Handle<DjinniObjectHandle> dh);
+    static djinni::Handle<DjinniOptionalObjectHandle>fromCpp(std::optional<std::vector<::textsort::my_enum>> dc);
+    static std::optional<std::vector<::textsort::my_enum>> toCpp(djinni::Handle<DjinniOptionalObjectHandle> dh);
 };

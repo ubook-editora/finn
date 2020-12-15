@@ -16,8 +16,8 @@ extern "C" {
 }
 #endif
 struct DjinniSetEnumMyEnum {
-    static djinni::Handle<DjinniObjectHandle> fromCpp(const std::unordered_set<::cpp_generated::MyEnum> & dc);
-    static std::unordered_set<::cpp_generated::MyEnum> toCpp(djinni::Handle<DjinniObjectHandle> dh);
-    static djinni::Handle<DjinniOptionalObjectHandle>fromCpp(std::optional<std::unordered_set<::cpp_generated::MyEnum>> dc);
-    static std::optional<std::unordered_set<::cpp_generated::MyEnum>> toCpp(djinni::Handle<DjinniOptionalObjectHandle> dh);
+    static djinni::Handle<DjinniObjectHandle> fromCpp(const std::unordered_set<::textsort::my_enum> & dc);
+    static std::unordered_set<::textsort::my_enum> toCpp(djinni::Handle<DjinniObjectHandle> dh);
+    static djinni::Handle<DjinniOptionalObjectHandle>fromCpp(std::optional<std::unordered_set<::textsort::my_enum>> dc);
+    static std::optional<std::unordered_set<::textsort::my_enum>> toCpp(djinni::Handle<DjinniOptionalObjectHandle> dh);
 };

@@ -43,8 +43,6 @@ import javax.annotation.Nonnull;
 
     /*package*/ final MyEnum mTest11;
 
-    /*package*/ final org.json.JSONObject mTest12;
-
     /*package*/ final MyEnum mTest13;
 
     /*package*/ final Short mTest14;
@@ -71,7 +69,6 @@ import javax.annotation.Nonnull;
             @CheckForNull Rc test10,
             @Nonnull ArrayList<Rc> test101,
             @Nonnull MyEnum test11,
-            @Nonnull org.json.JSONObject test12,
             @CheckForNull MyEnum test13,
             @CheckForNull Short test14,
             @Nonnull ArrayList<MyEnum> test15,
@@ -92,7 +89,6 @@ import javax.annotation.Nonnull;
         this.mTest10 = test10;
         this.mTest101 = test101;
         this.mTest11 = test11;
-        this.mTest12 = test12;
         this.mTest13 = test13;
         this.mTest14 = test14;
         this.mTest15 = test15;
@@ -174,11 +170,6 @@ import javax.annotation.Nonnull;
         return mTest11;
     }
 
-    @Nonnull
-    public org.json.JSONObject getTest12() {
-        return mTest12;
-    }
-
     @CheckForNull
     public MyEnum getTest13() {
         return mTest13;
@@ -222,7 +213,6 @@ import javax.annotation.Nonnull;
                 "," + "mTest10=" + mTest10 +
                 "," + "mTest101=" + mTest101 +
                 "," + "mTest11=" + mTest11 +
-                "," + "mTest12=" + mTest12 +
                 "," + "mTest13=" + mTest13 +
                 "," + "mTest14=" + mTest14 +
                 "," + "mTest15=" + mTest15 +

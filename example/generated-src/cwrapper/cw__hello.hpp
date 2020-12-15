@@ -16,11 +16,11 @@ extern "C" {
 }
 #endif
 struct DjinniWrapperHello final {
-    DjinniWrapperHello(std::shared_ptr<::cpp_generated::Hello>wo): wrapped_obj(wo) {};
+    DjinniWrapperHello(std::shared_ptr<::textsort::Hello>wo): wrapped_obj(wo) {};
 
-    static std::shared_ptr<::cpp_generated::Hello> get(djinni::Handle<DjinniWrapperHello> dw);
-    static djinni::Handle<DjinniWrapperHello> wrap(std::shared_ptr<::cpp_generated::Hello> obj);
+    static std::shared_ptr<::textsort::Hello> get(djinni::Handle<DjinniWrapperHello> dw);
+    static djinni::Handle<DjinniWrapperHello> wrap(std::shared_ptr<::textsort::Hello> obj);
 
-    const std::shared_ptr<::cpp_generated::Hello> wrapped_obj;
+    const std::shared_ptr<::textsort::Hello> wrapped_obj;
     std::atomic<size_t> ref_count {1};
 };

@@ -12,7 +12,7 @@ namespace djinni_generated {
 
 struct MyRecordHelper
 {
-    using CppType = ::cpp_generated::MyRecord;
+    using CppType = ::textsort::MyRecord;
     using ObjcType = MyRecord*;
 
     using Boxed = MyRecordHelper;
