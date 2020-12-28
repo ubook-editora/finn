@@ -12,7 +12,7 @@ NS_SWIFT_NAME(Hello)
 
 - (nonnull instancetype)init NS_UNAVAILABLE;
 
-+ (nonnull Hello *)create;
++ (nullable Hello *)create;
 
 - (MyEnum)sayHi;
 

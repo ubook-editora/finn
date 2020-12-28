@@ -156,6 +156,15 @@ package object resolver {
         case "i32" =>
           assert(value.isInstanceOf[Long], "Const type mismatch: i32")
           assert(value.asInstanceOf[Long].toInt == value, "Const value not a valid i32")
+        case "u8" =>
+          assert(value.isInstanceOf[Long], "Const type mismatch: u8")
+          assert(value.asInstanceOf[Long].toByte == value, "Const value not a valid u8")
+        case "u16" =>
+          assert(value.isInstanceOf[Long], "Const type mismatch: u16")
+          assert(value.asInstanceOf[Long].toShort == value, "Const value not a valid u16")
+        case "u32" =>
+          assert(value.isInstanceOf[Long], "Const type mismatch: u32")
+          assert(value.asInstanceOf[Long].toInt == value, "Const value not a valid u32")          
         case "i64" =>
           assert(value.isInstanceOf[Long], "Const type mismatch: i64")
         case "f32" => value match {

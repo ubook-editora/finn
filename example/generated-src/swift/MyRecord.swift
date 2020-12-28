@@ -8,9 +8,9 @@ import Foundation
 
     public let test : Int32
 
-    public let test1 : Int32?
+    public let test1 : UInt32?
 
-    public let test2 : Array<Int32>
+    public let test2 : Array<UInt32>
 
     public let test3 : String
 
@@ -47,8 +47,8 @@ import Foundation
     public let test17 : Dictionary<MyEnum, Int16>
 
     public init(test: Int32,
-                test1: Int32?,
-                test2: Array<Int32>,
+                test1: UInt32?,
+                test2: Array<UInt32>,
                 test3: String,
                 test31: String?,
                 test4: Date,

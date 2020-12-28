@@ -13,8 +13,8 @@ namespace djinni_generated {
 class HelloHelper
 {
 public:
-    using CppType = std::shared_ptr<::cpp_generated::Hello>;
-    using CppOptType = std::shared_ptr<::cpp_generated::Hello>;
+    using CppType = std::shared_ptr<::textsort::Hello>;
+    using CppOptType = std::shared_ptr<::textsort::Hello>;
     using ObjcType = Hello*;
 
     using Boxed = HelloHelper;

@@ -8,8 +8,8 @@
 
 #include "dh__list_binary.hpp"
 #include "dh__list_enum_my_enum.hpp"
-#include "dh__list_int32_t.hpp"
 #include "dh__list_record_rc.hpp"
+#include "dh__list_uint32_t.hpp"
 #include "dh__map_enum_my_enum_int16_t.hpp"
 #include "dh__map_int32_t_string.hpp"
 #include "dh__my_enum.hpp"
@@ -57,7 +57,7 @@ void list_enum_my_enum_add_callback__python_add(void( * ptr)(DjinniObjectHandle 
     s_py_callback_list_enum_my_enum__python_add = ptr;
 }
 
-djinni::Handle<DjinniObjectHandle> DjinniListEnumMyEnum::fromCpp(const std::vector<::cpp_generated::MyEnum> & dc) {
+djinni::Handle<DjinniObjectHandle> DjinniListEnumMyEnum::fromCpp(const std::vector<::textsort::my_enum> & dc) {
     djinni::Handle<DjinniObjectHandle> _handle(s_py_callback_list_enum_my_enum__python_create(), & list_enum_my_enum___delete);
     size_t size = dc.size();
     for (int i = 0; i < size; i++) {
@@ -67,28 +67,28 @@ djinni::Handle<DjinniObjectHandle> DjinniListEnumMyEnum::fromCpp(const std::vect
     return _handle;
 }
 
-std::vector<::cpp_generated::MyEnum> DjinniListEnumMyEnum::toCpp(djinni::Handle<DjinniObjectHandle> dh) {
-    std::vector<::cpp_generated::MyEnum>_ret;
+std::vector<::textsort::my_enum> DjinniListEnumMyEnum::toCpp(djinni::Handle<DjinniObjectHandle> dh) {
+    std::vector<::textsort::my_enum>_ret;
     size_t size = s_py_callback_list_enum_my_enum__get_size(dh.get());
     _ret.reserve(size);
 
     for (int i = 0; i < size; i++) {
-        _ret.push_back(static_cast<::cpp_generated::MyEnum>(s_py_callback_list_enum_my_enum__get_elem(dh.get(), i)));
+        _ret.push_back(static_cast<::textsort::my_enum>(s_py_callback_list_enum_my_enum__get_elem(dh.get(), i)));
     }
 
     return _ret;
 }
 
-djinni::Handle<DjinniOptionalObjectHandle> DjinniListEnumMyEnum::fromCpp(std::optional<std::vector<::cpp_generated::MyEnum>> dc) {
+djinni::Handle<DjinniOptionalObjectHandle> DjinniListEnumMyEnum::fromCpp(std::optional<std::vector<::textsort::my_enum>> dc) {
     if (dc == std::nullopt) {
         return nullptr;
     }
     return djinni::optionals::toOptionalHandle(DjinniListEnumMyEnum::fromCpp(std::move(* dc)), optional_list_enum_my_enum___delete);
 }
 
-std::optional<std::vector<::cpp_generated::MyEnum>>DjinniListEnumMyEnum::toCpp(djinni::Handle<DjinniOptionalObjectHandle> dh) {
+std::optional<std::vector<::textsort::my_enum>>DjinniListEnumMyEnum::toCpp(djinni::Handle<DjinniOptionalObjectHandle> dh) {
      if (dh) {
-        return std::optional<std::vector<::cpp_generated::MyEnum>>(DjinniListEnumMyEnum::toCpp(djinni::optionals::fromOptionalHandle(std::move(dh), list_enum_my_enum___delete)));
+        return std::optional<std::vector<::textsort::my_enum>>(DjinniListEnumMyEnum::toCpp(djinni::optionals::fromOptionalHandle(std::move(dh), list_enum_my_enum___delete)));
     }
     return std::nullopt;
 }

@@ -5,21 +5,21 @@
 
 #include <functional>
 
-namespace cpp_generated {
+namespace textsort {
 
-enum class MyEnum : int {
+enum class my_enum : int {
     HIEN  = 1,
     WORKOUT ,
     RUNNING ,
 };
 
-}  // namespace cpp_generated
+}  // namespace textsort
 
 namespace std {
 
 template <>
-struct hash<::cpp_generated::MyEnum> {
-    size_t operator()(::cpp_generated::MyEnum type) const {
+struct hash<::textsort::my_enum> {
+    size_t operator()(::textsort::my_enum type) const {
         return std::hash<int>()(static_cast<int>(type));
     }
 };

@@ -15,6 +15,6 @@ extern "C" {
 #ifdef __cplusplus
 }
 #endif
-int32_t int32_from_enum_my_enum(std::optional<::cpp_generated::MyEnum> e);
-int32_t int32_from_enum_my_enum(::cpp_generated::MyEnum e);
-std::optional<::cpp_generated::MyEnum> get_boxed_enum_my_enum_from_int32(int32_t e);
+int32_t int32_from_enum_my_enum(std::optional<::textsort::my_enum> e);
+int32_t int32_from_enum_my_enum(::textsort::my_enum e);
+std::optional<::textsort::my_enum> get_boxed_enum_my_enum_from_int32(int32_t e);

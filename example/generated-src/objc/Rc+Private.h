@@ -12,7 +12,7 @@ namespace djinni_generated {
 
 struct RcHelper
 {
-    using CppType = ::cpp_generated::Rc;
+    using CppType = ::textsort::Rc;
     using ObjcType = Rc*;
 
     using Boxed = RcHelper;

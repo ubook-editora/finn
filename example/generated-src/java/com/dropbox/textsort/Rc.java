@@ -11,19 +11,58 @@ import javax.annotation.Nonnull;
 
     /*package*/ final int mA;
 
+    /*package*/ final int mB;
+
+    /*package*/ final Integer mC;
+
+    /*package*/ final MyEnum mD;
+
+    /*package*/ final byte[] mE;
+
     public Rc(
-            int a) {
+            int a,
+            int b,
+            @CheckForNull Integer c,
+            @Nonnull MyEnum d,
+            @Nonnull byte[] e) {
         this.mA = a;
+        this.mB = b;
+        this.mC = c;
+        this.mD = d;
+        this.mE = e;
     }
 
     public int getA() {
         return mA;
     }
 
+    public int getB() {
+        return mB;
+    }
+
+    @CheckForNull
+    public Integer getC() {
+        return mC;
+    }
+
+    @Nonnull
+    public MyEnum getD() {
+        return mD;
+    }
+
+    @Nonnull
+    public byte[] getE() {
+        return mE;
+    }
+
     @Override
     public String toString() {
         return "Rc{" +
                 "mA=" + mA +
+                "," + "mB=" + mB +
+                "," + "mC=" + mC +
+                "," + "mD=" + mD +
+                "," + "mE=" + mE +
         "}";
     }
 

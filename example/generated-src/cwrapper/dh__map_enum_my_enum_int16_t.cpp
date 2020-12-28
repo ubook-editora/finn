@@ -8,8 +8,8 @@
 
 #include "dh__list_binary.hpp"
 #include "dh__list_enum_my_enum.hpp"
-#include "dh__list_int32_t.hpp"
 #include "dh__list_record_rc.hpp"
+#include "dh__list_uint32_t.hpp"
 #include "dh__map_enum_my_enum_int16_t.hpp"
 #include "dh__map_int32_t_string.hpp"
 #include "dh__my_enum.hpp"
@@ -63,7 +63,7 @@ void map_enum_my_enum_int16_t_add_callback__python_next(int( * ptr)(DjinniObject
     s_py_callback_map_enum_my_enum_int16_t__python_next = ptr;
 }
 
-djinni::Handle<DjinniObjectHandle> DjinniMapEnumMyEnumInt16T::fromCpp(const std::unordered_map<::cpp_generated::MyEnum, int16_t> & dc) {
+djinni::Handle<DjinniObjectHandle> DjinniMapEnumMyEnumInt16T::fromCpp(const std::unordered_map<::textsort::my_enum, int16_t> & dc) {
     djinni::Handle<DjinniObjectHandle> _handle(s_py_callback_map_enum_my_enum_int16_t__python_create(), & map_enum_my_enum_int16_t___delete);
     for (const auto & it : dc) {
         s_py_callback_map_enum_my_enum_int16_t__python_add(_handle.get(), int32_from_enum_my_enum(it.first), it.second);
@@ -72,31 +72,31 @@ djinni::Handle<DjinniObjectHandle> DjinniMapEnumMyEnumInt16T::fromCpp(const std:
     return _handle;
 }
 
-std::unordered_map<::cpp_generated::MyEnum, int16_t> DjinniMapEnumMyEnumInt16T::toCpp(djinni::Handle<DjinniObjectHandle> dh) {
-    std::unordered_map<::cpp_generated::MyEnum, int16_t>_ret;
+std::unordered_map<::textsort::my_enum, int16_t> DjinniMapEnumMyEnumInt16T::toCpp(djinni::Handle<DjinniObjectHandle> dh) {
+    std::unordered_map<::textsort::my_enum, int16_t>_ret;
     size_t size = s_py_callback_map_enum_my_enum_int16_t__get_size(dh.get());
 
     for (int i = 0; i < size; i++) {
         auto _key_c = s_py_callback_map_enum_my_enum_int16_t__python_next(dh.get()); // key that would potentially be surrounded by unique pointer
         auto _val = s_py_callback_map_enum_my_enum_int16_t__get_value(dh.get(), _key_c);
 
-        auto _key = static_cast<::cpp_generated::MyEnum>(_key_c);
+        auto _key = static_cast<::textsort::my_enum>(_key_c);
         _ret.emplace(std::move(_key), std::move(_val));
     }
 
     return _ret;
 }
 
-djinni::Handle<DjinniOptionalObjectHandle> DjinniMapEnumMyEnumInt16T::fromCpp(std::optional<std::unordered_map<::cpp_generated::MyEnum, int16_t>> dc) {
+djinni::Handle<DjinniOptionalObjectHandle> DjinniMapEnumMyEnumInt16T::fromCpp(std::optional<std::unordered_map<::textsort::my_enum, int16_t>> dc) {
     if (dc == std::nullopt) {
         return nullptr;
     }
     return djinni::optionals::toOptionalHandle(DjinniMapEnumMyEnumInt16T::fromCpp(std::move(* dc)), optional_map_enum_my_enum_int16_t___delete);
 }
 
-std::optional<std::unordered_map<::cpp_generated::MyEnum, int16_t>>DjinniMapEnumMyEnumInt16T::toCpp(djinni::Handle<DjinniOptionalObjectHandle> dh) {
+std::optional<std::unordered_map<::textsort::my_enum, int16_t>>DjinniMapEnumMyEnumInt16T::toCpp(djinni::Handle<DjinniOptionalObjectHandle> dh) {
      if (dh) {
-        return std::optional<std::unordered_map<::cpp_generated::MyEnum, int16_t>>(DjinniMapEnumMyEnumInt16T::toCpp(djinni::optionals::fromOptionalHandle(std::move(dh), map_enum_my_enum_int16_t___delete)));
+        return std::optional<std::unordered_map<::textsort::my_enum, int16_t>>(DjinniMapEnumMyEnumInt16T::toCpp(djinni::optionals::fromOptionalHandle(std::move(dh), map_enum_my_enum_int16_t___delete)));
     }
     return std::nullopt;
 }

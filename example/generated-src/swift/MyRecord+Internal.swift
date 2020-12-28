@@ -14,11 +14,11 @@ extension MyRecord  {
     @available(swift, obsoleted: 1.0)
     @objc public var __djinni__objc_test1: NSNumber? {
         get {
-            return DjinniSwift.I32.toObjc(e: test1)
+            return DjinniSwift.U32.toObjc(e: test1)
         }
     }
     @available(swift, obsoleted: 1.0)
-    @objc public var __djinni__objc_test2: Array<Int32> {
+    @objc public var __djinni__objc_test2: Array<UInt32> {
         get {
             return test2
         }
@@ -128,7 +128,7 @@ extension MyRecord  {
     @available(swift, obsoleted: 1.0)
     @objc public static func `init`(test: Int32,
                                     test1: NSNumber?,
-                                    test2: Array<Int32>,
+                                    test2: Array<UInt32>,
                                     test3: String,
                                     test31: String?,
                                     test4: Date,
@@ -147,7 +147,7 @@ extension MyRecord  {
                                     test16: Set<NSNumber>,
                                     test17: Dictionary<NSNumber, Int16>) -> MyRecord {
         return MyRecord.init(test: test,
-                             test1: DjinniSwift.I32.fromObjc(e: test1),
+                             test1: DjinniSwift.U32.fromObjc(e: test1),
                              test2: test2,
                              test3: test3,
                              test31: test31,

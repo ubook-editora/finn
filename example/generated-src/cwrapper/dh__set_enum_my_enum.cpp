@@ -8,8 +8,8 @@
 
 #include "dh__list_binary.hpp"
 #include "dh__list_enum_my_enum.hpp"
-#include "dh__list_int32_t.hpp"
 #include "dh__list_record_rc.hpp"
+#include "dh__list_uint32_t.hpp"
 #include "dh__map_enum_my_enum_int16_t.hpp"
 #include "dh__map_int32_t_string.hpp"
 #include "dh__my_enum.hpp"
@@ -57,7 +57,7 @@ void set_enum_my_enum_add_callback__python_next(int( * ptr)(DjinniObjectHandle *
     s_py_callback_set_enum_my_enum__python_next = ptr;
 }
 
-djinni::Handle<DjinniObjectHandle> DjinniSetEnumMyEnum::fromCpp(const std::unordered_set<::cpp_generated::MyEnum> & dc) {
+djinni::Handle<DjinniObjectHandle> DjinniSetEnumMyEnum::fromCpp(const std::unordered_set<::textsort::my_enum> & dc) {
     djinni::Handle<DjinniObjectHandle> _handle(s_py_callback_set_enum_my_enum__python_create(), & set_enum_my_enum___delete);
     for (const auto & it : dc) {
         s_py_callback_set_enum_my_enum__python_add(_handle.get(), int32_from_enum_my_enum(it));
@@ -66,28 +66,28 @@ djinni::Handle<DjinniObjectHandle> DjinniSetEnumMyEnum::fromCpp(const std::unord
     return _handle;
 }
 
-std::unordered_set<::cpp_generated::MyEnum> DjinniSetEnumMyEnum::toCpp(djinni::Handle<DjinniObjectHandle> dh) {
-    std::unordered_set<::cpp_generated::MyEnum>_ret;
+std::unordered_set<::textsort::my_enum> DjinniSetEnumMyEnum::toCpp(djinni::Handle<DjinniObjectHandle> dh) {
+    std::unordered_set<::textsort::my_enum>_ret;
     size_t size = s_py_callback_set_enum_my_enum__get_size(dh.get());
 
     for (int i = 0; i < size; i++) {
-        auto _el = static_cast<::cpp_generated::MyEnum>(s_py_callback_set_enum_my_enum__python_next(dh.get()));
+        auto _el = static_cast<::textsort::my_enum>(s_py_callback_set_enum_my_enum__python_next(dh.get()));
         _ret.insert(std::move(_el));
     }
 
     return _ret;
 }
 
-djinni::Handle<DjinniOptionalObjectHandle> DjinniSetEnumMyEnum::fromCpp(std::optional<std::unordered_set<::cpp_generated::MyEnum>> dc) {
+djinni::Handle<DjinniOptionalObjectHandle> DjinniSetEnumMyEnum::fromCpp(std::optional<std::unordered_set<::textsort::my_enum>> dc) {
     if (dc == std::nullopt) {
         return nullptr;
     }
     return djinni::optionals::toOptionalHandle(DjinniSetEnumMyEnum::fromCpp(std::move(* dc)), optional_set_enum_my_enum___delete);
 }
 
-std::optional<std::unordered_set<::cpp_generated::MyEnum>>DjinniSetEnumMyEnum::toCpp(djinni::Handle<DjinniOptionalObjectHandle> dh) {
+std::optional<std::unordered_set<::textsort::my_enum>>DjinniSetEnumMyEnum::toCpp(djinni::Handle<DjinniOptionalObjectHandle> dh) {
      if (dh) {
-        return std::optional<std::unordered_set<::cpp_generated::MyEnum>>(DjinniSetEnumMyEnum::toCpp(djinni::optionals::fromOptionalHandle(std::move(dh), set_enum_my_enum___delete)));
+        return std::optional<std::unordered_set<::textsort::my_enum>>(DjinniSetEnumMyEnum::toCpp(djinni::optionals::fromOptionalHandle(std::move(dh), set_enum_my_enum___delete)));
     }
     return std::nullopt;
 }

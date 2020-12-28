@@ -123,6 +123,43 @@ namespace djinni
         }
     };
 
+    class U8 : public Primitive<U8, uint8_t, jshort>
+    {
+        U8() : Primitive("java/lang/Short", "valueOf", "(S)Ljava/lang/Short;", "shortValue", "()S") {}
+        friend JniClass<U8>;
+        friend Primitive<U8, uint8_t, jshort>;
+
+        static JniType unbox(JNIEnv* jniEnv, jmethodID method, jobject j) {
+            auto result = jniEnv->CallShortMethod(j, method);
+            jniExceptionCheck(jniEnv);
+            return result;
+        }
+    };
+
+    class U16 : public Primitive<U16, uint16_t, jint>
+    {
+        U16() : Primitive("java/lang/Integer", "valueOf", "(I)Ljava/lang/Integer;", "intValue", "()I") {}
+        friend JniClass<U16>;
+        friend Primitive<U16, uint16_t, jint>;
+        static JniType unbox(JNIEnv* jniEnv, jmethodID method, jobject j) {
+            auto result = jniEnv->CallIntMethod(j, method);
+            jniExceptionCheck(jniEnv);
+            return result;
+        }
+    };    
+
+    class U32 : public Primitive<U32, uint32_t, jlong>
+    {
+        U32() : Primitive("java/lang/Long", "valueOf", "(J)Ljava/lang/Long;", "longValue", "()J") {}
+        friend JniClass<U32>;
+        friend Primitive<U32, uint32_t, jlong>;
+        static JniType unbox(JNIEnv* jniEnv, jmethodID method, jobject j) {
+            auto result = jniEnv->CallLongMethod(j, method);
+            jniExceptionCheck(jniEnv);
+            return result;
+        }
+    };
+
     class I64 : public Primitive<I64, int64_t, jlong>
     {
         I64() : Primitive("java/lang/Long", "valueOf", "(J)Ljava/lang/Long;", "longValue", "()J") {}

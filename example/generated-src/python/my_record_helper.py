@@ -3,12 +3,12 @@
 
 from djinni.support import MultiSet # default imported in all files
 from djinni.exception import CPyException # default imported in all files
-from djinni.pycffi_marshal import CPyBinary, CPyBoxedDate, CPyBoxedI16, CPyBoxedI32, CPyDate, CPyEnum, CPyJson, CPyObject, CPyObject, CPyObjectProxy, CPyPrimitive, CPyRecord, CPyString
+from djinni.pycffi_marshal import CPyBinary, CPyBoxedDate, CPyBoxedI16, CPyBoxedU32, CPyDate, CPyEnum, CPyObject, CPyObject, CPyObjectProxy, CPyPrimitive, CPyRecord, CPyString
 
 from dh__list_binary import ListBinaryHelper
 from dh__list_enum_my_enum import ListEnumMyEnumHelper
-from dh__list_int32_t import ListInt32THelper
 from dh__list_record_rc import ListRecordRcHelper
+from dh__list_uint32_t import ListUint32THelper
 from dh__map_enum_my_enum_int16_t import MapEnumMyEnumInt16THelper
 from dh__map_enum_my_enum_int16_t import MapEnumMyEnumInt16TProxy
 from dh__map_int32_t_string import MapInt32TStringHelper
@@ -41,10 +41,10 @@ class MyRecordHelper:
             CPyException.setExceptionFromPy(_djinni_py_e)
             return ffi.NULL
 
-    @ffi.callback("struct DjinniBoxedI32 *(struct DjinniRecordHandle *)")
+    @ffi.callback("struct DjinniBoxedU32 *(struct DjinniRecordHandle *)")
     def get_my_record_f2(cself):
         try:
-            with CPyBoxedI32.fromPyOpt(CPyRecord.toPy(None, cself).test1) as py_obj:
+            with CPyBoxedU32.fromPyOpt(CPyRecord.toPy(None, cself).test1) as py_obj:
                 return py_obj.release_djinni_boxed()
         except Exception as _djinni_py_e:
             CPyException.setExceptionFromPy(_djinni_py_e)
@@ -53,7 +53,7 @@ class MyRecordHelper:
     @ffi.callback("struct DjinniObjectHandle *(struct DjinniRecordHandle *)")
     def get_my_record_f3(cself):
         try:
-            _ret = CPyObject.fromPy(ListInt32THelper.c_data_set, CPyRecord.toPy(None, cself).test2)
+            _ret = CPyObject.fromPy(ListUint32THelper.c_data_set, CPyRecord.toPy(None, cself).test2)
             assert _ret != ffi.NULL
             return _ret
         except Exception as _djinni_py_e:
@@ -178,18 +178,8 @@ class MyRecordHelper:
             CPyException.setExceptionFromPy(_djinni_py_e)
             return ffi.NULL
 
-    @ffi.callback("struct DjinniString *(struct DjinniRecordHandle *)")
-    def get_my_record_f16(cself):
-        try:
-            _ret = CPyJson.fromPy(CPyRecord.toPy(None, cself).test12)
-            assert _ret != ffi.NULL
-            return _ret
-        except Exception as _djinni_py_e:
-            CPyException.setExceptionFromPy(_djinni_py_e)
-            return ffi.NULL
-
     @ffi.callback("int(struct DjinniRecordHandle *)")
-    def get_my_record_f17(cself):
+    def get_my_record_f16(cself):
         try:
             return CPyEnum.fromPyOpt(CPyRecord.toPy(None, cself).test13)
         except Exception as _djinni_py_e:
@@ -197,7 +187,7 @@ class MyRecordHelper:
             return ffi.NULL
 
     @ffi.callback("struct DjinniBoxedI16 *(struct DjinniRecordHandle *)")
-    def get_my_record_f18(cself):
+    def get_my_record_f17(cself):
         try:
             with CPyBoxedI16.fromPyOpt(CPyRecord.toPy(None, cself).test14) as py_obj:
                 return py_obj.release_djinni_boxed()
@@ -206,7 +196,7 @@ class MyRecordHelper:
             return ffi.NULL
 
     @ffi.callback("struct DjinniObjectHandle *(struct DjinniRecordHandle *)")
-    def get_my_record_f19(cself):
+    def get_my_record_f18(cself):
         try:
             _ret = CPyObject.fromPy(ListEnumMyEnumHelper.c_data_set, CPyRecord.toPy(None, cself).test15)
             assert _ret != ffi.NULL
@@ -216,7 +206,7 @@ class MyRecordHelper:
             return ffi.NULL
 
     @ffi.callback("struct DjinniObjectHandle *(struct DjinniRecordHandle *)")
-    def get_my_record_f20(cself):
+    def get_my_record_f19(cself):
         try:
             _ret = CPyObjectProxy.fromPy(SetEnumMyEnumHelper.c_data_set, SetEnumMyEnumProxy(CPyRecord.toPy(None, cself).test16))
             assert _ret != ffi.NULL
@@ -226,7 +216,7 @@ class MyRecordHelper:
             return ffi.NULL
 
     @ffi.callback("struct DjinniObjectHandle *(struct DjinniRecordHandle *)")
-    def get_my_record_f21(cself):
+    def get_my_record_f20(cself):
         try:
             _ret = CPyObjectProxy.fromPy(MapEnumMyEnumInt16THelper.c_data_set, MapEnumMyEnumInt16TProxy(CPyRecord.toPy(None, cself).test17))
             assert _ret != ffi.NULL
@@ -235,12 +225,12 @@ class MyRecordHelper:
             CPyException.setExceptionFromPy(_djinni_py_e)
             return ffi.NULL
 
-    @ffi.callback("struct DjinniRecordHandle *(int32_t,struct DjinniBoxedI32 *,struct DjinniObjectHandle *,struct DjinniString *,struct DjinniString *,uint64_t,struct DjinniBoxedDate *,struct DjinniBinary *,struct DjinniObjectHandle *,struct DjinniObjectHandle *,struct DjinniObjectHandle *,struct DjinniRecordHandle *,struct DjinniOptionalRecordHandle *,struct DjinniObjectHandle *,int,struct DjinniString *,int,struct DjinniBoxedI16 *,struct DjinniObjectHandle *,struct DjinniObjectHandle *,struct DjinniObjectHandle *)")
-    def python_create_my_record(test,test1,test2,test3,test3_1,test4,test4_1,test5,test6,test7,test8,test9,test10,test10_1,test11,test12,test13,test14,test15,test16,test17):
+    @ffi.callback("struct DjinniRecordHandle *(int32_t,struct DjinniBoxedU32 *,struct DjinniObjectHandle *,struct DjinniString *,struct DjinniString *,uint64_t,struct DjinniBoxedDate *,struct DjinniBinary *,struct DjinniObjectHandle *,struct DjinniObjectHandle *,struct DjinniObjectHandle *,struct DjinniRecordHandle *,struct DjinniOptionalRecordHandle *,struct DjinniObjectHandle *,int,int,struct DjinniBoxedI16 *,struct DjinniObjectHandle *,struct DjinniObjectHandle *,struct DjinniObjectHandle *)")
+    def python_create_my_record(test,test1,test2,test3,test3_1,test4,test4_1,test5,test6,test7,test8,test9,test10,test10_1,test11,test13,test14,test15,test16,test17):
         py_rec = MyRecord(
             CPyPrimitive.toPy(test),
-            CPyBoxedI32.toPyOpt(test1),
-            CPyObject.toPy(ListInt32THelper.c_data_set, test2),
+            CPyBoxedU32.toPyOpt(test1),
+            CPyObject.toPy(ListUint32THelper.c_data_set, test2),
             CPyString.toPy(test3),
             CPyString.toPyOpt(test3_1),
             CPyDate.toPy(test4),
@@ -253,7 +243,6 @@ class MyRecordHelper:
             CPyRecord.toPyOpt(Rc.c_data_set, test10),
             CPyObject.toPy(ListRecordRcHelper.c_data_set, test10_1),
             CPyEnum.toPy(MyEnum, test11),
-            CPyJson.toPy(test12),
             CPyEnum.toPyOpt(MyEnum, test13),
             CPyBoxedI16.toPyOpt(test14),
             CPyObject.toPy(ListEnumMyEnumHelper.c_data_set, test15),
@@ -288,7 +277,6 @@ class MyRecordHelper:
         lib.my_record_add_callback_get_my_record_f3(MyRecordHelper.get_my_record_f3)
         lib.my_record_add_callback_get_my_record_f12(MyRecordHelper.get_my_record_f12)
         lib.my_record_add_callback___delete(MyRecordHelper.__delete)
-        lib.my_record_add_callback_get_my_record_f21(MyRecordHelper.get_my_record_f21)
         lib.my_record_add_callback_get_my_record_f13(MyRecordHelper.get_my_record_f13)
         lib.my_record_add_callback_get_my_record_f14(MyRecordHelper.get_my_record_f14)
 

@@ -16,8 +16,8 @@ extern "C" {
 }
 #endif
 struct DjinniMyRecord {
-    static djinni::Handle<DjinniRecordHandle> fromCpp(const ::cpp_generated::MyRecord& dr);
-    static ::cpp_generated::MyRecord toCpp(djinni::Handle<DjinniRecordHandle> dh);
-    static djinni::Handle<DjinniOptionalRecordHandle> fromCpp(std::optional<::cpp_generated::MyRecord> dc);
-    static std::optional<::cpp_generated::MyRecord> toCpp(djinni::Handle<DjinniOptionalRecordHandle> dh);
+    static djinni::Handle<DjinniRecordHandle> fromCpp(const ::textsort::MyRecord& dr);
+    static ::textsort::MyRecord toCpp(djinni::Handle<DjinniRecordHandle> dh);
+    static djinni::Handle<DjinniOptionalRecordHandle> fromCpp(std::optional<::textsort::MyRecord> dc);
+    static std::optional<::textsort::MyRecord> toCpp(djinni::Handle<DjinniOptionalRecordHandle> dh);
 };
