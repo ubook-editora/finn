@@ -188,6 +188,7 @@ class CppGenerator(spec: Spec) extends Generator(spec) {
   }
   
   def writeHppJsonExtension(ident: Ident, name: String, origin: String, fields: Seq[Field], f: IndentWriter => Unit, f2: IndentWriter => Unit = (w => {})) {
+    /*
     val refs = new CppRefs(ident.name)
     refs.hpp.add("#include <json.hpp>")
     refs.hpp.add("#include <json+extension.hpp>")
@@ -203,6 +204,7 @@ class CppGenerator(spec: Spec) extends Generator(spec) {
       case _ =>
     })
     writeHppFileGeneric(spec.cppHeaderOutFolder.get, "nlohmann" , spec.cppFileIdentStyle)(name, origin, refs.hpp, refs.hppFwds, f, f2)
+    */
   }
 
   override def generateRecord(origin: String, ident: Ident, doc: Doc, params: Seq[TypeParam], r: Record, deprecated: scala.Option[Deprecated], idl: Seq[TypeDecl]) {
@@ -212,9 +214,12 @@ class CppGenerator(spec: Spec) extends Generator(spec) {
 
     refs.hpp.add("#include <utility>") // Add for std::move
     refs.hpp.add("#include <string>") // Add for std::string
+
+    /*
     refs.hpp.add("#include <json.hpp>")
     refs.hpp.add("#include <json+extension.hpp>")
-    
+    */
+
     val self = marshal.typename(ident, r)
     val (cppName, cppFinal) = if (r.ext.cpp) (ident.name + "_base", "") else (ident.name, "")
 
@@ -318,6 +323,7 @@ class CppGenerator(spec: Spec) extends Generator(spec) {
     }
 
     def writeJsonExtension(w: IndentWriter) {
+      /*
       w.wl
       w.wl
 
@@ -370,6 +376,7 @@ class CppGenerator(spec: Spec) extends Generator(spec) {
         }
         w.wl(";")
       }
+      */
     }
 
     writeHppFile(cppName, origin, refs.hpp, refs.hppFwds, writeCppPrototype, writeJsonExtension)
