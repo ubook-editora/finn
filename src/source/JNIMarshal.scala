@@ -46,8 +46,11 @@ class JNIMarshal(spec: Spec) extends Marshal(spec) {
 
   def references(m: Meta, exclude: String = ""): Seq[SymbolReference] = m match {
     case o: MOpaque => List(
+      ImportRef(q(spec.jniBaseLibIncludePrefix + "Marshal.hpp"))
+      /*
       ImportRef(q(spec.jniBaseLibIncludePrefix + "Marshal.hpp")),
       ImportRef(q(spec.jniBaseLibIncludePrefix + "JNIMarshal+Json.h"))
+      */
     )
     case d: MDef => List(ImportRef(include(d.name)))
     case e: MExtern => List(ImportRef(e.jni.header))
